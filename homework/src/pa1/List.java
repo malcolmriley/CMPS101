@@ -8,8 +8,9 @@ public class List implements IIntListADT {
 	private Node<Integer> front;
 	private Node<Integer> back;
 	private int cursorIndex;
-	
 	private int length;
+	
+	private static final int CURSOR_INDEX_INVALID = -1;
 	
 	public List() { 
 		
@@ -49,7 +50,16 @@ public class List implements IIntListADT {
 	public boolean equals(IIntListADT passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
-				// TODO: Compare
+				Node<Integer> thisListIterator = this.getFrontNode();
+				Node<Integer> passedListIterator = this.getFrontNode();
+				while (thisListIterator.getNext() != null) {
+					if (!thisListIterator.get().equals(passedListIterator.get())) {
+						return false;
+					}
+					thisListIterator = thisListIterator.getNext();
+					passedListIterator = passedListIterator.getNext();
+				}
+				return true;
 			}
 		}
 		return false;
@@ -58,22 +68,28 @@ public class List implements IIntListADT {
 	@Override
 	public void clear() {
 		if (!this.isEmpty()) {
-			
+			Node<Integer> thisListIterator = this.getFrontNode();
+			while (thisListIterator.getNext() != null) {
+				thisListIterator = thisListIterator.getNext();
+				thisListIterator.previous.reset();
+			}
+			thisListIterator.reset();
 		}
+		this.front = null;
+		this.back = null;
+		this.cursor = null;
+		this.cursorIndex = CURSOR_INDEX_INVALID;
+		this.length = 0;
 	}
 
 	@Override
 	public void moveFront() {
-		while (this.cursor.getPrevious() != null) {
-			this.cursor = this.cursor.getPrevious();
-		}
+		this.cursor = this.front;
 	}
 
 	@Override
 	public void moveBack() {
-		while (this.cursor.getNext() != null) {
-			this.cursor = this.cursor.getNext();
-		}
+		this.cursor = this.back;
 	}
 
 	@Override
