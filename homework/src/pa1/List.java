@@ -153,7 +153,12 @@ public class List implements IIntListADT {
 		if (this.cursor.equals(this.front)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		// TODO Auto-generated method stub
+		Node<Integer> second = this.front.getNext();
+		if (isNodeDefined(second)) {
+			second.setPrevious(null);
+		}
+		this.front.reset();
+		this.front = second;
 		this.length -= 1;
 	}
 
@@ -189,6 +194,23 @@ public class List implements IIntListADT {
 		return null;
 	}
 	
+	public boolean removeNode(Node<Integer> passedNode) {
+		if (isNodeDefined(passedNode)) {
+			Node<Integer> nextNode = passedNode.getNext();
+			Node<Integer> previousNode = passedNode.getPrevious();
+			if (isNodeDefined(nextNode)) {
+				nextNode.setPrevious(passedNode.getPrevious());
+			}
+			if (isNodeDefined(previousNode)) {
+				previousNode.setNext(passedNode.getNext());
+			}
+			passedNode.reset();
+			this.length -= 1;
+			return true;
+		}
+		return false;
+	}
+	
 	public Node<Integer> getFrontNode() {
 		return this.front;
 	}
@@ -205,23 +227,25 @@ public class List implements IIntListADT {
 		return (this.length > 0);
 	}
 	
-	public static boolean isNodeDefined(Node<?> passedNode) {
-		return (passedNode != null) && (passedNode.get() != null);
+	public boolean isNodeDefined(Node<?> passedNode) {
+		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner().equals(this));
 	}
 	
 	private Node<Integer> newNode(int passedValue) {
-		Node<Integer> newNode = new Node<Integer>(new Integer(passedValue));
+		Node<Integer> newNode = new Node<Integer>(this, new Integer(passedValue));
 		return newNode;
 	}
 	
 	/* Node Implementation */
 	
 	private class Node<T> {
+		private final List owningList;
 		private T element;
 		private Node<T> previous;
 		private Node<T> next;
 		
-		public Node(T passedElement) {
+		public Node(List passedOwningList, T passedElement) {
+			this.owningList = passedOwningList;
 			this.element = passedElement;
 		}
 		
@@ -229,11 +253,8 @@ public class List implements IIntListADT {
 			return this.element;
 		}
 		
-		public Node<T> copy() {
-			Node<T> newNode = new Node<T>(this.element);
-			newNode.setNext(this.next);
-			newNode.setPrevious(this.previous);
-			return newNode;
+		public List getOwner() {
+			return this.owningList;
 		}
 		
 		public void setValue(T passedValue) {
