@@ -162,7 +162,12 @@ public class List implements IIntListADT {
 		if (this.cursor.equals(this.back)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		// TODO Auto-generated method stub
+		Node<Integer> secondLast = this.back.getPrevious();
+		if (isNodeDefined(secondLast)) {
+			secondLast.setNext(null);
+		}
+		this.back.reset();
+		this.back = secondLast;
 		this.length -= 1;
 	}
 
