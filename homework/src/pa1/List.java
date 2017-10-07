@@ -194,7 +194,7 @@ public class List implements IIntListADT {
 		return null;
 	}
 	
-	public boolean removeNode(Node<Integer> passedNode) {
+	private void removeNode(Node<Integer> passedNode) {
 		if (isNodeDefined(passedNode)) {
 			Node<Integer> nextNode = passedNode.getNext();
 			Node<Integer> previousNode = passedNode.getPrevious();
@@ -206,9 +206,7 @@ public class List implements IIntListADT {
 			}
 			passedNode.reset();
 			this.length -= 1;
-			return true;
 		}
-		return false;
 	}
 	
 	public Node<Integer> getFrontNode() {
