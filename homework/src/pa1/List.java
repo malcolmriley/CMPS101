@@ -52,7 +52,7 @@ public class List implements IIntListADT {
 			if (!this.isEmpty()) {
 				Node<Integer> thisListIterator = this.getFrontNode();
 				Node<Integer> passedListIterator = this.getFrontNode();
-				while (thisListIterator.getNext() != null) {
+				while (thisListIterator != null) {
 					if (!thisListIterator.get().equals(passedListIterator.get())) {
 						return false;
 					}
@@ -69,11 +69,10 @@ public class List implements IIntListADT {
 	public void clear() {
 		if (!this.isEmpty()) {
 			Node<Integer> thisListIterator = this.getFrontNode();
-			while (thisListIterator.getNext() != null) {
+			while (thisListIterator != null) {
 				thisListIterator = thisListIterator.getNext();
 				thisListIterator.previous.reset();
 			}
-			thisListIterator.reset();
 		}
 		this.front = null;
 		this.back = null;
@@ -153,13 +152,7 @@ public class List implements IIntListADT {
 		if (this.cursor.equals(this.front)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		Node<Integer> second = this.front.getNext();
-		if (isNodeDefined(second)) {
-			second.setPrevious(null);
-		}
-		this.front.reset();
-		this.front = second;
-		this.length -= 1;
+		this.removeNode(this.front);
 	}
 
 	@Override
@@ -167,29 +160,33 @@ public class List implements IIntListADT {
 		if (this.cursor.equals(this.back)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		Node<Integer> secondLast = this.back.getPrevious();
-		if (isNodeDefined(secondLast)) {
-			secondLast.setNext(null);
-		}
-		this.back.reset();
-		this.back = secondLast;
-		this.length -= 1;
+		this.removeNode(this.back);
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
-		this.length -= 1;
+		this.removeNode(this.cursor);
 	}
 
 	@Override
 	public IIntListADT copy() {
-		// TODO Auto-generated method stub
-		return null;
+		List newList = new List();
+		Node<Integer> thisListIterator = this.getFrontNode();
+		while (thisListIterator != null) {
+			newList.append(thisListIterator.get().intValue());
+			thisListIterator = thisListIterator.getNext();
+		}
+		return newList;
 	}
 
 	@Override
 	public IIntListADT concat(IIntListADT passedList) {
+		List newList = new List();
+		Node<Integer> thisListIterator = this.getFrontNode();
+		while (thisListIterator != null) {
+			newList.append(thisListIterator.get().intValue());
+			thisListIterator = thisListIterator.getNext();
+		}
 		// TODO Auto-generated method stub
 		return null;
 	}
