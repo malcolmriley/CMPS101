@@ -85,11 +85,13 @@ public class List implements IIntListADT {
 	@Override
 	public void moveFront() {
 		this.cursor = this.front;
+		this.cursorIndex = 0;
 	}
 
 	@Override
 	public void moveBack() {
 		this.cursor = this.back;
+		this.cursorIndex = (this.length - 1);
 	}
 
 	@Override
