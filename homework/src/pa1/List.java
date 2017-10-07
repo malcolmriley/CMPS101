@@ -128,7 +128,9 @@ public class List implements IIntListADT {
 	@Override
 	public void insertBefore(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
-		// TODO Auto-generated method stub
+		newNode.setNext(this.cursor);
+		newNode.setPrevious(this.cursor.getPrevious());
+		this.cursor.setPrevious(newNode);
 		this.length += 1;
 		this.cursorIndex += 1;
 	}
