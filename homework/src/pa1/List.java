@@ -52,7 +52,7 @@ public class List implements IIntListADT {
 			if (!this.isEmpty()) {
 				Node<Integer> thisListIterator = this.getFrontNode();
 				Node<Integer> passedListIterator = this.getFrontNode();
-				while (thisListIterator != null) {
+				while (this.isNodeDefined(thisListIterator)) {
 					if (!thisListIterator.get().equals(passedListIterator.get())) {
 						return false;
 					}
@@ -69,7 +69,7 @@ public class List implements IIntListADT {
 	public void clear() {
 		if (!this.isEmpty()) {
 			Node<Integer> thisListIterator = this.getFrontNode();
-			while (thisListIterator != null) {
+			while (this.isNodeDefined(thisListIterator)) {
 				thisListIterator = thisListIterator.getNext();
 				thisListIterator.previous.reset();
 			}
@@ -172,7 +172,7 @@ public class List implements IIntListADT {
 	public IIntListADT copy() {
 		List newList = new List();
 		Node<Integer> thisListIterator = this.getFrontNode();
-		while (thisListIterator != null) {
+		while (this.isNodeDefined(thisListIterator)) {
 			newList.append(thisListIterator.get().intValue());
 			thisListIterator = thisListIterator.getNext();
 		}
@@ -183,7 +183,7 @@ public class List implements IIntListADT {
 	public IIntListADT concat(IIntListADT passedList) {
 		List newList = new List();
 		Node<Integer> thisListIterator = this.getFrontNode();
-		while (thisListIterator != null) {
+		while (this.isNodeDefined(thisListIterator)) {
 			newList.append(thisListIterator.get().intValue());
 			thisListIterator = thisListIterator.getNext();
 		}
