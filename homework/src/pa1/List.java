@@ -151,7 +151,7 @@ public class List implements IIntListADT {
 	@Override
 	public void deleteFront() {
 		if (this.cursor.equals(this.front)) {
-			this.cursor = this.front.getNext();
+			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		// TODO Auto-generated method stub
 		this.length -= 1;
@@ -160,8 +160,7 @@ public class List implements IIntListADT {
 	@Override
 	public void deleteBack() {
 		if (this.cursor.equals(this.back)) {
-			this.cursor = this.back.getPrevious();
-			this.cursorIndex -= 1;
+			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		// TODO Auto-generated method stub
 		this.length -= 1;
