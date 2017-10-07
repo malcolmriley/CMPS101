@@ -182,6 +182,13 @@ public class List implements IIntListADT {
 			return this.element;
 		}
 		
+		public Node<T> copy() {
+			Node<T> newNode = new Node<T>(this.element);
+			newNode.setNext(this.next);
+			newNode.setPrevious(this.previous);
+			return newNode;
+		}
+		
 		public void setValue(T passedValue) {
 			this.element = passedValue;
 		}
