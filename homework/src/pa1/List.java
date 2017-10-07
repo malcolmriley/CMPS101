@@ -194,21 +194,6 @@ public class List implements IIntListADT {
 		return null;
 	}
 	
-	private void removeNode(Node<Integer> passedNode) {
-		if (isNodeDefined(passedNode)) {
-			Node<Integer> nextNode = passedNode.getNext();
-			Node<Integer> previousNode = passedNode.getPrevious();
-			if (isNodeDefined(nextNode)) {
-				nextNode.setPrevious(passedNode.getPrevious());
-			}
-			if (isNodeDefined(previousNode)) {
-				previousNode.setNext(passedNode.getNext());
-			}
-			passedNode.reset();
-			this.length -= 1;
-		}
-	}
-	
 	public Node<Integer> getFrontNode() {
 		return this.front;
 	}
@@ -232,6 +217,21 @@ public class List implements IIntListADT {
 	private Node<Integer> newNode(int passedValue) {
 		Node<Integer> newNode = new Node<Integer>(this, new Integer(passedValue));
 		return newNode;
+	}
+	
+	private void removeNode(Node<Integer> passedNode) {
+		if (isNodeDefined(passedNode)) {
+			Node<Integer> nextNode = passedNode.getNext();
+			Node<Integer> previousNode = passedNode.getPrevious();
+			if (isNodeDefined(nextNode)) {
+				nextNode.setPrevious(passedNode.getPrevious());
+			}
+			if (isNodeDefined(previousNode)) {
+				previousNode.setNext(passedNode.getNext());
+			}
+			passedNode.reset();
+			this.length -= 1;
+		}
 	}
 	
 	/* Node Implementation */
