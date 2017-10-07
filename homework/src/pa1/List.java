@@ -153,7 +153,18 @@ public class List implements IIntListADT {
 		return null;
 	}
 	
-	/* Internal Methods */
+	public Node<Integer> getFrontNode() {
+		return this.front;
+	}
+	
+	public Node<Integer> getBackNode() {
+		return this.back;
+	}
+	
+	public Node<Integer> getCursorNode() {
+		return this.cursor;
+	}
+	
 	public boolean isEmpty() {
 		return (this.length > 0);
 	}
