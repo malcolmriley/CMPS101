@@ -108,14 +108,20 @@ public class List implements IIntListADT {
 
 	@Override
 	public void prepend(int passedData) {
-		// TODO Auto-generated method stub
+		Node<Integer> newNode = this.newNode(passedData);
+		newNode.setNext(this.front);
+		this.front.setPrevious(newNode);
+		this.front = newNode;
 		this.length += 1;
 		this.cursorIndex += 1;
 	}
 
 	@Override
 	public void append(int passedData) {
-		// TODO Auto-generated method stub
+		Node<Integer> newNode = this.newNode(passedData);
+		newNode.setPrevious(this.back);
+		this.back.setNext(newNode);
+		this.back = newNode;
 		this.length += 1;
 	}
 
