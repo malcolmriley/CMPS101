@@ -59,8 +59,8 @@ public class List {
 					thisListIterator = thisListIterator.getNext();
 					passedListIterator = passedListIterator.getNext();
 				}
-				return true;
 			}
+			return true;
 		}
 		return false;
 	}
@@ -72,6 +72,7 @@ public class List {
 				if (isNodeDefined(thisListIterator.getPrevious())) {
 					thisListIterator.getPrevious().reset();
 				}
+				thisListIterator = thisListIterator.getNext();
 			}
 			thisListIterator.reset();
 		}
