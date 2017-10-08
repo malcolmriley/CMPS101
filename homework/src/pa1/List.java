@@ -201,7 +201,10 @@ public class List implements IIntListADT {
 			newList.append(thisListIterator.get().intValue());
 			thisListIterator = thisListIterator.getNext();
 		}
-		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public String toString() {
 		return null;
 	}
 	
