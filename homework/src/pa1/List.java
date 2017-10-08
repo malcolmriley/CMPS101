@@ -217,7 +217,7 @@ public class List {
 	}
 
 	public boolean isEmpty() {
-		return (this.length > 0);
+		return (this.length < 1);
 	}
 
 	public boolean isNodeDefined(Node<?> passedNode) {
