@@ -103,7 +103,7 @@ public class List {
 	}
 
 	/**
-	 * Moves the cursor to the position one previous in this {@link List}.
+	 * Moves the cursor to the position one previous from its current position in this {@link List}.
 	 */
 	public void movePrev() {
 		this.cursor = this.cursor.getPrevious();
@@ -115,6 +115,9 @@ public class List {
 		}
 	}
 
+	/**
+	 * Moves the cursor to the position one next from its current position in this {@link List}.
+	 */
 	public void moveNext() {
 		this.cursor = this.cursor.getNext();
 		if (!this.isNodeDefined(this.cursor)) {
