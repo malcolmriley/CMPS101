@@ -47,6 +47,12 @@ public class List {
 		return this.cursor.get().intValue();
 	}
 
+	/**
+	 * Determines whether this {@link List} is equivalent to the passed {@link List}; that is, whether it contains equivalent values in the same order.
+	 * 
+	 * @param passedList - The list to compare this one to
+	 * @return Whether or not the two lists are equivalent.
+	 */
 	public boolean equals(List passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
