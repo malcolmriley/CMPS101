@@ -96,13 +96,23 @@ public class List implements IIntListADT {
 	@Override
 	public void movePrev() {
 		this.cursor = this.cursor.getPrevious();
-		this.cursorIndex -= 1;
+		if (!isNodeDefined(this.cursor)) {
+			this.cursorIndex = CURSOR_INDEX_INVALID;
+		}
+		else {
+			this.cursorIndex -= 1;
+		}
 	}
 
 	@Override
 	public void moveNext() {
 		this.cursor = this.cursor.getNext();
-		this.cursorIndex += 1;
+		if (!isNodeDefined(this.cursor)) {
+			this.cursorIndex = CURSOR_INDEX_INVALID;
+		}
+		else {
+			this.cursorIndex += 1;
+		}
 	}
 
 	@Override
