@@ -153,7 +153,9 @@ public class List {
 			this.front.setPrevious(newNode);
 		}
 		this.front = newNode;
-		this.cursorIndex += 1;
+		if (this.cursorIndex >= 0) {
+			this.cursorIndex += 1;
+		}
 		this.onNodeAdded(newNode);
 	}
 
