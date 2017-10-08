@@ -51,9 +51,9 @@ public class List {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
 				Node<Integer> thisListIterator = this.getFrontNode();
-				Node<Integer> passedListIterator = this.getFrontNode();
-				while (this.isNodeDefined(thisListIterator)) {
-					if (!thisListIterator.get().equals(passedListIterator.get())) {
+				Node<Integer> passedListIterator = passedList.getFrontNode();
+				while (isNodeDefined(thisListIterator)) {
+					if (!thisListIterator.equals(passedListIterator)) {
 						return false;
 					}
 					thisListIterator = thisListIterator.getNext();
@@ -71,6 +71,9 @@ public class List {
 			while(isNodeDefined(thisListIterator)) {
 				if (isNodeDefined(thisListIterator.getPrevious())) {
 					thisListIterator.getPrevious().reset();
+				}
+				if (isNodeDefined(thisListIterator.getNext())) {
+					thisListIterator.reset();
 				}
 				thisListIterator = thisListIterator.getNext();
 			}
