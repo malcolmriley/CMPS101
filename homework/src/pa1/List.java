@@ -92,6 +92,9 @@ public class List {
 		}
 	}
 
+	/**
+	 * Moves the cursor to the back of the {@link List}.
+	 */
 	public void moveBack() {
 		if (this.isNodeDefined(this.back)) {
 			this.cursor = this.back;
@@ -99,6 +102,9 @@ public class List {
 		}
 	}
 
+	/**
+	 * Moves the cursor to the position one previous in this {@link List}.
+	 */
 	public void movePrev() {
 		this.cursor = this.cursor.getPrevious();
 		if (!this.isNodeDefined(this.cursor)) {
