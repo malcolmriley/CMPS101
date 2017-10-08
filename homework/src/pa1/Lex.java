@@ -1,9 +1,9 @@
 /*********************************************************************
  * Malcolm Riley
- * 
+ *
  * CruzID: masriley
  * Assignment: pa1
- * 
+ *
  * 10-2017
  *********************************************************************/
 package pa1;
@@ -23,7 +23,8 @@ public class Lex {
 			try (BufferedReader reader = new BufferedReader(new FileReader(passedArguments[0]))) {
 				ArrayList<String> stringArray = new ArrayList<String>();
 				reader.lines().forEachOrdered(stringArray::add);
-			} catch (IOException passedException) {
+			}
+			catch (IOException passedException) {
 				passedException.printStackTrace();
 			}
 		}

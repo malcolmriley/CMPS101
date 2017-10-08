@@ -1,27 +1,27 @@
 /*********************************************************************
  * Malcolm Riley
- * 
+ *
  * CruzID: masriley
  * Assignment: pa1
- * 
+ *
  * 10-2017
  *********************************************************************/
 package pa1;
 
 public class List {
-	
+
 	private static final int CURSOR_INDEX_INVALID = -1;
-	
+
 	private Node<Integer> cursor;
 	private Node<Integer> front;
 	private Node<Integer> back;
 	private int cursorIndex = CURSOR_INDEX_INVALID;
 	private int length;
-	
-	public List() { 
-		
+
+	public List() {
+
 	}
-	
+
 	/* Required Methods */
 
 	public int length() {
@@ -29,8 +29,8 @@ public class List {
 	}
 
 	public int index() {
-		if (isNodeDefined(this.cursor)) {
-			return cursorIndex;
+		if (this.isNodeDefined(this.cursor)) {
+			return this.cursorIndex;
 		}
 		return -1;
 	}
@@ -81,14 +81,14 @@ public class List {
 	}
 
 	public void moveFront() {
-		if (isNodeDefined(this.front)) {
+		if (this.isNodeDefined(this.front)) {
 			this.cursor = this.front;
 			this.cursorIndex = 0;
 		}
 	}
 
 	public void moveBack() {
-		if (isNodeDefined(this.back)) {
+		if (this.isNodeDefined(this.back)) {
 			this.cursor = this.back;
 			this.cursorIndex = (this.length - 1);
 		}
@@ -96,17 +96,17 @@ public class List {
 
 	public void movePrev() {
 		this.cursor = this.cursor.getPrevious();
-		if (!isNodeDefined(this.cursor)) {
+		if (!this.isNodeDefined(this.cursor)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		else {
 			this.cursorIndex -= 1;
 		}
 	}
-	
+
 	public void moveNext() {
 		this.cursor = this.cursor.getNext();
-		if (!isNodeDefined(this.cursor)) {
+		if (!this.isNodeDefined(this.cursor)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		else {
@@ -116,7 +116,7 @@ public class List {
 
 	public void prepend(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
-		if (isNodeDefined(this.front)) {
+		if (this.isNodeDefined(this.front)) {
 			newNode.setNext(this.front);
 			this.front.setPrevious(newNode);
 		}
@@ -127,7 +127,7 @@ public class List {
 
 	public void append(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
-		if (isNodeDefined(this.back)) {
+		if (this.isNodeDefined(this.back)) {
 			newNode.setPrevious(this.back);
 			this.back.setNext(newNode);
 		}
@@ -151,7 +151,7 @@ public class List {
 		this.cursor.setNext(newNode);
 		this.length += 1;
 	}
-	
+
 	public void deleteFront() {
 		if (this.cursor.equals(this.front)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
@@ -189,7 +189,8 @@ public class List {
 		}
 		return null;
 	}
-	
+
+	@Override
 	public String toString() {
 		Node<Integer> thisListIterator = this.getFrontNode();
 		String stringRepresentation = "";
@@ -202,90 +203,91 @@ public class List {
 		}
 		return stringRepresentation;
 	}
-	
+
 	public Node<Integer> getFrontNode() {
 		return this.front;
 	}
-	
+
 	public Node<Integer> getBackNode() {
 		return this.back;
 	}
-	
+
 	public Node<Integer> getCursorNode() {
 		return this.cursor;
 	}
-	
+
 	public boolean isEmpty() {
 		return (this.length > 0);
 	}
-	
+
 	public boolean isNodeDefined(Node<?> passedNode) {
 		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner().equals(this));
 	}
-	
+
 	private Node<Integer> newNode(int passedValue) {
 		Node<Integer> newNode = new Node<Integer>(this, new Integer(passedValue));
 		return newNode;
 	}
-	
+
 	private void removeNode(Node<Integer> passedNode) {
-		if (isNodeDefined(passedNode)) {
+		if (this.isNodeDefined(passedNode)) {
 			Node<Integer> nextNode = passedNode.getNext();
 			Node<Integer> previousNode = passedNode.getPrevious();
-			if (isNodeDefined(nextNode)) {
+			if (this.isNodeDefined(nextNode)) {
 				nextNode.setPrevious(passedNode.getPrevious());
 			}
-			if (isNodeDefined(previousNode)) {
+			if (this.isNodeDefined(previousNode)) {
 				previousNode.setNext(passedNode.getNext());
 			}
 			passedNode.reset();
 			this.length -= 1;
 		}
 	}
-	
+
 	/* Node Implementation */
-	
+
 	private class Node<T> {
 		private final List owningList;
 		private T element;
 		private Node<T> previous;
 		private Node<T> next;
-		
+
 		public Node(List passedOwningList, T passedElement) {
 			this.owningList = passedOwningList;
 			this.element = passedElement;
 		}
-		
+
 		public T get() {
 			return this.element;
 		}
-		
+
 		public List getOwner() {
 			return this.owningList;
 		}
-		
+
 		public void reset() {
 			this.element = null;
 			this.previous = null;
 			this.next = null;
 		}
-		
+
 		public Node<T> getNext() {
 			return this.next;
 		}
-		
+
 		public Node<T> getPrevious() {
 			return this.previous;
 		}
-		
+
 		public void setNext(Node<T> passedNode) {
 			this.next = passedNode;
 		}
-		
+
 		public void setPrevious(Node<T> passedNode) {
 			this.previous = passedNode;
 		}
-		
+
+		@Override
 		public String toString() {
 			return this.element.toString();
 		}
