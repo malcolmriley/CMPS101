@@ -5,6 +5,8 @@
  * Assignment: pa1
  *
  * 10-2017
+ * 
+ * All code obtained from https://classes.soe.ucsc.edu/cmps101/Fall17/Examples/pa1/ListClient.java
  *********************************************************************/
 package pa1;
 
