@@ -205,7 +205,16 @@ public class List implements IIntListADT {
 	}
 	
 	public String toString() {
-		return null;
+		Node<Integer> thisListIterator = this.getFrontNode();
+		String stringRepresentation = "";
+		while (this.isNodeDefined(thisListIterator)) {
+			stringRepresentation += thisListIterator.toString();
+			thisListIterator = thisListIterator.getNext();
+			if (thisListIterator != null) {
+				stringRepresentation += " ";
+			}
+		}
+		return stringRepresentation;
 	}
 	
 	public Node<Integer> getFrontNode() {
