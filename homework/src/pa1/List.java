@@ -148,62 +148,28 @@ public class List {
 
 	public void prepend(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
-		if (this.isNodeDefined(this.front)) {
-			newNode.setNext(this.front);
-			this.front.setPrevious(newNode);
-		}
-		this.front = newNode;
-		if (this.cursorIndex >= 0) {
+		if(this.insertNodeBefore(this.front, newNode)) {
 			this.cursorIndex += 1;
 		}
-		this.onNodeAdded(newNode);
+		this.front = newNode;
 	}
 
 	public void append(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
-		if (this.isNodeDefined(this.back)) {
-			newNode.setPrevious(this.back);
-			this.back.setNext(newNode);
-		}
+		this.insertNodeAfter(this.back, newNode);
 		this.back = newNode;
-		this.onNodeAdded(newNode);
 	}
 
 	public void insertBefore(int passedData) {
-		if (isNodeDefined(this.cursor)) {
-			// Set links on new node
-			Node<Integer> newNode = this.newNode(passedData);
-			newNode.setNext(this.cursor);
-			newNode.setPrevious(this.cursor.getPrevious());
-			
-			// Set links on previous node
-			if (isNodeDefined(this.cursor.getPrevious())) {
-				this.cursor.getPrevious().setNext(newNode);
-			}
-			
-			// Set links on cursor node
-			this.cursor.setPrevious(newNode);
+		Node<Integer> newNode = this.newNode(passedData);
+		if (this.insertNodeBefore(this.cursor, newNode)) {
 			this.cursorIndex += 1;
-			this.onNodeAdded(newNode);
 		}
 	}
 
 	public void insertAfter(int passedData) {
-		if (isNodeDefined(this.cursor)) {
-			// Set links on new node
-			Node<Integer> newNode = this.newNode(passedData);
-			newNode.setNext(this.cursor.getNext());
-			newNode.setPrevious(this.cursor);
-			
-			// Set links on next node
-			if (isNodeDefined(this.cursor.getNext())) {
-				this.cursor.getNext().setPrevious(newNode);
-			}
-			
-			// Set links on cursor node
-			this.cursor.setNext(newNode);
-			this.onNodeAdded(newNode);
-		}
+		Node<Integer> newNode = this.newNode(passedData);
+		this.insertNodeAfter(this.cursor, newNode);
 	}
 
 	public void deleteFront() {
@@ -281,6 +247,51 @@ public class List {
 	private Node<Integer> newNode(int passedValue) {
 		Node<Integer> newNode = new Node<Integer>(this, new Integer(passedValue));
 		return newNode;
+	}
+	
+	private boolean insertNodeBefore(Node<Integer> passedExistingNode, Node<Integer> passedInsertedNode) {
+		this.onNodeAdded(passedInsertedNode);
+		if (isNodeDefined(passedExistingNode)) {
+			// Set existing links
+			Node<Integer> previous = passedExistingNode.getPrevious();
+			if (isNodeDefined(previous)) {
+				previous.setNext(passedInsertedNode);
+			}
+			passedExistingNode.setPrevious(passedInsertedNode);
+			
+			// Set new links
+			passedInsertedNode.setNext(passedExistingNode);
+			passedInsertedNode.setPrevious(previous);
+
+			// Set new front if applicable
+			if (this.front == passedExistingNode) {
+				this.front = passedInsertedNode;
+			}
+			return true;
+		}
+		return false;
+	}
+
+	private boolean insertNodeAfter(Node<Integer> passedExistingNode, Node<Integer> passedInsertedNode) {
+		this.onNodeAdded(passedInsertedNode);
+		if (isNodeDefined(passedExistingNode)) {
+			// Set existing links
+			Node<Integer> next = passedExistingNode.getNext();
+			if (isNodeDefined(next)) {
+				next.setPrevious(passedInsertedNode);
+			}
+			passedExistingNode.setNext(passedInsertedNode);
+			// Set new links
+			passedInsertedNode.setPrevious(passedExistingNode);
+			passedInsertedNode.setNext(next);
+			
+			// Set new back if applicable
+			if (this.back == passedExistingNode) {
+				this.back = passedInsertedNode;
+			}
+			return true;
+		}
+		return false;
 	}
 	
 	private void onNodeAdded(Node<Integer> passedNode) {
