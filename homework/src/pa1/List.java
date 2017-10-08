@@ -225,15 +225,15 @@ public class List {
 		return stringRepresentation;
 	}
 
-	public Node<Integer> getFrontNode() {
+	protected Node<Integer> getFrontNode() {
 		return this.front;
 	}
 
-	public Node<Integer> getBackNode() {
+	protected Node<Integer> getBackNode() {
 		return this.back;
 	}
 
-	public Node<Integer> getCursorNode() {
+	protected Node<Integer> getCursorNode() {
 		return this.cursor;
 	}
 
