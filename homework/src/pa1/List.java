@@ -74,7 +74,6 @@ public class List {
 				}
 				thisListIterator = thisListIterator.getNext();
 			}
-			thisListIterator.reset();
 		}
 		this.front = null;
 		this.back = null;
