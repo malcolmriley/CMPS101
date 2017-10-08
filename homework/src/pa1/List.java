@@ -294,6 +294,14 @@ public class List {
 		public void setPrevious(Node<T> passedNode) {
 			this.previous = passedNode;
 		}
+		
+		@Override
+		public boolean equals(Object passedObject) {
+			if (passedObject instanceof Node<?>) {
+				return this.get().equals(((Node<?>)passedObject).get());
+			}
+			return super.equals(passedObject);
+		}
 
 		@Override
 		public String toString() {
