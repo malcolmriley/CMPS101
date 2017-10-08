@@ -4,13 +4,13 @@ import pa1.library.IIntListADT;
 
 public class List implements IIntListADT {
 	
+	private static final int CURSOR_INDEX_INVALID = -1;
+	
 	private Node<Integer> cursor;
 	private Node<Integer> front;
 	private Node<Integer> back;
-	private int cursorIndex;
+	private int cursorIndex = CURSOR_INDEX_INVALID;
 	private int length;
-	
-	private static final int CURSOR_INDEX_INVALID = -1;
 	
 	public List() { 
 		
