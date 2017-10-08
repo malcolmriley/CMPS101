@@ -35,6 +35,7 @@ public class Lex {
 			if (!stringArray.isEmpty()) {
 				List list = new List();
 				
+				// Insert elements sorted
 				list.append(0);
 				for (int ii = 1; ii < stringArray.size(); ii += 1) {
 					list.moveBack();
