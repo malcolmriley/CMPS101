@@ -169,7 +169,9 @@ public class List {
 			newNode.setPrevious(this.cursor.getPrevious());
 			
 			// Set links on previous node
-			this.cursor.getPrevious().setNext(newNode);
+			if (isNodeDefined(this.cursor.getPrevious())) {
+				this.cursor.getPrevious().setNext(newNode);
+			}
 			
 			// Set links on cursor node
 			this.cursor.setPrevious(newNode);
@@ -186,7 +188,9 @@ public class List {
 			newNode.setPrevious(this.cursor);
 			
 			// Set links on next node
-			this.cursor.getNext().setPrevious(newNode);
+			if (isNodeDefined(this.cursor.getNext())) {
+				this.cursor.getNext().setPrevious(newNode);
+			}
 			
 			// Set links on cursor node
 			this.cursor.setNext(newNode);
