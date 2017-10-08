@@ -37,33 +37,28 @@ public class Lex {
 			if (!stringArray.isEmpty()) {
 				List list = new List();
 				
-//				// Insert elements sorted
-//				list.append(0);
-//				for (int ii = 1; ii < stringArray.size(); ii += 1) {
-//					list.moveBack();
-//					String currentString = stringArray.get(ii);
-//					String cursorString;
-//					while(list.index() >= 0) {
-//						cursorString = stringArray.get(list.index());
-//						if (currentString.compareTo(cursorString) > 0) {
-//							list.insertAfter(ii);
-//							break;
-//						}
-//						if (list.index() == 0) {
-//							list.prepend(ii);
-//							break;
-//						}
-//						list.movePrev();
-//					}
-//				}
-				
-				for(int ii = 0; ii < stringArray.size(); ii++) {
-					list.prepend(ii);
+				// Insert elements sorted
+				list.append(0);
+				for (int ii = 1; ii < stringArray.size(); ii += 1) {
+					list.moveBack();
+					String currentString = stringArray.get(ii);
+					String cursorString;
+					while(list.index() >= 0) {
+						cursorString = stringArray.get(list.get());
+						if (currentString.compareTo(cursorString) > 0) {
+							list.insertAfter(ii);
+							break;
+						}
+						if (list.index() == 0) {
+							list.prepend(ii);
+							break;
+						}
+						list.movePrev();
+					}
 				}
 
 				// Write to file
 				try(FileWriter writer = new FileWriter(passedArguments[1])) {
-					System.out.println(list);
 					list.moveFront();
 					while((list.index() < list.length()) && (list.index() >= 0)) {
 						writer.write(stringArray.get(list.get()) + "\n");
