@@ -27,6 +27,7 @@ public class Lex {
 				reader.lines().forEachOrdered(stringArray::add);
 			}
 			catch (IOException passedException) {
+				System.err.println("Error reading input file!");
 				passedException.printStackTrace();
 			}
 			
@@ -58,8 +59,12 @@ public class Lex {
 					writer.write(list.toString());
 				}
 				catch (IOException passedException) {
+					System.err.println("Error writing output file!");
 					passedException.printStackTrace();
 				}
+			}
+			else {
+				System.err.println("Error while reading input file - no valid lines detected!");
 			}
 		}
 	}
