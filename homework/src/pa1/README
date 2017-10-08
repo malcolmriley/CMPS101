@@ -1,4 +1,4 @@
-List.java			Doubly-linked list created for purpose of assignment.
-Lex.java				Main program.
+List.java			    Doubly-linked list created for purpose of assignment.
+Lex.java				  Main program.
 ListClient.java		Test client provided by instructor.
-Makefile				Makefile for building executable jar from Lex.java
+Makefile				  Makefile for building executable jar from Lex.java
