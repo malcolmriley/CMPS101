@@ -311,7 +311,7 @@ public class List {
 	
 	private boolean setAndCheckCursor(Node<Integer> passedNode) {
 		this.cursor = passedNode;
-		if (isNodeDefined(this.cursor)) {
+		if (!isNodeDefined(this.cursor)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 			return false;
 		}
