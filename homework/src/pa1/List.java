@@ -316,6 +316,13 @@ public class List {
 			this.length -= 1;
 		}
 	}
+	
+	private void setCursor(Node<Integer> passedNode) {
+		this.cursor = passedNode;
+		if (isNodeDefined(this.cursor)) {
+			this.cursorIndex = CURSOR_INDEX_INVALID;
+		}
+	}
 
 	/* Node Implementation */
 
