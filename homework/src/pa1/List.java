@@ -1,8 +1,6 @@
 package pa1;
 
-import pa1.library.IIntListADT;
-
-public class List implements IIntListADT {
+public class List {
 	
 	private static final int CURSOR_INDEX_INVALID = -1;
 	
@@ -18,12 +16,10 @@ public class List implements IIntListADT {
 	
 	/* Required Methods */
 
-	@Override
 	public int length() {
 		return this.length;
 	}
 
-	@Override
 	public int index() {
 		if (isNodeDefined(this.cursor)) {
 			return cursorIndex;
@@ -31,23 +27,19 @@ public class List implements IIntListADT {
 		return -1;
 	}
 
-	@Override
 	public int front() {
 		return this.front.get().intValue();
 	}
 
-	@Override
 	public int back() {
 		return this.back.get().intValue();
 	}
 
-	@Override
 	public int get() {
 		return this.cursor.get().intValue();
 	}
 
-	@Override
-	public boolean equals(IIntListADT passedList) {
+	public boolean equals(List passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
 				Node<Integer> thisListIterator = this.getFrontNode();
@@ -65,7 +57,6 @@ public class List implements IIntListADT {
 		return false;
 	}
 
-	@Override
 	public void clear() {
 		if (!this.isEmpty()) {
 			Node<Integer> thisListIterator = this.getFrontNode();
@@ -81,7 +72,6 @@ public class List implements IIntListADT {
 		this.length = 0;
 	}
 
-	@Override
 	public void moveFront() {
 		if (isNodeDefined(this.front)) {
 			this.cursor = this.front;
@@ -89,7 +79,6 @@ public class List implements IIntListADT {
 		}
 	}
 
-	@Override
 	public void moveBack() {
 		if (isNodeDefined(this.back)) {
 			this.cursor = this.back;
@@ -97,7 +86,6 @@ public class List implements IIntListADT {
 		}
 	}
 
-	@Override
 	public void movePrev() {
 		this.cursor = this.cursor.getPrevious();
 		if (!isNodeDefined(this.cursor)) {
@@ -107,8 +95,7 @@ public class List implements IIntListADT {
 			this.cursorIndex -= 1;
 		}
 	}
-
-	@Override
+	
 	public void moveNext() {
 		this.cursor = this.cursor.getNext();
 		if (!isNodeDefined(this.cursor)) {
@@ -119,7 +106,6 @@ public class List implements IIntListADT {
 		}
 	}
 
-	@Override
 	public void prepend(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
 		if (isNodeDefined(this.front)) {
@@ -131,7 +117,6 @@ public class List implements IIntListADT {
 		this.cursorIndex += 1;
 	}
 
-	@Override
 	public void append(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
 		if (isNodeDefined(this.back)) {
@@ -142,7 +127,6 @@ public class List implements IIntListADT {
 		this.length += 1;
 	}
 
-	@Override
 	public void insertBefore(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
 		newNode.setNext(this.cursor);
@@ -152,7 +136,6 @@ public class List implements IIntListADT {
 		this.cursorIndex += 1;
 	}
 
-	@Override
 	public void insertAfter(int passedData) {
 		Node<Integer> newNode = this.newNode(passedData);
 		newNode.setNext(this.cursor.getNext());
@@ -160,8 +143,7 @@ public class List implements IIntListADT {
 		this.cursor.setNext(newNode);
 		this.length += 1;
 	}
-
-	@Override
+	
 	public void deleteFront() {
 		if (this.cursor.equals(this.front)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
@@ -169,7 +151,6 @@ public class List implements IIntListADT {
 		this.removeNode(this.front);
 	}
 
-	@Override
 	public void deleteBack() {
 		if (this.cursor.equals(this.back)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
@@ -177,13 +158,11 @@ public class List implements IIntListADT {
 		this.removeNode(this.back);
 	}
 
-	@Override
 	public void delete() {
 		this.removeNode(this.cursor);
 	}
 
-	@Override
-	public IIntListADT copy() {
+	public List copy() {
 		List newList = new List();
 		Node<Integer> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
@@ -193,8 +172,7 @@ public class List implements IIntListADT {
 		return newList;
 	}
 
-	@Override
-	public IIntListADT concat(IIntListADT passedList) {
+	public List concat(List passedList) {
 		List newList = new List();
 		Node<Integer> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
@@ -276,10 +254,6 @@ public class List implements IIntListADT {
 		
 		public List getOwner() {
 			return this.owningList;
-		}
-		
-		public void setValue(T passedValue) {
-			this.element = passedValue;
 		}
 		
 		public void reset() {
