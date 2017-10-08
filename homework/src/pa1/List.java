@@ -65,6 +65,9 @@ public class List {
 		return false;
 	}
 
+	/**
+	 * Clears the list, removing and resetting all owned {@link Node}s.
+	 */
 	public void clear() {
 		if (!this.isEmpty()) {
 			Node<Integer> thisListIterator = this.getFrontNode();
