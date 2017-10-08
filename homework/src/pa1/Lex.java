@@ -23,8 +23,10 @@ public class Lex {
 		else {
 			// Build input Array
 			ArrayList<String> stringArray = new ArrayList<String>();
-			try (BufferedReader reader = new BufferedReader(new FileReader(passedArguments[0]))) {
-				reader.lines().forEachOrdered(stringArray::add);
+			try(FileReader fileReader = new FileReader(passedArguments[0])) {
+				try (BufferedReader reader = new BufferedReader(fileReader)) {
+					reader.lines().forEachOrdered(stringArray::add);
+				}
 			}
 			catch (IOException passedException) {
 				System.err.println("Error reading input file!");
