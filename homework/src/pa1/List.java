@@ -85,6 +85,9 @@ public class List {
 		this.length = 0;
 	}
 
+	/**
+	 * Moves the cursor to the front of the {@link List}.
+	 */
 	public void moveFront() {
 		if (this.isNodeDefined(this.front)) {
 			this.cursor = this.front;
