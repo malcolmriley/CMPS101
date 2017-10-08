@@ -124,6 +124,9 @@ public class List {
 		}
 		else {
 			this.cursorIndex -= 1;
+			if (this.cursorIndex < 0) {
+				this.cursorIndex = CURSOR_INDEX_INVALID;
+			}
 		}
 	}
 
@@ -137,6 +140,9 @@ public class List {
 		}
 		else {
 			this.cursorIndex += 1;
+			if (this.cursorIndex > (this.length - 1)) {
+				this.cursorIndex = CURSOR_INDEX_INVALID;
+			}
 		}
 	}
 
