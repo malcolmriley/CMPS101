@@ -290,29 +290,29 @@ public class List {
 			return this.element;
 		}
 
-		public List getOwner() {
+		protected List getOwner() {
 			return this.owningList;
 		}
 
-		public void reset() {
+		protected void reset() {
 			this.element = null;
 			this.previous = null;
 			this.next = null;
 		}
 
-		public Node<T> getNext() {
+		protected Node<T> getNext() {
 			return this.next;
 		}
 
-		public Node<T> getPrevious() {
+		protected Node<T> getPrevious() {
 			return this.previous;
 		}
 
-		public void setNext(Node<T> passedNode) {
+		protected void setNext(Node<T> passedNode) {
 			this.next = passedNode;
 		}
 
-		public void setPrevious(Node<T> passedNode) {
+		protected void setPrevious(Node<T> passedNode) {
 			this.previous = passedNode;
 		}
 		
