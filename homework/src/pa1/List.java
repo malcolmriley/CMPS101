@@ -68,10 +68,12 @@ public class List {
 	public void clear() {
 		if (!this.isEmpty()) {
 			Node<Integer> thisListIterator = this.getFrontNode();
-			while (this.isNodeDefined(thisListIterator)) {
-				thisListIterator = thisListIterator.getNext();
-				thisListIterator.previous.reset();
+			while(isNodeDefined(thisListIterator)) {
+				if (isNodeDefined(thisListIterator.getPrevious())) {
+					thisListIterator.getPrevious().reset();
+				}
 			}
+			thisListIterator.reset();
 		}
 		this.front = null;
 		this.back = null;
