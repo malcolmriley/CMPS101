@@ -258,11 +258,11 @@ public class List {
 		return this.cursor;
 	}
 
-	public boolean isEmpty() {
+	protected boolean isEmpty() {
 		return (this.length < 1);
 	}
 
-	public boolean isNodeDefined(Node<?> passedNode) {
+	protected boolean isNodeDefined(Node<?> passedNode) {
 		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner() == this);
 	}
 
