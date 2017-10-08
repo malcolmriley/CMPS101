@@ -221,7 +221,7 @@ public class List {
 	}
 
 	public boolean isNodeDefined(Node<?> passedNode) {
-		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner().equals(this));
+		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner() == this);
 	}
 
 	private Node<Integer> newNode(int passedValue) {
