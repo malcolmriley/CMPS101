@@ -59,7 +59,12 @@ public class Lex {
 
 				// Write to file
 				try(FileWriter writer = new FileWriter(passedArguments[1])) {
-					writer.write(list.toString());
+					writer.write(list.toString() + "\n");
+					list.moveFront();
+					while((list.index() < list.length()) && (list.index() >= 0)) {
+						writer.write(stringArray.get(list.index()) + "\n");
+						list.moveNext();
+					}
 				}
 				catch (IOException passedException) {
 					System.err.println("Error writing output file!");
