@@ -121,7 +121,6 @@ public class List {
 			this.front.setPrevious(newNode);
 		}
 		this.front = newNode;
-		this.length += 1;
 		this.cursorIndex += 1;
 		this.onNodeAdded(newNode);
 	}
@@ -133,7 +132,6 @@ public class List {
 			this.back.setNext(newNode);
 		}
 		this.back = newNode;
-		this.length += 1;
 		this.onNodeAdded(newNode);
 	}
 
@@ -142,7 +140,6 @@ public class List {
 		newNode.setNext(this.cursor);
 		newNode.setPrevious(this.cursor.getPrevious());
 		this.cursor.setPrevious(newNode);
-		this.length += 1;
 		this.cursorIndex += 1;
 		this.onNodeAdded(newNode);
 	}
@@ -152,7 +149,6 @@ public class List {
 		newNode.setNext(this.cursor.getNext());
 		newNode.setPrevious(this.cursor);
 		this.cursor.setNext(newNode);
-		this.length += 1;
 		this.onNodeAdded(newNode);
 	}
 
@@ -238,6 +234,7 @@ public class List {
 			this.front = passedNode;
 			this.back = passedNode;
 		}
+		this.length += 1;
 	}
 
 	private void onNodeRemoved(Node<Integer> passedNode) {
