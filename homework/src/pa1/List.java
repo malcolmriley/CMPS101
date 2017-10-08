@@ -141,20 +141,36 @@ public class List {
 	}
 
 	public void insertBefore(int passedData) {
-		Node<Integer> newNode = this.newNode(passedData);
-		newNode.setNext(this.cursor);
-		newNode.setPrevious(this.cursor.getPrevious());
-		this.cursor.setPrevious(newNode);
-		this.cursorIndex += 1;
-		this.onNodeAdded(newNode);
+		if (isNodeDefined(this.cursor)) {
+			// Set links on new node
+			Node<Integer> newNode = this.newNode(passedData);
+			newNode.setNext(this.cursor);
+			newNode.setPrevious(this.cursor.getPrevious());
+			
+			// Set links on previous node
+			this.cursor.getPrevious().setNext(newNode);
+			
+			// Set links on cursor node
+			this.cursor.setPrevious(newNode);
+			this.cursorIndex += 1;
+			this.onNodeAdded(newNode);
+		}
 	}
 
 	public void insertAfter(int passedData) {
-		Node<Integer> newNode = this.newNode(passedData);
-		newNode.setNext(this.cursor.getNext());
-		newNode.setPrevious(this.cursor);
-		this.cursor.setNext(newNode);
-		this.onNodeAdded(newNode);
+		if (isNodeDefined(this.cursor)) {
+			// Set links on new node
+			Node<Integer> newNode = this.newNode(passedData);
+			newNode.setNext(this.cursor.getNext());
+			newNode.setPrevious(this.cursor);
+			
+			// Set links on next node
+			this.cursor.getNext().setPrevious(newNode);
+			
+			// Set links on cursor node
+			this.cursor.setNext(newNode);
+			this.onNodeAdded(newNode);
+		}
 	}
 
 	public void deleteFront() {
