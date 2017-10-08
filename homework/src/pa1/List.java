@@ -123,6 +123,7 @@ public class List {
 		this.front = newNode;
 		this.length += 1;
 		this.cursorIndex += 1;
+		this.onNodeAdded(newNode);
 	}
 
 	public void append(int passedData) {
@@ -133,6 +134,7 @@ public class List {
 		}
 		this.back = newNode;
 		this.length += 1;
+		this.onNodeAdded(newNode);
 	}
 
 	public void insertBefore(int passedData) {
@@ -142,6 +144,7 @@ public class List {
 		this.cursor.setPrevious(newNode);
 		this.length += 1;
 		this.cursorIndex += 1;
+		this.onNodeAdded(newNode);
 	}
 
 	public void insertAfter(int passedData) {
@@ -150,24 +153,25 @@ public class List {
 		newNode.setPrevious(this.cursor);
 		this.cursor.setNext(newNode);
 		this.length += 1;
+		this.onNodeAdded(newNode);
 	}
 
 	public void deleteFront() {
 		if (this.cursor.equals(this.front)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		this.removeNode(this.front);
+		this.onNodeRemoved(this.front);
 	}
 
 	public void deleteBack() {
 		if (this.cursor.equals(this.back)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
-		this.removeNode(this.back);
+		this.onNodeRemoved(this.back);
 	}
 
 	public void delete() {
-		this.removeNode(this.cursor);
+		this.onNodeRemoved(this.cursor);
 	}
 
 	public List copy() {
@@ -192,8 +196,8 @@ public class List {
 
 	@Override
 	public String toString() {
-		Node<Integer> thisListIterator = this.getFrontNode();
 		String stringRepresentation = "";
+		Node<Integer> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
 			stringRepresentation += thisListIterator.toString();
 			thisListIterator = thisListIterator.getNext();
@@ -228,8 +232,15 @@ public class List {
 		Node<Integer> newNode = new Node<Integer>(this, new Integer(passedValue));
 		return newNode;
 	}
+	
+	private void onNodeAdded(Node<Integer> passedNode) {
+		if (this.isEmpty()) {
+			this.front = passedNode;
+			this.back = passedNode;
+		}
+	}
 
-	private void removeNode(Node<Integer> passedNode) {
+	private void onNodeRemoved(Node<Integer> passedNode) {
 		if (this.isNodeDefined(passedNode)) {
 			Node<Integer> nextNode = passedNode.getNext();
 			Node<Integer> previousNode = passedNode.getPrevious();
