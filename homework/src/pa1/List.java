@@ -118,11 +118,7 @@ public class List {
 	 * Moves the cursor to the position one previous from its current position in this {@link List}.
 	 */
 	public void movePrev() {
-		this.cursor = this.cursor.getPrevious();
-		if (!this.isNodeDefined(this.cursor)) {
-			this.cursorIndex = CURSOR_INDEX_INVALID;
-		}
-		else {
+		if (this.setAndCheckCursor(this.cursor.getPrevious())) {
 			this.cursorIndex -= 1;
 			if (this.cursorIndex < 0) {
 				this.cursorIndex = CURSOR_INDEX_INVALID;
@@ -134,11 +130,7 @@ public class List {
 	 * Moves the cursor to the position one next from its current position in this {@link List}.
 	 */
 	public void moveNext() {
-		this.cursor = this.cursor.getNext();
-		if (!this.isNodeDefined(this.cursor)) {
-			this.cursorIndex = CURSOR_INDEX_INVALID;
-		}
-		else {
+		if (this.setAndCheckCursor(this.cursor.getNext())) {
 			this.cursorIndex += 1;
 			if (this.cursorIndex > (this.length - 1)) {
 				this.cursorIndex = CURSOR_INDEX_INVALID;
@@ -317,11 +309,13 @@ public class List {
 		}
 	}
 	
-	private void setAndCheckCursor(Node<Integer> passedNode) {
+	private boolean setAndCheckCursor(Node<Integer> passedNode) {
 		this.cursor = passedNode;
 		if (isNodeDefined(this.cursor)) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
+			return false;
 		}
+		return true;
 	}
 
 	/* Node Implementation */
