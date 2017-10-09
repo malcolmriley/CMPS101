@@ -165,14 +165,14 @@ public class List {
 	}
 
 	public void deleteFront() {
-		if (this.cursor.equals(this.front)) {
+		if (this.cursor == this.front) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		this.onNodeRemoved(this.front);
 	}
 
 	public void deleteBack() {
-		if (this.cursor.equals(this.back)) {
+		if (this.cursor == this.back) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
 		this.onNodeRemoved(this.back);
