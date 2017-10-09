@@ -1,4 +1,4 @@
-MAINCLASS  = pa1/Lex.java
+MAINCLASS  = Lex
 JAVAC      = javac 
 JAVASRC    = $(wildcard pa1/*.java, *.java)
 SOURCES    = $(JAVASRC) makefile README
