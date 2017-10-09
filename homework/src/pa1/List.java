@@ -300,9 +300,15 @@ public class List {
 			Node<Integer> previousNode = passedNode.getPrevious();
 			if (this.isNodeDefined(nextNode)) {
 				nextNode.setPrevious(passedNode.getPrevious());
+				if (passedNode == this.front) {
+					this.front = nextNode;
+				}
 			}
 			if (this.isNodeDefined(previousNode)) {
 				previousNode.setNext(passedNode.getNext());
+				if (passedNode == this.back) {
+					this.back = previousNode;
+				}
 			}
 			passedNode.reset();
 			this.length -= 1;
