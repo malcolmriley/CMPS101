@@ -27,6 +27,7 @@ public class Lex {
 					int numLines = 0;
 					while (lineScanner.hasNextLine()) {
 						numLines += 1;
+						lineScanner.nextLine();
 					}
 					stringArray = new String[numLines];
 					try(FileReader fileReader = new FileReader(passedArguments[0])) {
