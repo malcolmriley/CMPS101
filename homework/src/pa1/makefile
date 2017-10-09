@@ -1,6 +1,6 @@
-MAINCLASS  = Lex
+MAINCLASS  = Lex.java
 JAVAC      = javac 
-JAVASRC    = $(wildcard pa1/*.java)
+JAVASRC    = $(wildcard pa1/*.java) $(wildcard *.java)
 SOURCES    = $(JAVASRC) makefile README
 CLASSES    = $(patsubst %.java, %.class, $(JAVASRC))
 JARCLASSES = $(patsubst %.class, %*.class, $(CLASSES))
