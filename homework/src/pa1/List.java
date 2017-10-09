@@ -168,6 +168,9 @@ public class List {
 		if (this.cursor == this.front) {
 			this.cursorIndex = CURSOR_INDEX_INVALID;
 		}
+		else {
+			this.cursorIndex -= 1;
+		}
 		this.onNodeRemoved(this.front);
 	}
 
