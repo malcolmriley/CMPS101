@@ -314,6 +314,7 @@ public class List {
 				}
 			}
 			passedNode.reset();
+			passedNode = null;
 			this.length -= 1;
 		}
 	}
