@@ -6,7 +6,7 @@
  *
  * 10-2017
  *********************************************************************/
-package pa1;
+
 
 import java.io.FileReader;
 import java.io.FileWriter;
