@@ -78,7 +78,7 @@ int front(List passedList) {
 
 int back(List passedList) {
 	if(!checkList(passedList, TRUE) != FALSE) {
-		if (!isNull(passedList->nodeBack, "Front Node is NULL.", FALSE) != FALSE) {
+		if (!isNull(passedList->nodeBack, "Back Node is NULL.", FALSE) != FALSE) {
 			return passedList->nodeBack->value;
 		}
 	}
