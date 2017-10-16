@@ -75,6 +75,16 @@ int front(List passedList) {
 	return UNDEFINED;
 }
 
+
+int back(List passedList) {
+	if(!checkList(passedList, TRUE) != FALSE) {
+		if (!isNull(passedList->nodeBack, "Front Node is NULL.", FALSE) != FALSE) {
+			return passedList->nodeBack->value;
+		}
+	}
+	return UNDEFINED;
+}
+
 /* Internal Functions */
 
 /**
