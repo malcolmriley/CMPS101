@@ -10,32 +10,72 @@
 #include <stdio.h>
 #include "List.h"
 
-/* Node Type Definition */
-typedef struct NodeObj {
+/* Node Definition */
+typedef struct NodeObject {
 	int value;
-	struct NodeObj* nextNode;
-	struct NodeObj* previousNode;
-} NodeObj;
-typedef NodeObj* Node;
+	struct NodeObject* nextNode;
+	struct NodeObject* previousNode;
+} NodeObject;
+typedef NodeObject* Node;
 
 Node newNode(int passedValue) {
 	return NULL;
 }
 
-void freeNode(Node* passedNode) {
+void freeNode(Node passedNode) {
 
 }
 
-/* List Globals */
-const int TRUE = 1;
-const int FALSE = 0;
-const int INDEX_UNDEFINED = -1;
+/* Node Functions */
 
-/* List Function Definitions */
+int equals(Node passedFirstNode, Node passedSecondNode) {
+	return FALSE;
+}
+
+/* List Definition */
+typedef struct ListObject {
+	int length = 0;
+	int cursorIndex = UNDEFINED;
+	Node* nodeFront;
+	Node* nodeBack;
+	Node* nodeCursor;
+} ListObject;
+
+/* List Constructor/Destructor */
+List newList(void) {
+
+}
+
+void freeList(List* passedList) {
+
+}
+
+/* List Functions */
+int length(List passedList) {
+	return passedList->length;
+}
+
+int index(List passedList) {
+	if (!checkList(passedList, TRUE) != FALSE) {
+		return passedList->cursorIndex;
+	}
+	return UNDEFINED;
+}
+
+int front(List passedList) {
+	if(!checkList(passedList, TRUE) != FALSE) {
+
+	}
+	return UNDEFINED;
+}
 
 /* Internal Functions */
-int inline isNull(void* passedListPointer, char* passedCharArray, int passedIsTerminal) {
-	if (passedListPointer == NULL) {
+int inline checkList(List passedList, int passedIsTerminal) {
+	return isNull(passedList, "List is null.", passedIsTerminal) | isListEmpty(passedList, "List is empty.", passedIsTerminal);
+}
+
+int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal) {
+	if (passedPointer == NULL) {
 		puts("Error: Null pointer received.");
 		if (passedIsTerminal == TRUE) {
 			exitBadWithMessage(passedCharArray);
