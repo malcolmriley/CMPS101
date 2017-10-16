@@ -43,20 +43,24 @@ typedef struct ListObject {
 
 /* List Constructor/Destructor */
 List newList(void) {
-
+	//TODO:
+	return NULL;
 }
 
 void freeList(List* passedList) {
-
+	// TODO:
 }
 
 /* List Functions */
 int length(List passedList) {
-	return passedList->length;
+	if (!checkList(passedList, FALSE) != FALSE) {
+		return passedList->length;
+	}
+	return UNDEFINED;
 }
 
 int index(List passedList) {
-	if (!checkList(passedList, TRUE) != FALSE) {
+	if (!checkList(passedList, FALSE) != FALSE) {
 		return passedList->cursorIndex;
 	}
 	return UNDEFINED;
@@ -64,32 +68,48 @@ int index(List passedList) {
 
 int front(List passedList) {
 	if(!checkList(passedList, TRUE) != FALSE) {
-
+		if (!isNull(passedList->nodeFront, "Front Node is NULL.", FALSE) != FALSE) {
+			return passedList->nodeFront->value;
+		}
 	}
 	return UNDEFINED;
 }
 
 /* Internal Functions */
-int inline checkList(List passedList, int passedIsTerminal) {
-	return isNull(passedList, "List is null.", passedIsTerminal) | isListEmpty(passedList, "List is empty.", passedIsTerminal);
+
+/**
+ * Checks whether the passed List is NULL or empty, and prints the passed message in those cases.
+ *
+ * If passedIsTerminal is specifically 1, calls exitBadWithMessage using a relevant error message.
+ */
+int inline checkList(List passedList, char* passedCharArray, int passedIsTerminal) {
+	return isNull(passedList, passedCharArray, passedIsTerminal) | isListEmpty(passedList, passedCharArray, passedIsTerminal);
 }
 
+/**
+ * Checks whether the passed pointer is null, and prints the passed message in that case.
+ *
+ * If passedIsTerminal is specifically 1, calls exitBadWithMessage with an error message.
+ */
 int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal) {
 	if (passedPointer == NULL) {
-		puts("Error: Null pointer received.");
+		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage(passedCharArray);
+			exitBadWithMessage("Error: Null pointer received.");
 		}
 		return TRUE;
 	}
 	return FALSE;
 }
 
+/**
+ * Checks whether the passed List is null
+ */
 int inline isListEmpty(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if (length(passedListPointer) <= 0) {
-		puts("Error: List is empty.");
+		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage(passedCharArray);
+			exitBadWithMessage("Error: List is empty.");
 		}
 		return TRUE;
 	}
@@ -98,9 +118,9 @@ int inline isListEmpty(List* passedListPointer, char* passedCharArray, int passe
 
 int inline isCursorValid(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if ((index(passedListPointer) < 0) || (index(passedListPointer) > length)) {
-		puts("Error: Cursor is invalid.");
+		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage(passedCharArray);
+			exitBadWithMessage("Error: Cursor is invalid.");
 		}
 		return FALSE;
 	}
