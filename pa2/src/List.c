@@ -85,6 +85,15 @@ int back(List passedList) {
 	return UNDEFINED;
 }
 
+int get(List passedList) {
+	if(!checkList(passedList, TRUE) != FALSE) {
+		if (!isNull(passedList->nodeCursor, "Cursor Node is NULL.", FALSE) != FALSE) {
+			return passedList->nodeCursor->value;
+		}
+	}
+	return UNDEFINED;
+}
+
 /* Internal Functions */
 
 /**
