@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 
-typedef struct ListObj* List;
+typedef struct ListObject* List;
 
-/* Constructors/Destructors */
+/* Constructor/Destructor */
 List newList(void);
 void freeList(List* passedlist);
 
@@ -44,3 +44,12 @@ void printList(FILE* passedOutputFile, List passedList);
 List copyList(List passedList);
 
 #endif;
+
+#ifndef CONSTANTS
+#define CONSTANTS
+
+#define TRUE 1
+#define FALSE 0
+#define UNDEFINED -1
+
+#endif
