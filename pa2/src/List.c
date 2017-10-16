@@ -94,7 +94,6 @@ int get(List passedList) {
 	return UNDEFINED;
 }
 
-
 int equals(List passedFirstList, List passedSecondList) {
 	int isFirstNull = isNull(passedFirstList, "", FALSE);
 	int isSecondNull = isNull(passedSecondList, "", FALSE);
@@ -111,6 +110,10 @@ int equals(List passedFirstList, List passedSecondList) {
 		}
 	}
 	return FALSE;
+}
+
+void clear(List passedList) {
+	// TODO: Iterate over, free nodes
 }
 
 /* Internal Functions */
