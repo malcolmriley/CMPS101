@@ -27,29 +27,45 @@ void freeNode(Node* passedNode) {
 }
 
 /* List Globals */
+const int TRUE = 1;
+const int FALSE = 0;
+const int INDEX_UNDEFINED = -1;
 
 /* List Function Definitions */
 
 /* Internal Functions */
-void inline checkNull(void* passedListPointer, char* passedCharArray) {
+int inline isNull(void* passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if (passedListPointer == NULL) {
 		puts("Error: Null pointer received.");
-		exitBadWithMessage(passedCharArray);
+		if (passedIsTerminal == TRUE) {
+			exitBadWithMessage(passedCharArray);
+		}
+		return TRUE;
 	}
+	return FALSE;
 }
 
-void inline checkEmpty(List* passedListPointer, char* passedCharArray) {
+int inline isListEmpty(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if (length(passedListPointer) <= 0) {
 		puts("Error: List is empty.");
-		exitBadWithMessage(passedCharArray);
+		if (passedIsTerminal == TRUE) {
+			exitBadWithMessage(passedCharArray);
+		}
+		return TRUE;
 	}
+	return FALSE;
 }
 
-void inline checkCursor(List* passedListPointer, char* passedCharArray) {
+int inline isCursorValid(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if ((index(passedListPointer) < 0) || (index(passedListPointer) > length)) {
 		puts("Error: Cursor is invalid.");
-		exitBadWithMessage(passedCharArray);
+		if (passedIsTerminal == TRUE) {
+			exitBadWithMessage(passedCharArray);
+		}
+		return FALSE;
 	}
+	// TODO: Change to !isNull(cursor)
+	return TRUE;
 }
 
 void inline exitBadWithMessage(char* passedCharArray) {
