@@ -116,6 +116,42 @@ void clear(List passedList) {
 	// TODO: Iterate over, free nodes
 }
 
+void moveFront(List passedList) {
+	if (checkList(passedList, "Error with List when moveFront was called:", TRUE) != FALSE) {
+		if (isNull(passedList->nodeFront, "Error with List's front Node:", TRUE) != FALSE) {
+			passedList->nodeCursor = passedList->nodeFront;
+			passedList->cursorIndex = 0;
+		}
+	}
+}
+
+void moveBack(List passedList) {
+	if (checkList(passedList, "Error with List when moveBack was called:", TRUE) != FALSE) {
+		if (isNull(passedList->nodeBack, "Error with List's back Node:", TRUE) != FALSE) {
+			passedList->nodeCursor = passedList->nodeBack;
+			passedList->cursorIndex = (length(passedList) - 1);
+		}
+	}
+}
+
+void movePrev(List passedList) {
+	if (checkList(passedList, "Error with List when movePrev was called:", FALSE) != FALSE) {
+		if (isNull(passedList->nodeCursor, "Error with List's Cursor Node:", TRUE) != FALSE) {
+			passedList->nodeCursor = passedList->nodeCursor->previousNode;
+			passedList->cursorIndex = (passedList->cursorIndex - 1);
+		}
+	}
+}
+
+void moveNext(List passedList) {
+	if (checkList(passedList, "Error with List when moveNext was called:", FALSE) != FALSE) {
+		if (isNull(passedList->nodeCursor, "Error with List's Cursor Node:", TRUE) != FALSE) {
+			passedList->nodeCursor = passedList->nodeCursor->nextNode;
+			passedList->cursorIndex = (passedList->cursorIndex + 1);
+		}
+	}
+}
+
 /* Internal Functions */
 
 /**
@@ -144,9 +180,9 @@ int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTermin
 }
 
 /**
- * Checks whether the passed List is null
+ * Checks whether the passed List is empty. Does not perform null check on the passed List.
  */
-int inline isListEmpty(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
+int inline isListEmpty(List passedListPointer, char* passedCharArray, int passedIsTerminal) {
 	if (length(passedListPointer) <= 0) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
@@ -157,19 +193,25 @@ int inline isListEmpty(List* passedListPointer, char* passedCharArray, int passe
 	return FALSE;
 }
 
-int inline isCursorValid(List* passedListPointer, char* passedCharArray, int passedIsTerminal) {
-	if ((index(passedListPointer) < 0) || (index(passedListPointer) > length)) {
+/**
+ * Checks whether the passed List's cursor is valid. Does not perform null check on the passed List.
+ */
+int inline isCursorValid(List passedListPointer, char* passedCharArray, int passedIsTerminal) {
+	if ((index(passedListPointer) < 0) || (index(passedListPointer) >= length)) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
 			exitBadWithMessage("Error: Cursor is invalid.");
 		}
+		passedListPointer->cursorIndex = UNDEFINED;
 		return FALSE;
 	}
-	// TODO: Change to !isNull(cursor)
-	return TRUE;
+	return isNull(passedListPointer->nodeCursor);
 }
 
-void inline exitBadWithMessage(char* passedCharArray) {
+/**
+ * Exits with a code of 1 after printing the passed message.
+ */
+void inline exitBadWithMessage(const char* passedCharArray) {
 	puts(passedCharArray);
 	exit(1);
 }
