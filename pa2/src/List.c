@@ -94,6 +94,25 @@ int get(List passedList) {
 	return UNDEFINED;
 }
 
+
+int equals(List passedFirstList, List passedSecondList) {
+	int isFirstNull = isNull(passedFirstList, "", FALSE);
+	int isSecondNull = isNull(passedSecondList, "", FALSE);
+	if ((isFirstNull | isSecondNull) != FALSE) {
+		int firstLength = length(passedFirstList);
+		int secondLength = length(passedSecondList);
+		if (firstLength == secondLength) {
+			if (firstLength == 0) {
+				return TRUE;
+			}
+			else {
+				// TODO: Iterate over and compare
+			}
+		}
+	}
+	return FALSE;
+}
+
 /* Internal Functions */
 
 /**
