@@ -221,6 +221,31 @@ void delete(List passedList) {
 	}
 }
 
+List concatList(List passedFirstList, List passedSecondList) {
+	int firstListValid = checkList(passedFirstList, "Error with prepended List during concatenation:", FALSE);
+	int secondListValid = checkList(passedFirstList, "Error with appended List during concatenation:", FALSE);
+	List newList = newList();
+	// If both Lists are valid, concatenate
+	if ((firstListValid != FALSE) && (secondListValid != FALSE)) {
+
+		return newList;
+	}
+	// If only first List is valid, use that one
+	else if (firstListValid != FALSE) {
+
+		return newList;
+	}
+
+	// If only second List is valid, use that one
+	else if (secondListValid != FALSE) {
+
+		return newList;
+	}
+
+	// Otherwise, return empty List
+	return newList;
+}
+
 /* Internal Functions */
 
 /**
