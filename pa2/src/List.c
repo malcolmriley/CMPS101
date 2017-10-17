@@ -242,6 +242,9 @@ int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
 	return FALSE;
 }
 
+/**
+ * Removes the passedNode, freeing it.
+ */
 int removeNode(Node passedNode) {
 	if (isNull(passedNode, "Cannot remove a Node that is null.", FALSE) != FALSE) {
 		Node nextNode = passedNode->nextNode;
