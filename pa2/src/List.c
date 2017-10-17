@@ -20,11 +20,8 @@ void freeNode(Node passedNode) {
 
 /* Node Functions */
 
-int equals(Node passedFirstNode, Node passedSecondNode) {
-	if ((passedFirstNode == NULL) && (passedSecondNode == NULL)) {
-		return TRUE;
-	}
-	else if ((passedFirstNode != NULL) && (passedSecondNode != NULL)) {
+int nodesAreEqual(Node passedFirstNode, Node passedSecondNode) {
+	if ((passedFirstNode != NULL) && (passedSecondNode != NULL)) {
 		return (passedFirstNode->value == passedSecondNode->value);
 	}
 	return FALSE;
@@ -87,7 +84,17 @@ int get(List passedList) {
 
 int equals(List passedFirstList, List passedSecondList) {
 	if ((passedFirstList != NULL) && (passedSecondList != NULL)) {
-
+		int equals = (passedFirstList->length == passedSecondList->length);
+		if (equals) {
+			Node firstNode = passedFirstList->nodeFront;
+			Node secondNode = passedSecondList->nodeFront;
+			while (equals) {
+				equals = nodesAreEqual(firstNode, secondNode);
+				firstNode = firstNode->nextNode;
+				firstNode = firstNode->nextNode;
+			}
+		}
+		return equals;
 	}
 	return FALSE;
 }
