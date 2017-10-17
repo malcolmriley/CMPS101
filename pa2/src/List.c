@@ -10,14 +10,6 @@
 #include <stdio.h>
 #include "List.h"
 
-/* Node Definition */
-typedef struct NodeObject {
-	int value;
-	struct NodeObject* nextNode;
-	struct NodeObject* previousNode;
-} NodeObject;
-typedef NodeObject* Node;
-
 Node newNode(int passedValue) {
 	return NULL;
 }
@@ -29,17 +21,16 @@ void freeNode(Node passedNode) {
 /* Node Functions */
 
 int equals(Node passedFirstNode, Node passedSecondNode) {
+	if ((passedFirstNode == NULL) && (passedSecondNode == NULL)) {
+		return TRUE;
+	}
+	else if ((passedFirstNode != NULL) && (passedSecondNode != NULL)) {
+		return (passedFirstNode->value == passedSecondNode->value);
+	}
 	return FALSE;
 }
 
 /* List Definition */
-typedef struct ListObject {
-	int length = 0;
-	int cursorIndex = UNDEFINED;
-	Node* nodeFront;
-	Node* nodeBack;
-	Node* nodeCursor;
-} ListObject;
 
 /* List Constructor/Destructor */
 List newList(void) {
@@ -95,19 +86,8 @@ int get(List passedList) {
 }
 
 int equals(List passedFirstList, List passedSecondList) {
-	int isFirstNull = isNull(passedFirstList, "", FALSE);
-	int isSecondNull = isNull(passedSecondList, "", FALSE);
-	if ((isFirstNull | isSecondNull) != FALSE) {
-		int firstLength = length(passedFirstList);
-		int secondLength = length(passedSecondList);
-		if (firstLength == secondLength) {
-			if (firstLength == 0) {
-				return TRUE;
-			}
-			else {
-				// TODO: Iterate over and compare
-			}
-		}
+	if ((passedFirstList != NULL) && (passedSecondList != NULL)) {
+
 	}
 	return FALSE;
 }

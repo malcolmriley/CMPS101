@@ -6,11 +6,37 @@
  *
  * 10-2017
  *********************************************************************/
+#ifndef CONSTANTS
+#define CONSTANTS
+
+#define TRUE 1
+#define FALSE 0
+#define UNDEFINED -1
+
+#endif
+
 #ifndef LIST_H
 #define LIST_H
 
 #include <stdio.h>
 
+
+/* Node Typedef */
+typedef struct NodeObject {
+	int value;
+	struct NodeObject* nextNode;
+	struct NodeObject* previousNode;
+} NodeObject;
+typedef NodeObject* Node;
+
+/* List Typedef */
+typedef struct ListObject {
+	int length = 0;
+	int cursorIndex = UNDEFINED;
+	Node nodeFront;
+	Node nodeBack;
+	Node nodeCursor;
+} ListObject;
 typedef struct ListObject* List;
 
 /* Constructor/Destructor */
@@ -43,14 +69,5 @@ List concatList(List passedFirstList, List passedSecondList);
 /* Miscellaneous */
 void printList(FILE* passedOutputFile, List passedList);
 List copyList(List passedList);
-
-#endif;
-
-#ifndef CONSTANTS
-#define CONSTANTS
-
-#define TRUE 1
-#define FALSE 0
-#define UNDEFINED -1
 
 #endif
