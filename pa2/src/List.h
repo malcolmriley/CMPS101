@@ -38,6 +38,7 @@ void insertAfter(List passedList, int passedValue);
 void deleteFront(List passedList);
 void deleteBack(List passedList);
 void delete(List passedList);
+List concatList(List passedFirstList, List passedSecondList);
 
 /* Miscellaneous */
 void printList(FILE* passedOutputFile, List passedList);
