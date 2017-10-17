@@ -8,14 +8,16 @@
  *********************************************************************/
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "List.h"
 
 Node newNode(int passedValue) {
+	// TODO:
 	return NULL;
 }
 
 void freeNode(Node passedNode) {
-
+	// TODO:
 }
 
 /* Node Functions */
@@ -240,7 +242,19 @@ List concatList(List passedFirstList, List passedSecondList) {
 }
 
 void printList(FILE* passedOutputFile, List passedList) {
-	// TODO: Iterate and print
+	if(isNull(passedOutputFile, "Cannot print to a null file reference.", FALSE) != FALSE) {
+		if (checkList(passedList, "Error with List during print:", FALSE) != FALSE) {
+			Node iteratedNode = passedList->nodeFront;
+			while (iteratedNode != NULL) {
+				fprintf(passedOutputFile, "%d", iteratedNode->value);
+				iteratedNode = iteratedNode->nextNode;
+				if (iteratedNode != NULL) {
+					fprintf(passedOutputFile, " ");
+				}
+			}
+		}
+	}
+	fclose(passedOutputFile);
 }
 
 List copyList(List passedList) {
