@@ -155,24 +155,25 @@ void moveNext(List passedList) {
 void prepend(List passedList, int passedValue) {
 	if (isNull(passedList, "Cannot prepend to a null List!", TRUE) != FALSE) {
 		Node newNode = newNode(passedValue);
-
+		if (insertNodeBefore(passedList->nodeFront, newNode) == TRUE) {
+			passedList->cursorIndex = (passedList->cursorIndex + 1);
+		}
 	}
 }
 
 void append(List passedList, int passedValue) {
 	if (isNull(passedList, "Cannot append to a null List!", TRUE) != FALSE) {
 		Node newNode = newNode(passedValue);
-
+		insertNodeAfter(passedList->nodeBack, newNode);
 	}
 }
 
 /* Internal Functions */
 
-int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode) {
+int insertNodeBefore(Node passedNode, Node passedInsertedNode) {
 	int passedNodeValid = isNull(passedNode, "Attempting to insert before null Node", FALSE);
 	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
-	int listValid = isNull(passedList, "Attempting to insert into null List", TRUE);
-	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE) && (listValid != FALSE)) {
+	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE)) {
 		// Set pointers on inserted Node
 		passedInsertedNode->nextNode = passedNode;
 		passedInsertedNode->previousNode = passedNode->previousNode;
@@ -189,11 +190,10 @@ int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode) 
 	return FALSE;
 }
 
-int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode) {
+int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
 	int passedNodeValid = isNull(passedNode, "Attempting to insert after null Node", FALSE);
 	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
-	int listValid = isNull(passedList, "Attempting to insert into null List", TRUE);
-	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE) && (listValid != FALSE)) {
+	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE)) {
 		// Set pointers on inserted Node
 		passedInsertedNode->previousNode = passedNode;
 		passedInsertedNode->nextNode = passedNode->nextNode;
