@@ -100,7 +100,11 @@ int equals(List passedFirstList, List passedSecondList) {
 }
 
 void clear(List passedList) {
-	// TODO: Iterate over, free nodes
+	if (checkList(passedList, "Error with List when clear was called:", FALSE) != FALSE) {
+		while (passedList->length > 0) {
+			deleteBack(passedList);
+		}
+	}
 }
 
 void moveFront(List passedList) {
@@ -194,7 +198,6 @@ void deleteBack(List passedList) {
 	if (checkList(passedList, "Error when deleting the back Node of a List", TRUE) != FALSE) {
 		if (removeNode(passedList->nodeBack) != FALSE) {
 			passedList->length -= 1;
-			decrementIndex(passedList);
 		}
 	}
 }
