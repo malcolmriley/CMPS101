@@ -138,7 +138,7 @@ void movePrev(List passedList) {
 	if (checkList(passedList, "Error with List when movePrev was called:", FALSE) != FALSE) {
 		if (isNull(passedList->nodeCursor, "Error with List's Cursor Node:", TRUE) != FALSE) {
 			passedList->nodeCursor = passedList->nodeCursor->previousNode;
-			passedList->cursorIndex = (passedList->cursorIndex - 1);
+			decrementIndex(passedList);
 		}
 	}
 }
@@ -147,7 +147,7 @@ void moveNext(List passedList) {
 	if (checkList(passedList, "Error with List when moveNext was called:", FALSE) != FALSE) {
 		if (isNull(passedList->nodeCursor, "Error with List's Cursor Node:", TRUE) != FALSE) {
 			passedList->nodeCursor = passedList->nodeCursor->nextNode;
-			passedList->cursorIndex = (passedList->cursorIndex + 1);
+			incrementIndex(passedList);
 		}
 	}
 }
@@ -156,7 +156,8 @@ void prepend(List passedList, int passedValue) {
 	if (isNull(passedList, "Cannot prepend to a null List!", TRUE) != FALSE) {
 		Node newNode = newNode(passedValue);
 		if (insertNodeBefore(passedList->nodeFront, newNode) == TRUE) {
-			passedList->cursorIndex = (passedList->cursorIndex + 1);
+			incrementIndex(passedList);
+			passedList->length += 1;
 		}
 	}
 }
@@ -164,12 +165,40 @@ void prepend(List passedList, int passedValue) {
 void append(List passedList, int passedValue) {
 	if (isNull(passedList, "Cannot append to a null List!", TRUE) != FALSE) {
 		Node newNode = newNode(passedValue);
-		insertNodeAfter(passedList->nodeBack, newNode);
+		if (insertNodeAfter(passedList->nodeBack, newNode) != FALSE) {
+			passedList->length += 1;
+		}
+	}
+}
+
+void insertBefore(List passedList, int passedValue) {
+	if (isNull(passedList, "Cannot insert into a null List!", TRUE) != FALSE) {
+		if (isCursorValid(passedList, "Cannot insert into a List with an undefined cursor!", TRUE) != FALSE) {
+			Node newNode = newNode(passedValue);
+			if (insertNodeBefore(passedList->nodeCursor) != FALSE) {
+				incrementIndex(passedList);
+				passedList->length += 1;
+			}
+		}
+	}
+}
+
+void insertAfter(List passedList, int passedValue) {
+	if (isNull(passedList, "Cannot insert into a null List!", TRUE) != FALSE) {
+		if (isCursorValid(passedList, "Cannot insert into a List with an undefined cursor!", TRUE) != FALSE) {
+			Node newNode = newNode(passedValue);
+			if (insertNodeAfter(passedList->nodeCursor, newNode) != FALSE) {
+				passedList->length += 1;
+			}
+		}
 	}
 }
 
 /* Internal Functions */
 
+/**
+ * Inserts passedInsertedNode before passedNode.
+ */
 int insertNodeBefore(Node passedNode, Node passedInsertedNode) {
 	int passedNodeValid = isNull(passedNode, "Attempting to insert before null Node", FALSE);
 	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
@@ -190,6 +219,9 @@ int insertNodeBefore(Node passedNode, Node passedInsertedNode) {
 	return FALSE;
 }
 
+/**
+ * Inserts passedInsertedNode after the passedNode.
+ */
 int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
 	int passedNodeValid = isNull(passedNode, "Attempting to insert after null Node", FALSE);
 	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
@@ -208,6 +240,36 @@ int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
 		return TRUE;
 	}
 	return FALSE;
+}
+
+int removeNode(Node passedNode) {
+	if (isNull(passedNode, "Cannot remove a Node that is null.", FALSE) != FALSE) {
+		Node nextNode = passedNode->nextNode;
+		Node prevNode = passedNode->previousNode;
+		if (nextNode != NULL) {
+			nextNode->previousNode = passedNode->previousNode;
+		}
+		if (prevNode != NULL) {
+			prevNode->nextNode = passedNode->nextNode;
+		}
+		freeNode(passedNode);
+		return TRUE;
+	}
+	return FALSE;
+}
+
+/**
+ * Increments the cursor index of passedList. Does not perform null check.
+ */
+void inline incrementIndex(List passedList) {
+	passedList->cursorIndex = (passedList->cursorIndex + 1);
+}
+
+/**
+ * Decrements the cursor index of passedList. Does not perform null check.
+ */
+void inline decrementIndex(List passedList) {
+	passedList->cursorIndex = (passedList->cursorIndex - 1);
 }
 
 /**
@@ -261,7 +323,7 @@ int inline isCursorValid(List passedListPointer, char* passedCharArray, int pass
 		passedListPointer->cursorIndex = UNDEFINED;
 		return FALSE;
 	}
-	return isNull(passedListPointer->nodeCursor);
+	return (isNull(passedListPointer->nodeCursor) != FALSE);
 }
 
 /**
