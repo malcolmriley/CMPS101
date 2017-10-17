@@ -154,11 +154,43 @@ void moveNext(List passedList) {
 
 /* Internal Functions */
 
-int insertNodeBefore(Node passedNode, Node passedInsertedNode) {
+int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode) {
+	int passedNodeValid = isNull(passedNode, "Attempting to insert before null Node", FALSE);
+	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
+	int listValid = isNull(passedList, "Attempting to insert into null List", TRUE);
+	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE) && (listValid != FALSE)) {
+		// Set pointers on inserted Node
+		passedInsertedNode->nextNode = passedNode;
+		passedInsertedNode->previousNode = passedNode->previousNode;
+
+		// Set pointers on existing previous Node
+		if(passedNode->previousNode != NULL) {
+			passedNode->previousNode->nextNode = passedInsertedNode;
+		}
+
+		// Set pointers on existing Node
+		passedNode->previousNode = passedInsertedNode;
+	}
 	return FALSE;
 }
 
-int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
+int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode) {
+	int passedNodeValid = isNull(passedNode, "Attempting to insert after null Node", FALSE);
+	int insertedNodeValid = isNull(passedNode, "Attempting to insert null Node", FALSE);
+	int listValid = isNull(passedList, "Attempting to insert into null List", TRUE);
+	if ((passedNodeValid != FALSE) && (insertedNodeValid != FALSE) && (listValid != FALSE)) {
+		// Set pointers on inserted Node
+		passedInsertedNode->previousNode = passedNode;
+		passedInsertedNode->nextNode = passedNode->nextNode;
+
+		// Set pointers on existing next Node
+		if(passedNode->nextNode != NULL) {
+			passedNode->nextNode->previousNode = passedInsertedNode;
+		}
+
+		// Set pointers on existing node
+		passedNode->nextNode = passedInsertedNode;
+	}
 	return FALSE;
 }
 
