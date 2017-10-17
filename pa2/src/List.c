@@ -227,22 +227,32 @@ List concatList(List passedFirstList, List passedSecondList) {
 	List newList = newList();
 	// If both Lists are valid, concatenate
 	if ((firstListValid != FALSE) && (secondListValid != FALSE)) {
-
+		// TODO:
 		return newList;
 	}
 	// If only first List is valid, use that one
 	else if (firstListValid != FALSE) {
-
-		return newList;
+		return copyList(passedFirstList);
 	}
 
 	// If only second List is valid, use that one
 	else if (secondListValid != FALSE) {
-
-		return newList;
+		return copyList(passedSecondList);
 	}
 
 	// Otherwise, return empty List
+	return newList;
+}
+
+void printList(FILE* passedOutputFile, List passedList) {
+	// TODO: Iterate and print
+}
+
+List copyList(List passedList) {
+	List newList = newList();
+	if (checkList(passedList, "Cannot copy a null List.", FALSE) != FALSE) {
+		// TODO: Iterate and copy
+	}
 	return newList;
 }
 
