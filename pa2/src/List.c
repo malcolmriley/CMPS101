@@ -154,6 +154,14 @@ void moveNext(List passedList) {
 
 /* Internal Functions */
 
+int insertNodeBefore(Node passedNode, Node passedInsertedNode) {
+	return FALSE;
+}
+
+int insertNodeAfter(Node passedNode, Node passedInsertedNode) {
+	return FALSE;
+}
+
 /**
  * Checks whether the passed List is NULL or empty, and prints the passed message in those cases.
  *
