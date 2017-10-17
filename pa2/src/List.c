@@ -152,6 +152,20 @@ void moveNext(List passedList) {
 	}
 }
 
+void prepend(List passedList, int passedValue) {
+	if (isNull(passedList, "Cannot prepend to a null List!", TRUE) != FALSE) {
+		Node newNode = newNode(passedValue);
+
+	}
+}
+
+void append(List passedList, int passedValue) {
+	if (isNull(passedList, "Cannot append to a null List!", TRUE) != FALSE) {
+		Node newNode = newNode(passedValue);
+
+	}
+}
+
 /* Internal Functions */
 
 int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode) {
@@ -170,6 +184,7 @@ int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode) 
 
 		// Set pointers on existing Node
 		passedNode->previousNode = passedInsertedNode;
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -190,6 +205,7 @@ int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode) {
 
 		// Set pointers on existing node
 		passedNode->nextNode = passedInsertedNode;
+		return TRUE;
 	}
 	return FALSE;
 }
