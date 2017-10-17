@@ -217,7 +217,12 @@ List concatList(List passedFirstList, List passedSecondList) {
 	List newList = newList();
 	// If both Lists are valid, concatenate
 	if ((firstListValid != FALSE) && (secondListValid != FALSE)) {
-		// TODO:
+		List newList = copyList(passedFirstList);
+		Node iteratedNode = passedSecondList->nodeFront;
+		while (iteratedNode != NULL) {
+			append(newList, iteratedNode->value);
+			iteratedNode = iteratedNode->nextNode;
+		}
 		return newList;
 	}
 	// If only first List is valid, use that one
@@ -241,7 +246,11 @@ void printList(FILE* passedOutputFile, List passedList) {
 List copyList(List passedList) {
 	List newList = newList();
 	if (checkList(passedList, "Cannot copy a null List.", FALSE) != FALSE) {
-		// TODO: Iterate and copy
+		Node iteratedNode = passedList->nodeFront;
+		while (iteratedNode != NULL) {
+			append(newList, iteratedNode->value);
+			iteratedNode = iteratedNode->nextNode;
+		}
 	}
 	return newList;
 }
