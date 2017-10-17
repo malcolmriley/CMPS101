@@ -194,6 +194,33 @@ void insertAfter(List passedList, int passedValue) {
 	}
 }
 
+void deleteFront(List passedList) {
+	if (checkList(passedList, "Error when deleting the front Node of a List", TRUE) != FALSE) {
+		if (removeNode(passedList->nodeFront) != FALSE) {
+			passedList->length -= 1;
+			decrementIndex(passedList);
+		}
+	}
+}
+
+void deleteBack(List passedList) {
+	if (checkList(passedList, "Error when deleting the back Node of a List", TRUE) != FALSE) {
+		if (removeNode(passedList->nodeBack) != FALSE) {
+			passedList->length -= 1;
+			decrementIndex(passedList);
+		}
+	}
+}
+
+void delete(List passedList) {
+	if (checkList(passedList, "Error when deleting the cursor Node of a List", TRUE) != FALSE) {
+		if (removeNode(passedList->nodeCursor) != FALSE) {
+			passedList->length -= 1;
+			passedList->cursorIndex = UNDEFINED;
+		}
+	}
+}
+
 /* Internal Functions */
 
 /**
@@ -265,14 +292,14 @@ int removeNode(Node passedNode) {
  * Increments the cursor index of passedList. Does not perform null check.
  */
 void inline incrementIndex(List passedList) {
-	passedList->cursorIndex = (passedList->cursorIndex + 1);
+	passedList->cursorIndex += 1;
 }
 
 /**
  * Decrements the cursor index of passedList. Does not perform null check.
  */
 void inline decrementIndex(List passedList) {
-	passedList->cursorIndex = (passedList->cursorIndex - 1);
+	passedList->cursorIndex -= 1;
 }
 
 /**
