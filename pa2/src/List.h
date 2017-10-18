@@ -20,7 +20,6 @@
 
 #include <stdio.h>
 
-
 /* Node Typedef */
 typedef struct NodeObject {
 	int value;
@@ -31,8 +30,8 @@ typedef NodeObject* Node;
 
 /* List Typedef */
 typedef struct ListObject {
-	int length = 0;
-	int cursorIndex = UNDEFINED;
+	int length;
+	int cursorIndex;
 	Node nodeFront;
 	Node nodeBack;
 	Node nodeCursor;
