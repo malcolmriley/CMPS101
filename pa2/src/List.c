@@ -11,6 +11,18 @@
 #include <stdlib.h>
 #include "List.h"
 
+/* Internal Function Declarations */
+void exitBadWithMessage(const char* passedCharArray);
+void decrementIndex(List passedList);
+void incrementIndex(List passedList);
+int insertNodeBefore(Node passedNode, Node passedInsertedNode);
+int insertNodeAfter(Node passedNode, Node passedInsertedNode);
+int removeNode(Node passedNode);
+int checkList(List passedList, char* passedCharArray, int passedIsTerminal);
+int isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal);
+int isListEmpty(List passedListPointer, char* passedCharArray, int passedIsTerminal);
+int isCursorValid(List passedListPointer, char* passedCharArray, int passedIsTerminal);
+
 Node newNode(int passedValue) {
 	Node newNode = malloc(sizeof(NodeObject));
 	newNode->nextNode = NULL;
@@ -34,18 +46,6 @@ int nodesAreEqual(Node passedFirstNode, Node passedSecondNode) {
 	}
 	return FALSE;
 }
-
-/* Internal Function Declarations */
-void inline exitBadWithMessage(const char* passedCharArray);
-void inline decrementIndex(List passedList);
-void inline incrementIndex(List passedList);
-int insertNodeBefore(Node passedNode, Node passedInsertedNode);
-int insertNodeAfter(Node passedNode, Node passedInsertedNode);
-int removeNode(Node passedNode);
-int inline checkList(List passedList, char* passedCharArray, int passedIsTerminal);
-int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal);
-int inline isListEmpty(List passedListPointer, char* passedCharArray, int passedIsTerminal);
-int inline isCursorValid(List passedListPointer, char* passedCharArray, int passedIsTerminal);
 
 /* List Constructor/Destructor */
 List newList(void) {
@@ -438,5 +438,5 @@ int inline isCursorValid(List passedListPointer, char* passedCharArray, int pass
  */
 void inline exitBadWithMessage(const char* passedCharArray) {
 	puts(passedCharArray);
-	exit(1);
+	// exit(1);
 }
