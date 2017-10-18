@@ -12,12 +12,18 @@
 #include "List.h"
 
 Node newNode(int passedValue) {
-	// TODO:
-	return NULL;
+	Node newNode = malloc(sizeOf(NodeObject));
+	newNode->nextNode = NULL;
+	newNode->previousNode = NULL;
+	newNode->value = passedValue;
+	return newNode;
 }
 
-void freeNode(Node passedNode) {
-	// TODO:
+void freeNode(Node* passedNode) {
+	if ((passedNode != NULL) && (*passedNode != NULL)) {
+		free(*passedNode);
+		*passedNode = NULL;
+	}
 }
 
 /* Node Functions */
@@ -33,12 +39,27 @@ int nodesAreEqual(Node passedFirstNode, Node passedSecondNode) {
 
 /* List Constructor/Destructor */
 List newList(void) {
-	//TODO:
-	return NULL;
+	List newList = malloc(sizeOf(ListObject));
+	newList->cursorIndex = UNDEFINED;
+	newList->length = 0;
+	newList->nodeBack = NULL;
+	newList->nodeFront = NULL;
+	newList->nodeCursor = NULL;
+	return newList;
 }
 
 void freeList(List* passedList) {
-	// TODO:
+	if (checkList(passedList, "Error while freeing List:", FALSE) != FALSE) {
+		Node iteratedNode = passedList->nodeFront;
+		Node nextNode;
+		while (iteratedNode != NULL) {
+			nextNode = iteratedNode->nextNode;
+			freeNode(*iteratedNode);
+			iteratedNode = nextNode;
+		}
+		free(*passedList);
+		*passedList = NULL;
+	}
 }
 
 /* List Functions */
@@ -330,7 +351,7 @@ int removeNode(Node passedNode) {
 		if (prevNode != NULL) {
 			prevNode->nextNode = passedNode->nextNode;
 		}
-		freeNode(passedNode);
+		freeNode(&passedNode);
 		return TRUE;
 	}
 	return FALSE;
