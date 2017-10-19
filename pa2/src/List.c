@@ -455,11 +455,18 @@ int inline isCursorValid(List passedList, char* passedCharArray, int passedIsTer
 	if (!validateIndex(passedList)) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Error: Cursor is invalid.");
+			exitBadWithMessage("Error: Cursor index is invalid.");
 		}
 		return FALSE;
 	}
-	return (passedList->nodeCursor != NULL);
+	if(passedList->nodeCursor == NULL) {
+		puts(passedCharArray);
+		if (passedIsTerminal == TRUE) {
+			exitBadWithMessage("Error: Cursor is null.");
+		}
+		return FALSE;
+	}
+	return TRUE;
 }
 
 /**
