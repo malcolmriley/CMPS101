@@ -58,7 +58,7 @@ List newList(void) {
 }
 
 void freeList(List* passedList) {
-	clear(&passedList);
+	clear(*passedList);
 	free(passedList);
 	passedList = NULL;
 }
