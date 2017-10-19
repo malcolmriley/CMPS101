@@ -84,7 +84,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 /* Internal Functions */
 void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) {
-	char* iteratedString;
+	char* iteratedString = NULL;
 	iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 	int lineCounter = 0;
 	while (iteratedString != NULL) {
@@ -93,6 +93,7 @@ void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) 
 		iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 		lineCounter += 1;
 	}
+	free(iteratedString);
 }
 
 void freeArray(char* passedArray[], int passedArrayLength) {
@@ -105,17 +106,17 @@ void freeArray(char* passedArray[], int passedArrayLength) {
 void buildSortedList(List passedList, char* passedArray[], int passedArrayLength) {
 	append(passedList, 0);
 	char* currentString;
-	char * cursorString;
+	char* cursorString;
 	for (int ii = 1; ii < passedArrayLength; ii += 1) {
 		moveBack(passedList);
 		currentString = passedArray[ii];
-		while (passedList->cursorIndex >= 0) {
+		while (index(passedList) >= 0) {
 			cursorString = passedArray[get(passedList)];
 			if (strcmp(currentString, cursorString)) {
 				insertAfter(passedList, ii);
 				break;
 			}
-			if (passedList->cursorIndex == 0) {
+			if (index(passedList) == 0) {
 				prepend(passedList, ii);
 				break;
 			}
