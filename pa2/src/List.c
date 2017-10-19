@@ -129,7 +129,7 @@ int equals(List passedFirstList, List passedSecondList) {
 }
 
 void clear(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when clear was called:", FALSE)) {
+	if (!isListEmpty(passedList, "Error with List when clear was called: List already empty", FALSE)) {
 		while (passedList->length > 0) {
 			deleteBack(passedList);
 		}
@@ -416,7 +416,7 @@ int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTermin
 	if (passedPointer == NULL) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Error: Null pointer received.");
+			exitBadWithMessage("Fatal Error: Null pointer received.");
 		}
 		return TRUE;
 	}
@@ -430,7 +430,7 @@ int inline isListEmpty(List passedList, char* passedCharArray, int passedIsTermi
 	if (length(passedList) <= 0) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Error: List is empty.");
+			exitBadWithMessage("Fatal Error: List is empty.");
 		}
 		return TRUE;
 	}
@@ -454,14 +454,14 @@ int inline isCursorValid(List passedList, char* passedCharArray, int passedIsTer
 	if (!validateIndex(passedList)) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Error: Cursor index is invalid.");
+			exitBadWithMessage("Fatal Error: Cursor index is invalid.");
 		}
 		return FALSE;
 	}
 	if(passedList->nodeCursor == NULL) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Error: Cursor is null.");
+			exitBadWithMessage("Fatal Error: Cursor is null.");
 		}
 		return FALSE;
 	}
