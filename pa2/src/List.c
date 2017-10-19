@@ -13,8 +13,6 @@
 
 /* Internal Function Declarations */
 void exitBadWithMessage(const char* passedCharArray);
-void decrementIndex(List passedList);
-void incrementIndex(List passedList);
 void insertIntoEmpty(List passedList, Node passedNode);
 int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode);
 int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode);
@@ -160,7 +158,7 @@ void movePrev(List passedList) {
 	if (!isListEmpty(passedList, "Error with List when movePrev was called:", FALSE)) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->previousNode;
-			decrementIndex(passedList);
+			passedList->cursorIndex -= 1;
 		}
 	}
 }
@@ -169,7 +167,7 @@ void moveNext(List passedList) {
 	if (!isListEmpty(passedList, "Error with List when moveNext was called:", FALSE)) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->nextNode;
-			incrementIndex(passedList);
+			passedList->cursorIndex += 1;
 		}
 	}
 }
@@ -181,6 +179,7 @@ void prepend(List passedList, int passedValue) {
 			insertIntoEmpty(passedList, allocatedNode);
 		}
 		else if (insertNodeBefore(passedList, passedList->nodeFront, allocatedNode)) {
+			passedList->cursorIndex += 1;
 			passedList->length += 1;
 			passedList->nodeFront = allocatedNode;
 		}
@@ -211,7 +210,7 @@ void insertBefore(List passedList, int passedValue) {
 		if (isCursorValid(passedList, "Cannot insert before an undefined cursor!", TRUE)) {
 			Node allocatedNode = newNode(passedValue);
 			if (insertNodeBefore(passedList, passedList->nodeCursor, allocatedNode)) {
-				incrementIndex(passedList);
+				passedList->cursorIndex += 1;
 				passedList->length += 1;
 			}
 			else {
@@ -238,8 +237,8 @@ void insertAfter(List passedList, int passedValue) {
 void deleteFront(List passedList) {
 	if (!isListEmpty(passedList, "Error when deleting the front Node of a List", TRUE)) {
 		if (removeNode(passedList, passedList->nodeFront)) {
+			passedList->cursorIndex -= 1;
 			passedList->length -= 1;
-			decrementIndex(passedList);
 		}
 	}
 }
@@ -406,20 +405,6 @@ int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode) {
 		return TRUE;
 	}
 	return FALSE;
-}
-
-/**
- * Increments the cursor index of passedList. Does not perform null check.
- */
-void inline incrementIndex(List passedList) {
-	passedList->cursorIndex += 1;
-}
-
-/**
- * Decrements the cursor index of passedList. Does not perform null check.
- */
-void inline decrementIndex(List passedList) {
-	passedList->cursorIndex -= 1;
 }
 
 /**
