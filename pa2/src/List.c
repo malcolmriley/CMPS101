@@ -119,7 +119,7 @@ int equals(List passedFirstList, List passedSecondList) {
 		if (areEqual) {
 			Node firstNode = passedFirstList->nodeFront;
 			Node secondNode = passedSecondList->nodeFront;
-			for(int ii = 0; (ii < passedFirstList->length) && (areEqual); ii++) {
+			for(int ii = 0; (ii < passedFirstList->length) && (areEqual); ii += 1) {
 				areEqual = nodesAreEqual(firstNode, secondNode);
 				firstNode = firstNode->nextNode;
 				secondNode = secondNode->nextNode;
