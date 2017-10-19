@@ -73,7 +73,6 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 			List allocatedList = newList();
 			buildSortedList(allocatedList, stringArray, newlines);
 			printListToStream(allocatedList, stringArray, outputFile);
-			freeArray(stringArray, newlines);
 			freeList(&allocatedList);
 		}
 
@@ -85,12 +84,12 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 /* Internal Functions */
 void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) {
-	char* iteratedString = NULL;
+	char* iteratedString = malloc(passedArrayWidth + 1);
 	iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 	int lineCounter = 0;
 	while (iteratedString != NULL) {
 		passedArray[lineCounter] = malloc(strlen(iteratedString) + 1);
-		strcpy(passedArray[lineCounter], iteratedString);
+		strncpy(passedArray[lineCounter], iteratedString, strlen(iteratedString));
 		iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 		lineCounter += 1;
 	}
@@ -128,7 +127,7 @@ void buildSortedList(List passedList, char* passedArray[], int passedArrayLength
 void printListToStream(List passedList, char* passedArray[], FILE* passedOutput) {
 	Node iteratedNode = passedList->nodeFront;
 	while (iteratedNode != NULL) {
-		fprintf(passedOutput, "%s\n", passedArray[iteratedNode->value]);
+		fprintf(passedOutput, "%s", passedArray[iteratedNode->value]);
 		iteratedNode = iteratedNode->nextNode;
 	}
 }
