@@ -444,7 +444,7 @@ int inline validateIndex(List passedList) {
 	if ((passedList->cursorIndex < 0) || (passedList->cursorIndex >= passedList->length)) {
 		passedList->cursorIndex = UNDEFINED;
 	}
-	return (passedList->cursorIndex > 0);
+	return (passedList->cursorIndex >= 0);
 }
 
 /**
