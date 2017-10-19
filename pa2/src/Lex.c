@@ -85,7 +85,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 /* Internal Functions */
 void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) {
-	char* iteratedString = NULL;
+	char* iteratedString = malloc(passedArrayWidth + 1);
 	iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 	int lineCounter = 0;
 	while (iteratedString != NULL) {
