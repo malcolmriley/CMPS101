@@ -184,6 +184,9 @@ void prepend(List passedList, int passedValue) {
 			passedList->length += 1;
 			passedList->nodeFront = allocatedNode;
 		}
+		else {
+			freeNode(allocatedNode);
+		}
 	}
 }
 
@@ -196,6 +199,9 @@ void append(List passedList, int passedValue) {
 		else if (insertNodeAfter(passedList, passedList->nodeBack, allocatedNode)) {
 			passedList->length += 1;
 			passedList->nodeBack = allocatedNode;
+		}
+		else {
+			freeNode(allocatedNode);
 		}
 	}
 }
