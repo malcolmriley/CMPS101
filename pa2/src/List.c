@@ -60,13 +60,13 @@ List newList(void) {
 }
 
 void freeList(List* passedList) {
-	if (!isNull(*passedList, "Error while freeing List:", FALSE)) {
+	if (!isNull(&passedList, "Error while freeing List:", FALSE)) {
 		while(length(*passedList) > 0) {
-			deleteBack(*passedList);
+			deleteBack(&passedList);
 		}
 	}
-	free(*passedList);
-	*passedList = NULL;
+	free(passedList);
+	passedList = NULL;
 }
 
 /* List Functions */
@@ -202,11 +202,14 @@ void append(List passedList, int passedValue) {
 
 void insertBefore(List passedList, int passedValue) {
 	if (!isNull(passedList, "Cannot insert into a null List!", TRUE)) {
-		if (isCursorValid(passedList, "Cannot insert before an undefined cursor!", TRUE) != FALSE) {
+		if (isCursorValid(passedList, "Cannot insert before an undefined cursor!", TRUE)) {
 			Node allocatedNode = newNode(passedValue);
 			if (insertNodeBefore(passedList, passedList->nodeCursor, allocatedNode)) {
 				incrementIndex(passedList);
 				passedList->length += 1;
+			}
+			else {
+				freeNode(allocatedNode);
 			}
 		}
 	}
@@ -214,10 +217,13 @@ void insertBefore(List passedList, int passedValue) {
 
 void insertAfter(List passedList, int passedValue) {
 	if (!isNull(passedList, "Cannot insert into a null List!", TRUE)) {
-		if (isCursorValid(passedList, "Cannot insert after an undefined cursor!", TRUE) != FALSE) {
+		if (isCursorValid(passedList, "Cannot insert after an undefined cursor!", TRUE)) {
 			Node allocatedNode = newNode(passedValue);
 			if (insertNodeAfter(passedList, passedList->nodeCursor, allocatedNode)) {
 				passedList->length += 1;
+			}
+			else {
+				freeNode(allocatedNode);
 			}
 		}
 	}
