@@ -12,10 +12,10 @@
 #include <string.h>
 #include "List.h"
 
-void populateArray(FILE* passedFile, char* passedArray[], int passedArrayLength, int passedArrayWidth);
+void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth);
 void freeArray(char* passedArray[], int passedArrayLength);
 void buildSortedList(List passedList, char* passedArray[], int passedArrayLength);
-void printList(List passedList, char* passedArray[], FILE* passedOutput);
+void printListToStream(List passedList, char* passedArray[], FILE* passedOutput);
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
@@ -71,13 +71,13 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 			List allocatedList = newList();
 			buildSortedList(allocatedList, stringArray, newlines);
-			printList(allocatedList, stringArray, outputFile);
-			freeArray(stringArray);
-			freeList(allocatedList);
+			printListToStream(allocatedList, stringArray, outputFile);
+			freeArray(stringArray, newlines);
+			freeList(&allocatedList);
 		}
 
-		fclose(passedArguments[1]);
-		fclose(passedArguments[2]);
+		fclose(inputFile);
+		fclose(outputFile);
 	}
 	exit(0);
 }
@@ -97,7 +97,7 @@ void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) 
 
 void freeArray(char* passedArray[], int passedArrayLength) {
 	for (int ii = 0; ii < passedArrayLength; ii += 1) {
-		free(passedArrayLength[ii]);
+		free(passedArray[ii]);
 	}
 	free(passedArray);
 }
@@ -109,13 +109,13 @@ void buildSortedList(List passedList, char* passedArray[], int passedArrayLength
 	for (int ii = 1; ii < passedArrayLength; ii += 1) {
 		moveBack(passedList);
 		currentString = passedArray[ii];
-		while (index(passedList) >= 0) {
+		while (passedList->cursorIndex >= 0) {
 			cursorString = passedArray[get(passedList)];
 			if (strcmp(currentString, cursorString)) {
 				insertAfter(passedList, ii);
 				break;
 			}
-			if (index(passedList) == 0) {
+			if (passedList->cursorIndex == 0) {
 				prepend(passedList, ii);
 				break;
 			}
@@ -124,7 +124,7 @@ void buildSortedList(List passedList, char* passedArray[], int passedArrayLength
 	}
 }
 
-void printList(List passedList, char* passedArray[], FILE* passedOutput) {
+void printListToStream(List passedList, char* passedArray[], FILE* passedOutput) {
 	Node iteratedNode = passedList->nodeFront;
 	while (iteratedNode != NULL) {
 		fprintf(passedOutput, "%s\n", passedArray[iteratedNode->value]);
