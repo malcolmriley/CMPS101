@@ -1,1 +1,8 @@
 README
+
+Lex.c			Implementation of indirect sorting algorithm
+List.c			Implementation of List C ADT
+List.h			Header file for List.c
+ListClient.c		Test client for basic List functionality
+makefile			Makefile for pa2
+README			This file
