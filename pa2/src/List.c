@@ -31,10 +31,10 @@ Node newNode(int passedValue) {
 }
 
 void freeNode(Node* passedNode) {
-	if ((passedNode != NULL) && (*passedNode != NULL)) {
-		free(*passedNode);
-		*passedNode = NULL;
-	}
+	(*passedNode)->nextNode = NULL;
+	(*passedNode)->previousNode = NULL;
+	// free(passedNode);
+	free(*passedNode);
 }
 
 /* Node Functions */
@@ -59,8 +59,11 @@ List newList(void) {
 
 void freeList(List* passedList) {
 	clear(*passedList);
-	free(passedList);
-	passedList = NULL;
+	(*passedList)->nodeBack = NULL;
+	(*passedList)->nodeFront = NULL;
+	(*passedList)->nodeCursor = NULL;
+	// free(passedList);
+	free(*passedList);
 }
 
 /* List Functions */
@@ -125,10 +128,8 @@ int equals(List passedFirstList, List passedSecondList) {
 }
 
 void clear(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when clear was called: List already empty", FALSE)) {
-		while (passedList->length > 0) {
-			deleteBack(passedList);
-		}
+	while (passedList->length > 0) {
+		deleteBack(passedList);
 	}
 }
 
@@ -179,9 +180,6 @@ void prepend(List passedList, int passedValue) {
 			passedList->length += 1;
 			passedList->nodeFront = allocatedNode;
 		}
-		else {
-			freeNode(&allocatedNode);
-		}
 	}
 }
 
@@ -195,9 +193,6 @@ void append(List passedList, int passedValue) {
 			passedList->length += 1;
 			passedList->nodeBack = allocatedNode;
 		}
-		else {
-			freeNode(&allocatedNode);
-		}
 	}
 }
 
@@ -209,9 +204,6 @@ void insertBefore(List passedList, int passedValue) {
 				passedList->cursorIndex += 1;
 				passedList->length += 1;
 			}
-			else {
-				freeNode(&allocatedNode);
-			}
 		}
 	}
 }
@@ -222,9 +214,6 @@ void insertAfter(List passedList, int passedValue) {
 			Node allocatedNode = newNode(passedValue);
 			if (insertNodeAfter(passedList, passedList->nodeCursor, allocatedNode)) {
 				passedList->length += 1;
-			}
-			else {
-				freeNode(&allocatedNode);
 			}
 		}
 	}

@@ -73,6 +73,8 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 			List allocatedList = newList();
 			buildSortedList(allocatedList, stringArray, newlines);
 			printListToStream(allocatedList, stringArray, outputFile);
+
+			freeArray(stringArray, newlines);
 			freeList(&allocatedList);
 		}
 
@@ -85,33 +87,27 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 /* Internal Functions */
 void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) {
 	char* iteratedString = malloc(passedArrayWidth + 1);
-	iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 	int lineCounter = 0;
-	while (iteratedString != NULL) {
+	while (fgets(iteratedString, passedArrayWidth + 1, passedFile) != NULL) {
 		passedArray[lineCounter] = malloc(strlen(iteratedString) + 1);
 		strncpy(passedArray[lineCounter], iteratedString, strlen(iteratedString));
-		iteratedString = fgets(iteratedString, passedArrayWidth, passedFile);
 		lineCounter += 1;
 	}
+	free(iteratedString);
 }
 
 void freeArray(char* passedArray[], int passedArrayLength) {
 	for (int ii = 0; ii < passedArrayLength; ii += 1) {
 		free(passedArray[ii]);
 	}
-	free(passedArray);
 }
 
 void buildSortedList(List passedList, char* passedArray[], int passedArrayLength) {
 	append(passedList, 0);
-	char* currentString;
-	char* cursorString;
 	for (int ii = 1; ii < passedArrayLength; ii += 1) {
 		moveBack(passedList);
-		currentString = passedArray[ii];
 		while (index(passedList) >= 0) {
-			cursorString = passedArray[get(passedList)];
-			if (strcmp(currentString, cursorString)) {
+			if (strcmp(passedArray[ii], passedArray[get(passedList)]) > 0) {
 				insertAfter(passedList, ii);
 				break;
 			}
@@ -125,7 +121,10 @@ void buildSortedList(List passedList, char* passedArray[], int passedArrayLength
 }
 
 void printListToStream(List passedList, char* passedArray[], FILE* passedOutput) {
-	Node iteratedNode = passedList->nodeFront;
+	Node iteratedNode = NULL;
+	if (length(passedList) > 0) {
+		iteratedNode = passedList->nodeFront;
+	}
 	while (iteratedNode != NULL) {
 		fprintf(passedOutput, "%s", passedArray[iteratedNode->value]);
 		iteratedNode = iteratedNode->nextNode;
