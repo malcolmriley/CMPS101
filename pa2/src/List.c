@@ -441,11 +441,10 @@ int inline isListEmpty(List passedList, char* passedCharArray, int passedIsTermi
  * Validates whether the passedList's cursor is within a valid range (c > 0) && (c < length)
  */
 int inline validateIndex(List passedList) {
-	int discoveredIndex = passedList->cursorIndex;
-	if ((discoveredIndex < 0) || (discoveredIndex >= passedList->length)) {
+	if ((passedList->cursorIndex < 0) || (passedList->cursorIndex >= passedList->length)) {
 		passedList->cursorIndex = UNDEFINED;
 	}
-	return (discoveredIndex > 0);
+	return (passedList->cursorIndex > 0);
 }
 
 /**
