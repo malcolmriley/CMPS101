@@ -58,11 +58,7 @@ List newList(void) {
 }
 
 void freeList(List* passedList) {
-	if (!isNull(&passedList, "Error while freeing List:", FALSE)) {
-		while(length(*passedList) > 0) {
-			deleteBack(*passedList);
-		}
-	}
+	clear(&passedList);
 	free(passedList);
 	passedList = NULL;
 }
