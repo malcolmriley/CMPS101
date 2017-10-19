@@ -86,11 +86,12 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 /* Internal Functions */
 void populateArray(FILE* passedFile, char* passedArray[], int passedArrayWidth) {
-	char* iteratedString = malloc(passedArrayWidth + 1);
+	int stringSize = passedArrayWidth + 1;
+	char* iteratedString = malloc(stringSize);
 	int lineCounter = 0;
-	while (fgets(iteratedString, passedArrayWidth + 1, passedFile) != NULL) {
-		passedArray[lineCounter] = malloc(strlen(iteratedString) + 1);
-		strncpy(passedArray[lineCounter], iteratedString, strlen(iteratedString));
+	while (fgets(iteratedString, stringSize, passedFile) != NULL) {
+		passedArray[lineCounter] = malloc(stringSize);
+		strncpy(passedArray[lineCounter], iteratedString, stringSize);
 		lineCounter += 1;
 	}
 	free(iteratedString);
