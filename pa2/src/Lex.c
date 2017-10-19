@@ -19,7 +19,8 @@ void printListToStream(List passedList, char* passedArray[], FILE* passedOutput)
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
-	FILE *inputFile, *outputFile;
+	FILE* inputFile;
+	FILE* outputFile;
 
 	// Verify argument count
 	if (passedArgumentCount < 3) {
@@ -65,8 +66,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 			char* stringArray[newlines];
 
 			// Reopen file
-			fclose(inputFile);
-			inputFile = fopen(passedArguments[1], "r");
+			rewind(inputFile);
 
 			populateArray(inputFile, stringArray, maxLineWidth);
 
