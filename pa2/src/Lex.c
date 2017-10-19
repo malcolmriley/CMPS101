@@ -53,6 +53,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				}
 				currentLineWidth = 0;
 			}
+			character = fgetc(inputFile);
 		}
 		// If there is at least one non EOF character in the file, count it as a line.
 		if ((newlines == 0) && (character != EOF)){
