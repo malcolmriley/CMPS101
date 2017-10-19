@@ -62,7 +62,7 @@ List newList(void) {
 void freeList(List* passedList) {
 	if (!isNull(&passedList, "Error while freeing List:", FALSE)) {
 		while(length(*passedList) > 0) {
-			deleteBack(&passedList);
+			deleteBack(*passedList);
 		}
 	}
 	free(passedList);
@@ -185,7 +185,7 @@ void prepend(List passedList, int passedValue) {
 			passedList->nodeFront = allocatedNode;
 		}
 		else {
-			freeNode(allocatedNode);
+			freeNode(&allocatedNode);
 		}
 	}
 }
@@ -201,7 +201,7 @@ void append(List passedList, int passedValue) {
 			passedList->nodeBack = allocatedNode;
 		}
 		else {
-			freeNode(allocatedNode);
+			freeNode(&allocatedNode);
 		}
 	}
 }
@@ -215,7 +215,7 @@ void insertBefore(List passedList, int passedValue) {
 				passedList->length += 1;
 			}
 			else {
-				freeNode(allocatedNode);
+				freeNode(&allocatedNode);
 			}
 		}
 	}
@@ -229,7 +229,7 @@ void insertAfter(List passedList, int passedValue) {
 				passedList->length += 1;
 			}
 			else {
-				freeNode(allocatedNode);
+				freeNode(&allocatedNode);
 			}
 		}
 	}
