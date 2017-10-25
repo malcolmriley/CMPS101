@@ -8,5 +8,8 @@
  *********************************************************************/
 
 public class MatrixTest {
-
+	
+	public static void main(String[] passedArguments) {
+		
+	}
 }
