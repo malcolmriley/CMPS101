@@ -183,26 +183,6 @@ public class List<T> {
 		this.onNodeRemoved(this.NODE_CURSOR);
 	}
 
-	public List<T> copy() {
-		List<T> newList = new List<T>();
-		Node<T> thisListIterator = this.getFrontNode();
-		while (this.isNodeDefined(thisListIterator)) {
-			newList.append(thisListIterator.get());
-			thisListIterator = thisListIterator.getNext();
-		}
-		return newList;
-	}
-
-	public List<T> concat(List<T> passedList) {
-		List<T> newList = new List<T>();
-		Node<T> thisListIterator = this.getFrontNode();
-		while (this.isNodeDefined(thisListIterator)) {
-			newList.append(thisListIterator.get());
-			thisListIterator = thisListIterator.getNext();
-		}
-		return null;
-	}
-
 	@Override
 	public String toString() {
 		String stringRepresentation = "";
