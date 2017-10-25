@@ -1,5 +1,3 @@
-import java.util.Objects;
-
 /*********************************************************************
  * Malcolm Riley
  *
@@ -8,6 +6,7 @@ import java.util.Objects;
  *
  * 10-2017
  *********************************************************************/
+import java.util.Objects;
 
 public class Matrix implements Ipa3 {
 	
