@@ -8,5 +8,9 @@
  *********************************************************************/
 
 public class Sparse {
-
+	
+	public class MatrixFileReader {
+		
+		
+	}
 }
