@@ -371,7 +371,9 @@ public class List<K> {
 		@Override
 		public boolean equals(Object passedObject) {
 			if (passedObject instanceof List<?>.Node<?>) {
-				return ((List<?>.Node<?>)passedObject).get().equals(this.get());
+				Object thisValue = this.get();
+				Object passedValue = ((List<?>.Node<?>) passedObject).get();
+				return Objects.equals(thisValue, passedValue);
 			}
 			return false;
 		}
