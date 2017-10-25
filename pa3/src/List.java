@@ -19,10 +19,6 @@ public class List<K> {
 	private int INDEX = CURSOR_INDEX_INVALID;
 	private int LENGTH;
 
-	public List() {
-
-	}
-
 	/* Required Methods */
 
 	public int length() {
