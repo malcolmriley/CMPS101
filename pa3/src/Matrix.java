@@ -21,8 +21,7 @@ public class Matrix implements Ipa3 {
 	
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.DIMENSION;
 	}
 
 	@Override
@@ -44,19 +43,19 @@ public class Matrix implements Ipa3 {
 	}
 
 	@Override
-	public Matrix scalarMult(double x) {
+	public Matrix scalarMult(double passedValue) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Matrix add(Matrix M) {
+	public Matrix add(Matrix passedMatrix) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Matrix sub(Matrix M) {
+	public Matrix sub(Matrix passedMatrix) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -68,7 +67,7 @@ public class Matrix implements Ipa3 {
 	}
 
 	@Override
-	public Matrix mult(Matrix M) {
+	public Matrix mult(Matrix passedMatrix) {
 		// TODO Auto-generated method stub
 		return null;
 	}
