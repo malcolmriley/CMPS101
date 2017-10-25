@@ -9,13 +9,13 @@ import java.util.Objects;
  * 10-2017
  *********************************************************************/
 
-public class List<K> {
+public class List<T> {
 
 	private static final int CURSOR_INDEX_INVALID = -1;
 
-	private Node<K> NODE_CURSOR;
-	private Node<K> NODE_FRONT;
-	private Node<K> NODE_BACK;
+	private Node<T> NODE_CURSOR;
+	private Node<T> NODE_FRONT;
+	private Node<T> NODE_BACK;
 	private int INDEX = CURSOR_INDEX_INVALID;
 	private int LENGTH;
 
@@ -32,15 +32,15 @@ public class List<K> {
 		return -1;
 	}
 
-	public K front() {
+	public T front() {
 		return this.NODE_FRONT.get();
 	}
 
-	public K back() {
+	public T back() {
 		return this.NODE_BACK.get();
 	}
 
-	public K get() {
+	public T get() {
 		return this.NODE_CURSOR.get();
 	}
 	
@@ -63,7 +63,7 @@ public class List<K> {
 	public boolean equals(List<?> passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
-				List<K>.Node<K> thisListIterator = this.getFrontNode();
+				List<T>.Node<T> thisListIterator = this.getFrontNode();
 				List<?>.Node<?> passedListIterator = passedList.getFrontNode();
 				while (isNodeDefined(thisListIterator)) {
 					if (!Objects.equals(thisListIterator, passedListIterator)) {
@@ -136,29 +136,29 @@ public class List<K> {
 		}
 	}
 
-	public void prepend(K passedData) {
-		Node<K> newNode = new Node<K>(this, passedData);
+	public void prepend(T passedData) {
+		Node<T> newNode = new Node<T>(this, passedData);
 		if(this.insertNodeBefore(this.NODE_FRONT, newNode)) {
 			this.INDEX += 1;
 		}
 		this.NODE_FRONT = newNode;
 	}
 
-	public void append(K passedData) {
-		Node<K> newNode = new Node<K>(this, passedData);
+	public void append(T passedData) {
+		Node<T> newNode = new Node<T>(this, passedData);
 		this.insertNodeAfter(this.NODE_BACK, newNode);
 		this.NODE_BACK = newNode;
 	}
 
-	public void insertBefore(K passedData) {
-		Node<K> newNode = new Node<K>(this, passedData);
+	public void insertBefore(T passedData) {
+		Node<T> newNode = new Node<T>(this, passedData);
 		if (this.insertNodeBefore(this.NODE_CURSOR, newNode)) {
 			this.INDEX += 1;
 		}
 	}
 
-	public void insertAfter(K passedData) {
-		Node<K> newNode = new Node<K>(this, passedData);
+	public void insertAfter(T passedData) {
+		Node<T> newNode = new Node<T>(this, passedData);
 		this.insertNodeAfter(this.NODE_CURSOR, newNode);
 	}
 
@@ -183,9 +183,9 @@ public class List<K> {
 		this.onNodeRemoved(this.NODE_CURSOR);
 	}
 
-	public List<K> copy() {
-		List<K> newList = new List<K>();
-		Node<K> thisListIterator = this.getFrontNode();
+	public List<T> copy() {
+		List<T> newList = new List<T>();
+		Node<T> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
 			newList.append(thisListIterator.get());
 			thisListIterator = thisListIterator.getNext();
@@ -193,9 +193,9 @@ public class List<K> {
 		return newList;
 	}
 
-	public List<K> concat(List<K> passedList) {
-		List<K> newList = new List<K>();
-		Node<K> thisListIterator = this.getFrontNode();
+	public List<T> concat(List<T> passedList) {
+		List<T> newList = new List<T>();
+		Node<T> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
 			newList.append(thisListIterator.get());
 			thisListIterator = thisListIterator.getNext();
@@ -206,7 +206,7 @@ public class List<K> {
 	@Override
 	public String toString() {
 		String stringRepresentation = "";
-		Node<K> thisListIterator = this.getFrontNode();
+		Node<T> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
 			stringRepresentation += thisListIterator.toString();
 			thisListIterator = thisListIterator.getNext();
@@ -217,15 +217,15 @@ public class List<K> {
 		return stringRepresentation;
 	}
 
-	protected Node<K> getFrontNode() {
+	protected Node<T> getFrontNode() {
 		return this.NODE_FRONT;
 	}
 
-	protected Node<K> getBackNode() {
+	protected Node<T> getBackNode() {
 		return this.NODE_BACK;
 	}
 
-	protected Node<K> getCursorNode() {
+	protected Node<T> getCursorNode() {
 		return this.NODE_CURSOR;
 	}
 
@@ -237,11 +237,11 @@ public class List<K> {
 		return (passedNode != null) && (passedNode.get() != null) && (passedNode.getOwner() == this);
 	}
 	
-	private boolean insertNodeBefore(Node<K> passedExistingNode, Node<K> passedInsertedNode) {
+	private boolean insertNodeBefore(Node<T> passedExistingNode, Node<T> passedInsertedNode) {
 		this.onNodeAdded(passedInsertedNode);
 		if (isNodeDefined(passedExistingNode)) {
 			// Set existing links
-			Node<K> previous = passedExistingNode.getPrevious();
+			Node<T> previous = passedExistingNode.getPrevious();
 			if (isNodeDefined(previous)) {
 				previous.setNext(passedInsertedNode);
 			}
@@ -260,11 +260,11 @@ public class List<K> {
 		return false;
 	}
 
-	private boolean insertNodeAfter(Node<K> passedExistingNode, Node<K> passedInsertedNode) {
+	private boolean insertNodeAfter(Node<T> passedExistingNode, Node<T> passedInsertedNode) {
 		this.onNodeAdded(passedInsertedNode);
 		if (isNodeDefined(passedExistingNode)) {
 			// Set existing links
-			Node<K> next = passedExistingNode.getNext();
+			Node<T> next = passedExistingNode.getNext();
 			if (isNodeDefined(next)) {
 				next.setPrevious(passedInsertedNode);
 			}
@@ -282,7 +282,7 @@ public class List<K> {
 		return false;
 	}
 	
-	private void onNodeAdded(Node<K> passedNode) {
+	private void onNodeAdded(Node<T> passedNode) {
 		if (this.isEmpty()) {
 			this.NODE_FRONT = passedNode;
 			this.NODE_BACK = passedNode;
@@ -290,10 +290,10 @@ public class List<K> {
 		this.LENGTH += 1;
 	}
 
-	private void onNodeRemoved(Node<K> passedNode) {
+	private void onNodeRemoved(Node<T> passedNode) {
 		if (this.isNodeDefined(passedNode)) {
-			Node<K> nextNode = passedNode.getNext();
-			Node<K> previousNode = passedNode.getPrevious();
+			Node<T> nextNode = passedNode.getNext();
+			Node<T> previousNode = passedNode.getPrevious();
 			if (this.isNodeDefined(nextNode)) {
 				nextNode.setPrevious(passedNode.getPrevious());
 				if (passedNode == this.NODE_FRONT) {
@@ -312,7 +312,7 @@ public class List<K> {
 		}
 	}
 	
-	private boolean setAndCheckCursor(Node<K> passedNode) {
+	private boolean setAndCheckCursor(Node<T> passedNode) {
 		this.NODE_CURSOR = passedNode;
 		if (!isNodeDefined(this.NODE_CURSOR)) {
 			this.INDEX = CURSOR_INDEX_INVALID;
@@ -323,22 +323,22 @@ public class List<K> {
 
 	/* Node Implementation */
 
-	private class Node<T> {
-		private final List<T> owningList;
-		private T element;
-		private Node<T> previous;
-		private Node<T> next;
+	private class Node<K> {
+		private final List<K> owningList;
+		private K element;
+		private Node<K> previous;
+		private Node<K> next;
 
-		public Node(List<T> passedOwningList, T passedElement) {
+		public Node(List<K> passedOwningList, K passedElement) {
 			this.owningList = passedOwningList;
 			this.element = passedElement;
 		}
 
-		public T get() {
+		public K get() {
 			return this.element;
 		}
 
-		protected List<T> getOwner() {
+		protected List<K> getOwner() {
 			return this.owningList;
 		}
 
@@ -348,19 +348,19 @@ public class List<K> {
 			this.next = null;
 		}
 
-		protected Node<T> getNext() {
+		protected Node<K> getNext() {
 			return this.next;
 		}
 
-		protected Node<T> getPrevious() {
+		protected Node<K> getPrevious() {
 			return this.previous;
 		}
 
-		protected void setNext(Node<T> passedNode) {
+		protected void setNext(Node<K> passedNode) {
 			this.next = passedNode;
 		}
 
-		protected void setPrevious(Node<T> passedNode) {
+		protected void setPrevious(Node<K> passedNode) {
 			this.previous = passedNode;
 		}
 		
