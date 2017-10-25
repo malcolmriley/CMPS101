@@ -46,6 +46,9 @@ public class List<K> {
 		return this.cursor.get();
 	}
 	
+	/**
+	 * Overrides {@link Object#equals(Object)}.
+	 */
 	public boolean equals(Object passedList) {
 		if (passedList instanceof List<?>) {
 			return this.equals(passedList);
@@ -81,7 +84,7 @@ public class List<K> {
 	 * Clears the list, removing and resetting all owned {@link Node}s.
 	 */
 	public void clear() {
-		if (!this.isEmpty()) {
+		while (!this.isEmpty()) {
 			Node<K> thisListIterator = this.getFrontNode();
 			while(isNodeDefined(thisListIterator)) {
 				if (isNodeDefined(thisListIterator.getPrevious())) {
