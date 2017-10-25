@@ -85,16 +85,7 @@ public class List<K> {
 	 */
 	public void clear() {
 		while (!this.isEmpty()) {
-			Node<K> thisListIterator = this.getFrontNode();
-			while(isNodeDefined(thisListIterator)) {
-				if (isNodeDefined(thisListIterator.getPrevious())) {
-					thisListIterator.getPrevious().reset();
-				}
-				if (isNodeDefined(thisListIterator.getNext())) {
-					thisListIterator.reset();
-				}
-				thisListIterator = thisListIterator.getNext();
-			}
+			this.deleteBack();
 		}
 		this.front = null;
 		this.back = null;
