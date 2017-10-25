@@ -13,11 +13,11 @@ public class List<K> {
 
 	private static final int CURSOR_INDEX_INVALID = -1;
 
-	private Node<K> cursor;
-	private Node<K> front;
-	private Node<K> back;
-	private int cursorIndex = CURSOR_INDEX_INVALID;
-	private int length;
+	private Node<K> NODE_CURSOR;
+	private Node<K> NODE_FRONT;
+	private Node<K> NODE_BACK;
+	private int INDEX = CURSOR_INDEX_INVALID;
+	private int LENGTH;
 
 	public List() {
 
@@ -26,26 +26,26 @@ public class List<K> {
 	/* Required Methods */
 
 	public int length() {
-		return this.length;
+		return this.LENGTH;
 	}
 
 	public int index() {
-		if (this.isNodeDefined(this.cursor)) {
-			return this.cursorIndex;
+		if (this.isNodeDefined(this.NODE_CURSOR)) {
+			return this.INDEX;
 		}
 		return -1;
 	}
 
 	public K front() {
-		return this.front.get();
+		return this.NODE_FRONT.get();
 	}
 
 	public K back() {
-		return this.back.get();
+		return this.NODE_BACK.get();
 	}
 
 	public K get() {
-		return this.cursor.get();
+		return this.NODE_CURSOR.get();
 	}
 	
 	/**
@@ -89,20 +89,20 @@ public class List<K> {
 		while (!this.isEmpty()) {
 			this.deleteBack();
 		}
-		this.front = null;
-		this.back = null;
-		this.cursor = null;
-		this.cursorIndex = CURSOR_INDEX_INVALID;
-		this.length = 0;
+		this.NODE_FRONT = null;
+		this.NODE_BACK = null;
+		this.NODE_CURSOR = null;
+		this.INDEX = CURSOR_INDEX_INVALID;
+		this.LENGTH = 0;
 	}
 
 	/**
 	 * Moves the cursor to the front of the {@link List}.
 	 */
 	public void moveFront() {
-		if (this.isNodeDefined(this.front)) {
-			this.cursor = this.front;
-			this.cursorIndex = 0;
+		if (this.isNodeDefined(this.NODE_FRONT)) {
+			this.NODE_CURSOR = this.NODE_FRONT;
+			this.INDEX = 0;
 		}
 	}
 
@@ -110,9 +110,9 @@ public class List<K> {
 	 * Moves the cursor to the back of the {@link List}.
 	 */
 	public void moveBack() {
-		if (this.isNodeDefined(this.back)) {
-			this.cursor = this.back;
-			this.cursorIndex = (this.length - 1);
+		if (this.isNodeDefined(this.NODE_BACK)) {
+			this.NODE_CURSOR = this.NODE_BACK;
+			this.INDEX = (this.LENGTH - 1);
 		}
 	}
 
@@ -120,10 +120,10 @@ public class List<K> {
 	 * Moves the cursor to the position one previous from its current position in this {@link List}.
 	 */
 	public void movePrev() {
-		if (this.setAndCheckCursor(this.cursor.getPrevious())) {
-			this.cursorIndex -= 1;
-			if (this.cursorIndex < 0) {
-				this.cursorIndex = CURSOR_INDEX_INVALID;
+		if (this.setAndCheckCursor(this.NODE_CURSOR.getPrevious())) {
+			this.INDEX -= 1;
+			if (this.INDEX < 0) {
+				this.INDEX = CURSOR_INDEX_INVALID;
 			}
 		}
 	}
@@ -132,59 +132,59 @@ public class List<K> {
 	 * Moves the cursor to the position one next from its current position in this {@link List}.
 	 */
 	public void moveNext() {
-		if (this.setAndCheckCursor(this.cursor.getNext())) {
-			this.cursorIndex += 1;
-			if (this.cursorIndex > (this.length - 1)) {
-				this.cursorIndex = CURSOR_INDEX_INVALID;
+		if (this.setAndCheckCursor(this.NODE_CURSOR.getNext())) {
+			this.INDEX += 1;
+			if (this.INDEX > (this.LENGTH - 1)) {
+				this.INDEX = CURSOR_INDEX_INVALID;
 			}
 		}
 	}
 
 	public void prepend(K passedData) {
 		Node<K> newNode = new Node<K>(this, passedData);
-		if(this.insertNodeBefore(this.front, newNode)) {
-			this.cursorIndex += 1;
+		if(this.insertNodeBefore(this.NODE_FRONT, newNode)) {
+			this.INDEX += 1;
 		}
-		this.front = newNode;
+		this.NODE_FRONT = newNode;
 	}
 
 	public void append(K passedData) {
 		Node<K> newNode = new Node<K>(this, passedData);
-		this.insertNodeAfter(this.back, newNode);
-		this.back = newNode;
+		this.insertNodeAfter(this.NODE_BACK, newNode);
+		this.NODE_BACK = newNode;
 	}
 
 	public void insertBefore(K passedData) {
 		Node<K> newNode = new Node<K>(this, passedData);
-		if (this.insertNodeBefore(this.cursor, newNode)) {
-			this.cursorIndex += 1;
+		if (this.insertNodeBefore(this.NODE_CURSOR, newNode)) {
+			this.INDEX += 1;
 		}
 	}
 
 	public void insertAfter(K passedData) {
 		Node<K> newNode = new Node<K>(this, passedData);
-		this.insertNodeAfter(this.cursor, newNode);
+		this.insertNodeAfter(this.NODE_CURSOR, newNode);
 	}
 
 	public void deleteFront() {
-		if (this.cursor == this.front) {
-			this.cursorIndex = CURSOR_INDEX_INVALID;
+		if (this.NODE_CURSOR == this.NODE_FRONT) {
+			this.INDEX = CURSOR_INDEX_INVALID;
 		}
 		else {
-			this.cursorIndex -= 1;
+			this.INDEX -= 1;
 		}
-		this.onNodeRemoved(this.front);
+		this.onNodeRemoved(this.NODE_FRONT);
 	}
 
 	public void deleteBack() {
-		if (this.cursor == this.back) {
-			this.cursorIndex = CURSOR_INDEX_INVALID;
+		if (this.NODE_CURSOR == this.NODE_BACK) {
+			this.INDEX = CURSOR_INDEX_INVALID;
 		}
-		this.onNodeRemoved(this.back);
+		this.onNodeRemoved(this.NODE_BACK);
 	}
 
 	public void delete() {
-		this.onNodeRemoved(this.cursor);
+		this.onNodeRemoved(this.NODE_CURSOR);
 	}
 
 	public List<K> copy() {
@@ -222,19 +222,19 @@ public class List<K> {
 	}
 
 	protected Node<K> getFrontNode() {
-		return this.front;
+		return this.NODE_FRONT;
 	}
 
 	protected Node<K> getBackNode() {
-		return this.back;
+		return this.NODE_BACK;
 	}
 
 	protected Node<K> getCursorNode() {
-		return this.cursor;
+		return this.NODE_CURSOR;
 	}
 
 	protected boolean isEmpty() {
-		return (this.length < 1);
+		return (this.LENGTH < 1);
 	}
 
 	protected boolean isNodeDefined(Node<?> passedNode) {
@@ -256,8 +256,8 @@ public class List<K> {
 			passedInsertedNode.setPrevious(previous);
 
 			// Set new front if applicable
-			if (this.front == passedExistingNode) {
-				this.front = passedInsertedNode;
+			if (this.NODE_FRONT == passedExistingNode) {
+				this.NODE_FRONT = passedInsertedNode;
 			}
 			return true;
 		}
@@ -278,8 +278,8 @@ public class List<K> {
 			passedInsertedNode.setNext(next);
 			
 			// Set new back if applicable
-			if (this.back == passedExistingNode) {
-				this.back = passedInsertedNode;
+			if (this.NODE_BACK == passedExistingNode) {
+				this.NODE_BACK = passedInsertedNode;
 			}
 			return true;
 		}
@@ -288,10 +288,10 @@ public class List<K> {
 	
 	private void onNodeAdded(Node<K> passedNode) {
 		if (this.isEmpty()) {
-			this.front = passedNode;
-			this.back = passedNode;
+			this.NODE_FRONT = passedNode;
+			this.NODE_BACK = passedNode;
 		}
-		this.length += 1;
+		this.LENGTH += 1;
 	}
 
 	private void onNodeRemoved(Node<K> passedNode) {
@@ -300,26 +300,26 @@ public class List<K> {
 			Node<K> previousNode = passedNode.getPrevious();
 			if (this.isNodeDefined(nextNode)) {
 				nextNode.setPrevious(passedNode.getPrevious());
-				if (passedNode == this.front) {
-					this.front = nextNode;
+				if (passedNode == this.NODE_FRONT) {
+					this.NODE_FRONT = nextNode;
 				}
 			}
 			if (this.isNodeDefined(previousNode)) {
 				previousNode.setNext(passedNode.getNext());
-				if (passedNode == this.back) {
-					this.back = previousNode;
+				if (passedNode == this.NODE_BACK) {
+					this.NODE_BACK = previousNode;
 				}
 			}
 			passedNode.reset();
 			passedNode = null;
-			this.length -= 1;
+			this.LENGTH -= 1;
 		}
 	}
 	
 	private boolean setAndCheckCursor(Node<K> passedNode) {
-		this.cursor = passedNode;
-		if (!isNodeDefined(this.cursor)) {
-			this.cursorIndex = CURSOR_INDEX_INVALID;
+		this.NODE_CURSOR = passedNode;
+		if (!isNodeDefined(this.NODE_CURSOR)) {
+			this.INDEX = CURSOR_INDEX_INVALID;
 			return false;
 		}
 		return true;
