@@ -45,6 +45,13 @@ public class List<K> {
 	public K get() {
 		return this.cursor.get();
 	}
+	
+	public boolean equals(Object passedList) {
+		if (passedList instanceof List<?>) {
+			return this.equals(passedList);
+		}
+		return false;
+	}
 
 	/**
 	 * Determines whether this {@link List} is equivalent to the passed {@link List}; that is, whether it contains equivalent values in the same order.
@@ -52,11 +59,11 @@ public class List<K> {
 	 * @param passedList - The list to compare this one to
 	 * @return Whether or not the two lists are equivalent.
 	 */
-	public boolean equals(List<K> passedList) {
+	public boolean equals(List<?> passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
-				Node<K> thisListIterator = this.getFrontNode();
-				Node<K> passedListIterator = passedList.getFrontNode();
+				List<K>.Node<?> thisListIterator = this.getFrontNode();
+				List<?>.Node<?> passedListIterator = passedList.getFrontNode();
 				while (isNodeDefined(thisListIterator)) {
 					if (!thisListIterator.equals(passedListIterator)) {
 						return false;
