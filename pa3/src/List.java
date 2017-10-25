@@ -62,7 +62,7 @@ public class List<K> {
 	public boolean equals(List<?> passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
-				List<K>.Node<?> thisListIterator = this.getFrontNode();
+				List<K>.Node<K> thisListIterator = this.getFrontNode();
 				List<?>.Node<?> passedListIterator = passedList.getFrontNode();
 				while (isNodeDefined(thisListIterator)) {
 					if (!thisListIterator.equals(passedListIterator)) {
