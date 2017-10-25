@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /*********************************************************************
  * Malcolm Riley
  *
@@ -51,7 +53,7 @@ public class List<K> {
 	 */
 	public boolean equals(Object passedList) {
 		if (passedList instanceof List<?>) {
-			return this.equals(passedList);
+			return Objects.equals(this, passedList);
 		}
 		return false;
 	}
@@ -68,7 +70,7 @@ public class List<K> {
 				List<K>.Node<K> thisListIterator = this.getFrontNode();
 				List<?>.Node<?> passedListIterator = passedList.getFrontNode();
 				while (isNodeDefined(thisListIterator)) {
-					if (!thisListIterator.equals(passedListIterator)) {
+					if (!Objects.equals(thisListIterator, passedListIterator)) {
 						return false;
 					}
 					thisListIterator = thisListIterator.getNext();
