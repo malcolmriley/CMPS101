@@ -11,9 +11,11 @@ import java.util.Objects;
 public class Matrix implements Ipa3 {
 	
 	protected final int DIMENSION;
+	protected final List[] VALUES;
 	
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
+		this.VALUES = new List[passedDimension];
 	}
 	
 	/* PA3 Required Methods */
