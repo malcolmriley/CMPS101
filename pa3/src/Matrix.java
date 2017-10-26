@@ -1,3 +1,4 @@
+
 /*********************************************************************
  * Malcolm Riley
  *
@@ -9,17 +10,18 @@
 import java.util.Objects;
 
 public class Matrix implements Ipa3 {
-	
+
 	protected final int DIMENSION;
 	protected final List[] VALUES;
-	
+
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
 		this.VALUES = new List[passedDimension];
 	}
-	
+
 	/* PA3 Required Methods */
-	
+
+	@Override
 	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
 		if (this.validateIndices(passedRow, passedColumn)) {
 			MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
@@ -38,7 +40,7 @@ public class Matrix implements Ipa3 {
 			}
 		}
 	}
-	
+
 	@Override
 	public int getSize() {
 		return this.DIMENSION;
@@ -63,13 +65,26 @@ public class Matrix implements Ipa3 {
 	@Override
 	public Matrix copy() {
 		Matrix newMatrix = new Matrix(this.DIMENSION);
-		// Optimization: If this matrix has no nonzero entries, simply return new (empty) Matrix.
-		if (isZeroMatrix(this)) {
+		for (List iteratedList : this.VALUES) {
+			iteratedList.moveFront();
+			while (iteratedList.index() >= 0) {
+				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+				newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue().doubleValue());
+				iteratedList.moveNext();
+			}
+		}
+		return newMatrix;
+	}
+
+	@Override
+	public Matrix scalarMult(double passedValue) {
+		Matrix newMatrix = new Matrix(this.DIMENSION);
+		if (passedValue != 0) {
 			for (List iteratedList : this.VALUES) {
 				iteratedList.moveFront();
 				while (iteratedList.index() >= 0) {
 					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
-					newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue().doubleValue());
+					newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);
 					iteratedList.moveNext();
 				}
 			}
@@ -78,15 +93,10 @@ public class Matrix implements Ipa3 {
 	}
 
 	@Override
-	public Matrix scalarMult(double passedValue) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Matrix add(Matrix passedMatrix) {
+		Matrix newMatrix = new Matrix(this.DIMENSION);
 		if (this.validateSize(passedMatrix)) {
-			
+
 			// TODO:
 		}
 		return null;
@@ -109,22 +119,13 @@ public class Matrix implements Ipa3 {
 	@Override
 	public Matrix mult(Matrix passedMatrix) {
 		if (this.validateSize(passedMatrix)) {
-			if (!isZeroMatrix(this) && !isZeroMatrix(passedMatrix)) {
-				// TODO: perform matrix multiplication
-			}
-			else {
-				/*
-				 *  Optimization: If the number of nonzero entries in one or both matrices is zero, one or both is a zero matrix.
-				 *  Therefore, the product is zero, so return a new (empty) Matrix.
-				 */
-				return new Matrix(this.DIMENSION);
-			}
+			// TODO:
 		}
 		return null;
 	}
-	
+
 	/* Internal Methods */
-	
+
 	private MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			List row = this.VALUES[passedRowIndex];
@@ -143,72 +144,69 @@ public class Matrix implements Ipa3 {
 		}
 		return null;
 	}
-	
+
 	private boolean validateSize(Matrix passedMatrix) {
 		return (this.getSize() == passedMatrix.getSize());
 	}
-	
+
 	private boolean validateIndices(int passedRowIndex, int passedColumnIndex) {
 		return this.validateIndex(passedRowIndex) && this.validateIndex(passedColumnIndex);
 	}
-	
+
 	private boolean validateIndex(int passedIndex) {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
 	}
-	
-	private static boolean isZeroMatrix(Matrix passedMatrix) {
-		return (passedMatrix.getNNZ() <= 0);
-	}
-	
+
 	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
 	private static MatrixEntry<Double> getAsMatrixEntry(Object passedObject) {
 		if (passedObject instanceof MatrixEntry<?>) {
-			if (((MatrixEntry<?>)passedObject).getValue() instanceof Double) {
-				return (MatrixEntry<Double>)passedObject;
+			if (((MatrixEntry<?>) passedObject).getValue() instanceof Double) {
+				return (MatrixEntry<Double>) passedObject;
 			}
 		}
 		return null;
 	}
-	
+
 	/* MatrixEntry Implementation */
-	
+
 	public class MatrixEntry<T> {
-		
+
 		private final int ROW;
 		private final int COLUMN;
 		private T VALUE;
-		
+
 		public MatrixEntry(T passedValue, int passedRow, int passedColumn) {
 			this.VALUE = passedValue;
 			this.ROW = passedRow;
 			this.COLUMN = passedColumn;
 		}
-		
+
 		public int getRow() {
 			return this.ROW;
 		}
-		
+
 		public int getColumn() {
 			return this.COLUMN;
 		}
-		
+
 		public T getValue() {
 			return this.VALUE;
 		}
-		
+
 		public void setValue(T passedValue) {
 			this.VALUE = passedValue;
 		}
-		
+
+		@Override
 		public boolean equals(Object passedObject) {
 			if (passedObject instanceof MatrixEntry<?>) {
 				Object thisValue = this.getValue();
-				Object passedValue = ((MatrixEntry<?>)passedObject).getValue();
+				Object passedValue = ((MatrixEntry<?>) passedObject).getValue();
 				return Objects.equals(thisValue, passedValue);
 			}
 			return false;
 		}
-		
+
 		public MatrixEntry<T> copy() {
 			return new MatrixEntry<T>(this.VALUE, this.ROW, this.COLUMN);
 		}
