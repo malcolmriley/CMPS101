@@ -23,20 +23,18 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
-		if (this.validateIndices(passedRow, passedColumn)) {
-			MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
-			if (entry != null) {
-				if (passedNewValue == 0) {
-					this.VALUES[passedRow].delete();
-				}
-				else {
-					entry.setValue(Double.valueOf(passedNewValue));
-				}
+		MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
+		if (entry != null) {
+			if (passedNewValue == 0) {
+				this.VALUES[passedRow].delete();
 			}
 			else {
-				if (passedNewValue != 0) {
-					this.VALUES[passedRow].insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
-				}
+				entry.setValue(Double.valueOf(passedNewValue));
+			}
+		}
+		else {
+			if (passedNewValue != 0) {
+				this.VALUES[passedRow].insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
 			}
 		}
 	}
@@ -96,8 +94,7 @@ public class Matrix implements Ipa3 {
 	public Matrix add(Matrix passedMatrix) {
 		Matrix newMatrix = new Matrix(this.DIMENSION);
 		if (this.validateSize(passedMatrix)) {
-
-			// TODO:
+			
 		}
 		return null;
 	}
