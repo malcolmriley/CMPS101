@@ -94,15 +94,60 @@ public class Matrix implements Ipa3 {
 	public Matrix add(Matrix passedMatrix) {
 		Matrix newMatrix = new Matrix(this.DIMENSION);
 		if (this.validateSize(passedMatrix)) {
-			
+			for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
+				List thisRow = this.VALUES[iteratedRow];
+				List passedRow = this.VALUES[iteratedRow];
+				thisRow.moveFront();
+				passedRow.moveFront();
+				while ((thisRow.index() >= 0) || (passedRow.index() >= 0)) {
+					MatrixEntry<Double> thisEntry = getAsMatrixEntry(thisRow.get());
+					MatrixEntry<Double> passedEntry = getAsMatrixEntry(passedRow.get());
+					if (haveSameIndices(thisEntry, passedEntry)) {
+						newMatrix.changeEntry(thisEntry.getRow(), thisEntry.getColumn(), thisEntry.getValue() + passedEntry.getValue());
+					}
+					else {
+						if (thisEntry != null) {
+							newMatrix.changeEntry(thisEntry.getRow(), thisEntry.getColumn(), thisEntry.getValue());
+						}
+						if (passedEntry != null) {
+							newMatrix.changeEntry(passedEntry.getRow(), passedEntry.getColumn(), passedEntry.getColumn());
+						}
+					}
+					thisRow.moveNext();
+					passedRow.moveNext();
+				}
+			}
 		}
 		return null;
 	}
 
 	@Override
 	public Matrix sub(Matrix passedMatrix) {
+		Matrix newMatrix = new Matrix(this.DIMENSION);
 		if (this.validateSize(passedMatrix)) {
-			// TODO:
+			for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
+				List thisRow = this.VALUES[iteratedRow];
+				List passedRow = this.VALUES[iteratedRow];
+				thisRow.moveFront();
+				passedRow.moveFront();
+				while ((thisRow.index() >= 0) || (passedRow.index() >= 0)) {
+					MatrixEntry<Double> thisEntry = getAsMatrixEntry(thisRow.get());
+					MatrixEntry<Double> passedEntry = getAsMatrixEntry(passedRow.get());
+					if (haveSameIndices(thisEntry, passedEntry)) {
+						newMatrix.changeEntry(thisEntry.getRow(), thisEntry.getColumn(), thisEntry.getValue() - passedEntry.getValue());
+					}
+					else {
+						if (thisEntry != null) {
+							newMatrix.changeEntry(thisEntry.getRow(), thisEntry.getColumn(), thisEntry.getValue());
+						}
+						if (passedEntry != null) {
+							newMatrix.changeEntry(passedEntry.getRow(), passedEntry.getColumn(), passedEntry.getColumn());
+						}
+					}
+					thisRow.moveNext();
+					passedRow.moveNext();
+				}
+			}
 		}
 		return null;
 	}
@@ -152,6 +197,13 @@ public class Matrix implements Ipa3 {
 
 	private boolean validateIndex(int passedIndex) {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
+	}
+	
+	private static boolean haveSameIndices(MatrixEntry<?> passedFirstEntry, MatrixEntry<?> passedSecondEntry) {
+		if ((passedFirstEntry == null) || (passedSecondEntry == null) ) {
+			return false;
+		}
+		return (passedFirstEntry.getColumn() == passedSecondEntry.getColumn()) && (passedFirstEntry.getRow() == passedSecondEntry.getRow());
 	}
 
 	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
