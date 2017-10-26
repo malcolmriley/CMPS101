@@ -12,6 +12,7 @@ public class Matrix implements Ipa3 {
 	
 	protected final int DIMENSION;
 	protected final List[] VALUES;
+	protected int NONZERO_ENTRIES;
 	
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
@@ -19,6 +20,12 @@ public class Matrix implements Ipa3 {
 	}
 	
 	/* PA3 Required Methods */
+	
+	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
+		if (passedNewValue == 0) {
+			// TODO: If value already exists, subtract one from nonzero entries.
+		}
+	}
 	
 	@Override
 	public int getSize() {
@@ -74,6 +81,56 @@ public class Matrix implements Ipa3 {
 	}
 	
 	/* Internal Methods */
+	
+	private void addEntry(double passedValue) {
+		// TODO:
+	}
+	
+	private void removeEntry(double passedValue) {
+		// TODO:
+	}
+	
+	private MatrixEntry<?> getEntry(int passedRowIndex, int passedColumnIndex) {
+		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
+			List row = this.VALUES[passedRowIndex];
+			if (!row.isEmpty()) {
+				row.moveFront();
+				while (row.index() >= 0) {
+					MatrixEntry<?> iteratedObject = getAsMatrixEntry(row.get());
+					if (iteratedObject != null) {
+						if (iteratedObject.getColumn() == passedColumnIndex) {
+							return iteratedObject;
+						}
+					}
+					row.moveNext();
+				}
+			}
+		}
+		return null;
+	}
+	
+	private static Double getMatrixEntryValue(MatrixEntry<?> passedMatrixEntry) {
+		Object matrixEntryValue = passedMatrixEntry.getValue();
+		if (matrixEntryValue instanceof Double) {
+			return (Double)matrixEntryValue;
+		}
+		return null;
+	}
+	
+	private static MatrixEntry<?> getAsMatrixEntry(Object passedObject) {
+		if (passedObject instanceof MatrixEntry<?>) {
+			return (MatrixEntry<?>)passedObject;
+		}
+		return null;
+	}
+	
+	private boolean validateIndices(int passedRowIndex, int passedColumnIndex) {
+		return this.validateIndex(passedRowIndex) && this.validateIndex(passedColumnIndex);
+	}
+	
+	private boolean validateIndex(int passedIndex) {
+		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
+	}
 	
 	/* MatrixEntry Implementation */
 	
