@@ -12,12 +12,10 @@ public class Matrix implements Ipa3 {
 	
 	protected final int DIMENSION;
 	protected final List[] VALUES;
-	protected int NONZERO_ENTRIES;
 	
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
 		this.VALUES = new List[passedDimension];
-		this.NONZERO_ENTRIES = 0;
 	}
 	
 	/* PA3 Required Methods */
@@ -28,7 +26,6 @@ public class Matrix implements Ipa3 {
 			if (entry != null) {
 				if (passedNewValue == 0) {
 					this.VALUES[passedRow].delete();
-					this.NONZERO_ENTRIES -= 1;
 				}
 				else {
 					entry.setValue(Double.valueOf(passedNewValue));
@@ -37,7 +34,6 @@ public class Matrix implements Ipa3 {
 			else {
 				if (passedNewValue != 0) {
 					this.VALUES[passedRow].insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
-					this.NONZERO_ENTRIES += 1;
 				}
 			}
 		}
@@ -50,7 +46,11 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public int getNNZ() {
-		return this.NONZERO_ENTRIES;
+		int nonzeroes = 0;
+		for (List list : this.VALUES) {
+			nonzeroes += list.length();
+		}
+		return nonzeroes;
 	}
 
 	@Override
@@ -58,16 +58,20 @@ public class Matrix implements Ipa3 {
 		for (List list : this.VALUES) {
 			list.clear();
 		}
-		this.NONZERO_ENTRIES = 0;
 	}
 
 	@Override
 	public Matrix copy() {
 		Matrix newMatrix = new Matrix(this.DIMENSION);
 		// Optimization: If this matrix has no nonzero entries, simply return new (empty) Matrix.
-		if (this.getNNZ() > 0) {
-			for (List list : this.VALUES) {
-				
+		if (isZeroMatrix(this)) {
+			for (List iteratedList : this.VALUES) {
+				iteratedList.moveFront();
+				while (iteratedList.index() >= 0) {
+					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+					newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue().doubleValue());
+					iteratedList.moveNext();
+				}
 			}
 		}
 		return newMatrix;
@@ -82,6 +86,7 @@ public class Matrix implements Ipa3 {
 	@Override
 	public Matrix add(Matrix passedMatrix) {
 		if (this.validateSize(passedMatrix)) {
+			
 			// TODO:
 		}
 		return null;
@@ -104,7 +109,7 @@ public class Matrix implements Ipa3 {
 	@Override
 	public Matrix mult(Matrix passedMatrix) {
 		if (this.validateSize(passedMatrix)) {
-			if ((this.getNNZ() > 0) && (passedMatrix.getNNZ() > 0)) {
+			if (!isZeroMatrix(this) && !isZeroMatrix(passedMatrix)) {
 				// TODO: perform matrix multiplication
 			}
 			else {
@@ -139,16 +144,6 @@ public class Matrix implements Ipa3 {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
-	private static MatrixEntry<Double> getAsMatrixEntry(Object passedObject) {
-		if (passedObject instanceof MatrixEntry<?>) {
-			if (((MatrixEntry<?>)passedObject).getValue() instanceof Double) {
-				return (MatrixEntry<Double>)passedObject;
-			}
-		}
-		return null;
-	}
-	
 	private boolean validateSize(Matrix passedMatrix) {
 		return (this.getSize() == passedMatrix.getSize());
 	}
@@ -159,6 +154,20 @@ public class Matrix implements Ipa3 {
 	
 	private boolean validateIndex(int passedIndex) {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
+	}
+	
+	private static boolean isZeroMatrix(Matrix passedMatrix) {
+		return (passedMatrix.getNNZ() <= 0);
+	}
+	
+	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
+	private static MatrixEntry<Double> getAsMatrixEntry(Object passedObject) {
+		if (passedObject instanceof MatrixEntry<?>) {
+			if (((MatrixEntry<?>)passedObject).getValue() instanceof Double) {
+				return (MatrixEntry<Double>)passedObject;
+			}
+		}
+		return null;
 	}
 	
 	/* MatrixEntry Implementation */
