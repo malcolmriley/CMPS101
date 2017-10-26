@@ -154,8 +154,19 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix transpose() {
-		// TODO Auto-generated method stub
-		return null;
+		Matrix newMatrix = new Matrix(this.DIMENSION);
+		for (List iteratedList : this.VALUES) {
+			if (!iteratedList.isEmpty()) {
+				iteratedList.moveFront();
+				while (iteratedList.index() >= 0) {
+					MatrixEntry<Double> iteratedObject = getAsMatrixEntry(iteratedList.get());
+					if (iteratedObject != null) {
+						newMatrix.changeEntry(iteratedObject.getColumn(), iteratedObject.getRow(), iteratedObject.getValue());
+					}
+				}
+			}
+		}
+		return newMatrix;
 	}
 
 	@Override
