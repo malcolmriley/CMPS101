@@ -47,16 +47,16 @@ public class Matrix implements Ipa3 {
 	@Override
 	public int getNNZ() {
 		int nonzeroes = 0;
-		for (List list : this.VALUES) {
-			nonzeroes += list.length();
+		for (List iteratedList : this.VALUES) {
+			nonzeroes += iteratedList.length();
 		}
 		return nonzeroes;
 	}
 
 	@Override
 	public void makeZero() {
-		for (List list : this.VALUES) {
-			list.clear();
+		for (List iteratedList : this.VALUES) {
+			iteratedList.clear();
 		}
 	}
 
