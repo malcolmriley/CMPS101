@@ -92,23 +92,7 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix mult(Matrix passedMatrix) {
-		if (this.validateSize(passedMatrix)) {
-			Matrix transpose = passedMatrix.transpose();
-			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-				List firstRow = this.VALUES[iteratedRow];
-				List secondRow = transpose.VALUES[iteratedRow];
-				firstRow.moveFront();
-				secondRow.moveFront();
-				
-				while ((firstRow.index() >= 0) && (secondRow.index() >= 0)) {
-					MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
-					MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
-					firstRow.moveNext();
-					secondRow.moveNext();
-				}
-			}
-			// TODO:
-		}
+		// TODO:
 		return null;
 	}
 
