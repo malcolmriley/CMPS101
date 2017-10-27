@@ -150,22 +150,22 @@ public class Matrix implements Ipa3 {
 		if (passedFirstMatrix.validateSize(passedSecondMatrix)) {
 			Matrix newMatrix = new Matrix(passedFirstMatrix.getSize());
 			for (int iteratedRow = 0; iteratedRow < passedFirstMatrix.getSize(); iteratedRow += 1) {
-				List firstList = passedFirstMatrix.VALUES[iteratedRow];
-				List secondList = passedSecondMatrix.VALUES[iteratedRow];
-				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstList, secondList, passedOperator);
+				List firstRow = passedFirstMatrix.VALUES[iteratedRow];
+				List secondRow = passedSecondMatrix.VALUES[iteratedRow];
+				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstRow, secondRow, passedOperator);
 			}
 			return newMatrix;
 		}
 		return null;
 	}
 	
-	private static List interleaveAndOperate(List passedFirstList, List passedSecondList, IDoubleOperator<Double> passedOperator) {
+	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
-		passedFirstList.moveFront();
-		passedSecondList.moveFront();
-		while ((passedFirstList.index() >= 0) && (passedSecondList.index() >= 0)) {
-			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
-			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
+		passedFirstRow.moveFront();
+		passedSecondRow.moveFront();
+		while ((passedFirstRow.index() >= 0) && (passedSecondRow.index() >= 0)) {
+			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
+			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
 			
 			if ((firstEntry != null) && (secondEntry != null)) { // Belt
 				if (firstEntry.getRow() == secondEntry.getRow()) { // Suspenders
@@ -190,8 +190,8 @@ public class Matrix implements Ipa3 {
 				}
 			}
 			
-			passedFirstList.moveNext();
-			passedSecondList.moveNext();
+			passedFirstRow.moveNext();
+			passedSecondRow.moveNext();
 		}
 		return newList;
 	}
