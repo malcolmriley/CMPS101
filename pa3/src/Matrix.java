@@ -62,63 +62,32 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix copy() {
-		Matrix newMatrix = new Matrix(this.DIMENSION);
-		for (List iteratedList : this.VALUES) {
-			iteratedList.moveFront();
-			while (iteratedList.index() >= 0) {
-				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
-				newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue().doubleValue());
-				iteratedList.moveNext();
-			}
-		}
-		return newMatrix;
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue());};
+		return modifyUsing(this, operator);
 	}
 
 	@Override
 	public Matrix scalarMult(double passedValue) {
-		Matrix newMatrix = new Matrix(this.DIMENSION);
-		if (passedValue != 0) {
-			for (List iteratedList : this.VALUES) {
-				iteratedList.moveFront();
-				while (iteratedList.index() >= 0) {
-					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
-					newMatrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);
-					iteratedList.moveNext();
-				}
-			}
-		}
-		return newMatrix;
-	}
-
-	@Override
-	public Matrix add(Matrix passedMatrix) {
-		Matrix newMatrix = new Matrix(this.DIMENSION);
-		// TODO:
-		return null;
-	}
-
-	@Override
-	public Matrix sub(Matrix passedMatrix) {
-		Matrix newMatrix = new Matrix(this.DIMENSION);
-		// TODO:
-		return null;
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);};
+		return modifyUsing(this, operator);
 	}
 
 	@Override
 	public Matrix transpose() {
-		Matrix newMatrix = new Matrix(this.DIMENSION);
-		for (List iteratedList : this.VALUES) {
-			if (!iteratedList.isEmpty()) {
-				iteratedList.moveFront();
-				while (iteratedList.index() >= 0) {
-					MatrixEntry<Double> iteratedObject = getAsMatrixEntry(iteratedList.get());
-					if (iteratedObject != null) {
-						newMatrix.changeEntry(iteratedObject.getColumn(), iteratedObject.getRow(), iteratedObject.getValue());
-					}
-				}
-			}
-		}
-		return newMatrix;
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getColumn(), entry.getRow(), entry.getValue());};
+		return modifyUsing(this, operator);
+	}
+
+	@Override
+	public Matrix add(Matrix passedMatrix) {
+		final IDoubleOperator<Double> operation = (first, second) -> { return (first + second); };
+		return modifyRowsUsing(this, passedMatrix, operation);
+	}
+
+	@Override
+	public Matrix sub(Matrix passedMatrix) {
+		final IDoubleOperator<Double> operation = (first, second) -> { return (first - second); };
+		return modifyRowsUsing(this, passedMatrix, operation);
 	}
 
 	@Override
@@ -160,11 +129,76 @@ public class Matrix implements Ipa3 {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
 	}
 	
-	private static boolean haveSameIndices(MatrixEntry<?> passedFirstEntry, MatrixEntry<?> passedSecondEntry) {
-		if ((passedFirstEntry == null) || (passedSecondEntry == null) ) {
-			return false;
+	private static Matrix modifyUsing(Matrix passedMatrix, IEntryModifier<Double> passedOperator) {
+		Matrix newMatrix = new Matrix(passedMatrix.getSize());
+		for (List iteratedList : passedMatrix.VALUES) {
+			if (!iteratedList.isEmpty()) {
+				iteratedList.moveFront();
+				while (iteratedList.index() >= 0) {
+					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+					if (entry != null) {
+						passedOperator.modify(passedMatrix, entry);
+					}
+					iteratedList.moveNext();
+				}
+			}
 		}
-		return (passedFirstEntry.getColumn() == passedSecondEntry.getColumn()) && (passedFirstEntry.getRow() == passedSecondEntry.getRow());
+		return newMatrix;
+	}
+	
+	private static Matrix modifyRowsUsing(Matrix passedFirstMatrix, Matrix passedSecondMatrix, IDoubleOperator<Double> passedOperator) {
+		if (passedFirstMatrix.validateSize(passedSecondMatrix)) {
+			Matrix newMatrix = new Matrix(passedFirstMatrix.getSize());
+			for (int iteratedRow = 0; iteratedRow < passedFirstMatrix.getSize(); iteratedRow += 1) {
+				List firstList = passedFirstMatrix.VALUES[iteratedRow];
+				List secondList = passedSecondMatrix.VALUES[iteratedRow];
+				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstList, secondList, passedOperator);
+			}
+			return newMatrix;
+		}
+		return null;
+	}
+	
+	private static List interleaveAndOperate(List passedFirstList, List passedSecondList, IDoubleOperator<Double> passedOperator) {
+		List newList = new List();
+		passedFirstList.moveFront();
+		passedSecondList.moveFront();
+		while ((passedFirstList.index() >= 0) && (passedSecondList.index() >= 0)) {
+			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
+			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
+			
+			if ((firstEntry != null) && (secondEntry != null)) { // Belt
+				if (firstEntry.getRow() == secondEntry.getRow()) { // Suspenders
+					/**
+					 * Case 1: Columns for both entries are equal.
+					 */
+					if (firstEntry.getColumn() == secondEntry.getColumn()) {
+						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), secondEntry.getValue(), passedOperator));
+					}
+					/**
+					 * Case 2: Column for first entry is less than that of second, implying that the second Matrix has a 0 at (first.row, first.column)
+					 */
+					else if (firstEntry.getColumn() < secondEntry.getColumn()) {
+						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), 0, passedOperator));
+					}
+					/**
+					 * Case 3: Column for second entry is less than that of first, implying that the first Matrix has a 0 at (second.row, second.column)
+					 */
+					else {
+						newList.append(fromOperator(firstEntry.getRow(), secondEntry.getColumn(), 0, secondEntry.getValue(), passedOperator));
+					}
+				}
+			}
+			
+			passedFirstList.moveNext();
+			passedSecondList.moveNext();
+		}
+		return newList;
+	}
+	
+	private static MatrixEntry<Double> fromOperator(int passedRow, int passedColumn, double passedFirst, double passedSecond, IDoubleOperator<Double> passedOperator) {
+		Double result = passedOperator.operate(passedFirst, passedSecond);
+		return new MatrixEntry<Double>(result, passedRow, passedColumn);
 	}
 
 	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
@@ -176,10 +210,34 @@ public class Matrix implements Ipa3 {
 		}
 		return null;
 	}
+	
+	/* IEntryOperator Implementation */
+	
+	public interface IDoubleOperator<T> {
+		/**
+		 * Should return the result of an operation between the first and the second.
+		 * 
+		 * @param first - The first double to operate on
+		 * @param second - The second double to operate on
+		 * @return The result of the operation
+		 */
+		public T operate(double first, double second);
+	}
+	
+	public interface IEntryModifier<T> {
+		
+		/**
+		 * This method will modify the passed {@link Matrix#MatrixEntry} in some capacity, and possibly the {@link Matrix.}
+		 * 
+		 * @param passedMatrix - The {@link Matrix.} the entry belongs to
+		 * @param passedEntry - The {@link Matrix#MatrixEntry} in question
+		 */
+		public void modify(Matrix passedMatrix, MatrixEntry<T> passedEntry);
+	}
 
 	/* MatrixEntry Implementation */
 
-	public class MatrixEntry<T> {
+	public static class MatrixEntry<T> {
 
 		private final int ROW;
 		private final int COLUMN;
