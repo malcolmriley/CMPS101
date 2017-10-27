@@ -168,14 +168,15 @@ public class Matrix implements Ipa3 {
 			for (int iteratedRow = 0; iteratedRow < passedFirstMatrix.getSize(); iteratedRow += 1) {
 				List firstRow = passedFirstMatrix.VALUES[iteratedRow];
 				List secondRow = passedSecondMatrix.VALUES[iteratedRow];
-				interleaveAndOperate(newMatrix.VALUES[iteratedRow], firstRow, secondRow, passedOperator);
+				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstRow, secondRow, passedOperator);
 			}
 			return newMatrix;
 		}
 		return null;
 	}
 	
-	private static void interleaveAndOperate(List passedTargetList, List passedFirstRow, List passedSecondRow, IDoubleOperator<Double> passedOperator) {
+	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, IDoubleOperator<Double> passedOperator) {
+		List newList = new List();
 		passedFirstRow.moveFront();
 		passedSecondRow.moveFront();
 		while ((passedFirstRow.index() >= 0) && (passedSecondRow.index() >= 0)) {
@@ -188,19 +189,19 @@ public class Matrix implements Ipa3 {
 					 * Case 1: Columns for both entries are equal.
 					 */
 					if (firstEntry.getColumn() == secondEntry.getColumn()) {
-						passedTargetList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), secondEntry.getValue(), passedOperator));
+						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), secondEntry.getValue(), passedOperator));
 					}
 					/**
 					 * Case 2: Column for first entry is less than that of second, implying that the second Matrix has a 0 at (first.row, first.column)
 					 */
 					else if (firstEntry.getColumn() < secondEntry.getColumn()) {
-						passedTargetList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), 0, passedOperator));
+						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), 0, passedOperator));
 					}
 					/**
 					 * Case 3: Column for second entry is less than that of first, implying that the first Matrix has a 0 at (second.row, second.column)
 					 */
 					else {
-						passedTargetList.append(fromOperator(firstEntry.getRow(), secondEntry.getColumn(), 0, secondEntry.getValue(), passedOperator));
+						newList.append(fromOperator(firstEntry.getRow(), secondEntry.getColumn(), 0, secondEntry.getValue(), passedOperator));
 					}
 				}
 			}
@@ -208,6 +209,7 @@ public class Matrix implements Ipa3 {
 			passedFirstRow.moveNext();
 			passedSecondRow.moveNext();
 		}
+		return newList;
 	}
 	
 	private static MatrixEntry<Double> fromOperator(int passedRow, int passedColumn, double passedFirst, double passedSecond, IDoubleOperator<Double> passedOperator) {
