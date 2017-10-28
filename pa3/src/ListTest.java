@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class ListTest {
 	
-	private static final int CHARACTER_COLUMN_ALIGN = 30;
+	private static final int CHARACTER_COLUMN_ALIGN = 35;
 	
 	/* Test Implementations */
 	public static final ITestOperator<List> INITIALIZE_BASIC = (list) -> { 
@@ -24,7 +24,7 @@ public class ListTest {
 		list.append(new Matrix.MatrixEntry<Double>(2.5, 1, 4));
 		return list.toString();
 	};
-	public static final ITestOperator<List> INITIALIZE_ALTERNATE = (list) -> {
+	public static final ITestOperator<List> INITIALIZE_ALTERNATING = (list) -> {
 		list.append(1);
 		list.prepend(2);
 		list.append(3);
@@ -34,16 +34,52 @@ public class ListTest {
 		return list.toString();
 	};
 	public static final ITestOperator<List> GET_FRONT = (list) -> {
-		INITIALIZE_ALTERNATE.test(list);
+		INITIALIZE_ALTERNATING.test(list);
 		return String.valueOf(list.front());
 	};
 	public static final ITestOperator<List> GET_BACK = (list) -> {
-		INITIALIZE_ALTERNATE.test(list);
+		INITIALIZE_ALTERNATING.test(list);
 		return String.valueOf(list.back());
 	};
 	public static final ITestOperator<List> GET_NULL_CURSOR = (list) -> {
-		INITIALIZE_ALTERNATE.test(list);
+		INITIALIZE_ALTERNATING.test(list);
 		return String.valueOf(list.get());
+	};
+	public static final ITestOperator<List> GET_NON_NULL_CURSOR = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		return String.valueOf(list.get());
+	};
+	public static final ITestOperator<List> INSERT_BEFORE = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.insertBefore(0);
+		return list.toString();
+	};
+	public static final ITestOperator<List> INSERT_AFTER = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.insertAfter(0);
+		return list.toString();
+	};
+	public static final ITestOperator<List> INSERT_ALTERNATING = (list) -> {
+		list.append(1);
+		list.moveFront();
+		list.insertBefore(2);
+		list.insertAfter(3);
+		list.insertBefore(4);
+		list.insertAfter(5);
+		return list.toString();
+	};
+	public static final ITestOperator<List> INSERT_DOUBLE_ALTERNATING = (list) -> {
+		list.append(1);
+		list.moveFront();
+		list.insertBefore(2);
+		list.insertAfter(3);
+		list.moveBack();
+		list.insertAfter(4);
+		list.insertBefore(5);
+		return list.toString();
 	};
 	
 	/* Tests */
@@ -51,10 +87,15 @@ public class ListTest {
 	private enum EnumListTest {
 		Init("Basic Initialization", "3.0", INITIALIZE_BASIC),
 		InitPoly("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
-		InitAlt("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATE),
+		InitAlt("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATING),
 		GetFront("Get Front", "6", GET_FRONT),
 		GetBack("Get Back", "5", GET_BACK),
-		GetNullCursor("Get Null Cursor", "null", GET_NULL_CURSOR)
+		GetNullCursor("Get Null Cursor", "null", GET_NULL_CURSOR),
+		GetNonNullCursor("Get Non-Null Cursor", "6", GET_NON_NULL_CURSOR),
+		InsertBefore("Insert Before", "0 6 4 2 1 3 5", INSERT_BEFORE),
+		InsertAfter("Insert After", "6 0 4 2 1 3 5", INSERT_AFTER),
+		InsertAlternating("Insert Alternating", "2 4 1 5 3", INSERT_ALTERNATING),
+		InsertDoubleAlternating("Insert Doubly Alternating", "2 1 5 3 4", INSERT_DOUBLE_ALTERNATING),
 		;
 		
 		private final String NAME;
@@ -108,7 +149,7 @@ public class ListTest {
 		if (!output.equals(passedExpectedOutput)) {
 			result = String.format(padding + "FAILED!\n\tExpected: \t%s\n\tActual: \t\t%s", passedExpectedOutput, output);
 		}
-		return String.format("%s: %s", passedTestName, result);
+		return String.format("\t%s: %s", passedTestName, result);
 	}
 	
 	private static String getPadding(String passedTestName) {
