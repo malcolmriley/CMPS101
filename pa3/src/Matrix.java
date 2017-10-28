@@ -173,8 +173,17 @@ public class Matrix implements Ipa3 {
 		return null;
 	}
 
+	/**
+	 * Verifies that this {@link Matrix} is the same size as {@code passedMatrix}, by calling {@link Matrix#getSize()} on both.
+	 * 
+	 * @param passedMatrix - The {@link Matrix} instance to examine
+	 * @return Whether this and the passed {@link Matrix} instances are the same size.
+	 */
 	private boolean validateSize(Matrix passedMatrix) {
-		return (this.getSize() == passedMatrix.getSize());
+		if (passedMatrix != null) {
+			return (this.getSize() == passedMatrix.getSize());
+		}
+		return false;
 	}
 
 	private boolean validateIndices(int passedRowIndex, int passedColumnIndex) {
