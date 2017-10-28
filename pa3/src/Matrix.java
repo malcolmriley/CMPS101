@@ -92,9 +92,10 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix mult(Matrix passedMatrix) {
+		Matrix newMatrix = null;
 		if (this.validateSize(passedMatrix)) {
 			Matrix transpose = passedMatrix.transpose();
-			Matrix newMatrix = new Matrix(this.DIMENSION);
+			newMatrix = new Matrix(this.DIMENSION);
 			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
 				List firstRow = this.getRow(iteratedRow);
 				for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
@@ -111,7 +112,7 @@ public class Matrix implements Ipa3 {
 				}
 			}
 		}
-		return null;
+		return newMatrix;
 	}
 	
 	/* Protected Methods */
