@@ -116,22 +116,27 @@ public class Matrix implements Ipa3 {
 		}
 		return this.VALUES[passedRowIndex];
 	}
+	
+	protected void addEntry(int passedRow, int passedColumn, double passedNewValue) {
+		if (this.validateIndices(passedRow, passedColumn)) {
+			List row = this.getRow(passedRow);
+			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
+				
+			}
+		}
+	}
 
 	/* Internal Methods */
 
 	private MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			List row = this.getRow(passedRowIndex);
-			if (!row.isEmpty()) {
-				row.moveFront();
-				while (row.index() >= 0) {
-					MatrixEntry<Double> iteratedObject = getAsMatrixEntry(row.get());
-					if (iteratedObject != null) {
-						if (iteratedObject.getColumn() >= passedColumnIndex) {
-							return iteratedObject;
-						}
+			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
+				MatrixEntry<Double> iteratedObject = getAsMatrixEntry(row.get());
+				if (iteratedObject != null ) {
+					if (iteratedObject.getColumn() >= passedColumnIndex) {
+						return iteratedObject;
 					}
-					row.moveNext();
 				}
 			}
 		}
@@ -153,7 +158,7 @@ public class Matrix implements Ipa3 {
 	private static Matrix modifyUsing(Matrix passedMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedMatrix.getSize());
 		for (List iteratedList : passedMatrix.VALUES) {
-			if (!iteratedList.isEmpty()) {
+			if (!isListEmpty(iteratedList)) {
 				iteratedList.moveFront();
 				while (iteratedList.index() >= 0) {
 					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
@@ -229,6 +234,13 @@ public class Matrix implements Ipa3 {
 			int secondColumn = getColumn(passedSecondEntry);
 			return (firstColumn <= secondColumn) ? firstColumn : secondColumn;
 		}
+	}
+	
+	private static boolean isListEmpty(List passedList) {
+		if (passedList == null) {
+			return true;
+		}
+		return passedList.isEmpty();
 	}
 	
 	private static int getColumn(MatrixEntry<?> passedEntry) {
