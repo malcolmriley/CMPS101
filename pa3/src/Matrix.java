@@ -137,6 +137,15 @@ public class Matrix implements Ipa3 {
 		return null;
 	}
 	
+	/**
+	 * Adds a new {@link MatrixEntry} to this {@link Matrix}.
+	 * 
+	 * IMPORTANT: This method does not verify that a {@link MatrixEntry} with {@code passedColumnIndex} does not already exist.
+	 * 
+	 * @param passedRowIndex - The index of the row to add a {@link MatrixEntry} at
+	 * @param passedColumnIndex - The index of the column to add a {@link MatrixEntry} at
+	 * @param passedNewValue - The value of the new {@link MatrixEntry}
+	 */
 	protected void addEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			if (passedNewValue != 0) {
@@ -155,6 +164,16 @@ public class Matrix implements Ipa3 {
 
 	/* Internal Methods */
 
+	/**
+	 * Returns the {@link MatrixEntry} at the indices specified, or {@code null} if no such {@link MatrixEntry} exists, or if the indices
+	 * fall out of range.
+	 * 
+	 * Importantly, it does not modify the cursors of the row {@link List} instances backing this {@link Matrix} before it returns.
+	 * 
+	 * @param passedRowIndex - The row index to fetch from
+	 * @param passedColumnIndex - The column index to fetch from
+	 * @return The {@link MatrixEntry} at those indices, or {@code null} if no such entry exists, or if the indices are out of range.
+	 */
 	private MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			List row = this.getRow(passedRowIndex);
