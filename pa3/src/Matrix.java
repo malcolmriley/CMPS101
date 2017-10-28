@@ -212,7 +212,6 @@ public class Matrix implements Ipa3 {
 			
 			int row = firstEntry.getRow();
 			int column = getLesserColumn(firstEntry, secondEntry);
-			// TODO: Can't just blindly use values in first and second entries!
 			if (column >= 0) {
 				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
 				newList.append(new MatrixEntry<Double>(result, row, column));
@@ -274,17 +273,6 @@ public class Matrix implements Ipa3 {
 	 */
 	private static boolean parallelValid(List passedFirstList, List passedSecondList) {
 		return (passedFirstList.index() >= 0) || (passedSecondList.index() >= 0);
-	}
-	
-	private static int getLesserColumn(MatrixEntry<?> passedFirstEntry, MatrixEntry<?> passedSecondEntry) {
-		if ((passedFirstEntry == null) && (passedSecondEntry == null)) {
-			return -1;
-		}
-		else {
-			int firstColumn = getColumn(passedFirstEntry);
-			int secondColumn = getColumn(passedSecondEntry);
-			return (firstColumn <= secondColumn) ? firstColumn : secondColumn;
-		}
 	}
 	
 	/**
