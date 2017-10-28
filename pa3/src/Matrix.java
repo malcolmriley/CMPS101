@@ -186,10 +186,26 @@ public class Matrix implements Ipa3 {
 		return false;
 	}
 
+	/**
+	 * Validates both passed index values, by calling {@link #validateIndex(int)} on both.
+	 * 
+	 * Though the parameters have specific names, the method is agnostic of their representational value.
+	 * 
+	 * @see {@link Matrix#validateIndex(int)}
+	 * @param passedRowIndex - The "row" index to validate
+	 * @param passedColumnIndex - The "column" index to validate.
+	 * @return Whether both pass {@link Matrix#validateIndex(int)}.
+	 */
 	private boolean validateIndices(int passedRowIndex, int passedColumnIndex) {
 		return this.validateIndex(passedRowIndex) && this.validateIndex(passedColumnIndex);
 	}
 
+	/**
+	 * Verifies that the passed value is greater than 0 and less than {@link #DIMENSION}.
+	 * 
+	 * @param passedIndex - The index to validate
+	 * @return Whether or not (0 <= value < {@link #DIMENSION}).
+	 */
 	private boolean validateIndex(int passedIndex) {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
 	}
