@@ -16,6 +16,11 @@ public class ListTest {
 	
 	/* Test Methods */
 	
+	private static void performTest(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
+		String result = getResult(passedTestName, passedList, passedExpectedOutput, passedOperator);
+		System.out.println(result);
+	}
+	
 	private static void performTests(String passedTestName, String[] passedExpectedOutputs, IListTest[] passedOperators) {
 		if (passedExpectedOutputs.length != passedOperators.length) {
 			System.out.println("ERROR: Cannot perform tests - Expected outputs array and operator array sizes do not match.");
@@ -23,28 +28,27 @@ public class ListTest {
 		}
 		else {
 			for (int iterator = 0; iterator < passedExpectedOutputs.length; iterator += 1) {
-				String testName = String.format("%s: (%d of %d)", iterator + 1, passedExpectedOutputs.length);
-				performTest(testName, passedExpectedOutputs[iterator], passedOperators[iterator]);
+				String testName = String.format("%s (%d of %d):", iterator + 1, passedExpectedOutputs.length);
+				String result = getResult(testName, passedExpectedOutputs[iterator], passedOperators[iterator]);
+				System.out.println(result);
 			}
 		}
 	}
 	
-	private static void performTest(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
+	private static String getResult(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
 		System.out.println(passedTestName);
 		passedOperator.test(passedList);
 		String output = passedList.toString();
 		if (output.equals(passedExpectedOutput)) {
-			System.out.println("\tTest PASSED!");
+			return "\tPASSED!";
 		}
 		else {
-			System.out.println("\tTest FAILED!");
-			System.out.println(String.format("\tExpected: \t%s", passedExpectedOutput));
-			System.out.println(String.format("\tActual: \t%s", output));
+			return String.format("\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
 		}
 	}
 	
-	private static void performTest(String passedTestName, String passedExpectedOutput, IListTest passedOperator) {
-		performTest(passedTestName, new List(), passedExpectedOutput, passedOperator);
+	private static String getResult(String passedTestName, String passedExpectedOutput, IListTest passedOperator) {
+		return getResult(passedTestName, new List(), passedExpectedOutput, passedOperator);
 	}
 	
 	/* IListTest Implementation */
