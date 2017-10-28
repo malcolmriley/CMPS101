@@ -117,11 +117,24 @@ public class Matrix implements Ipa3 {
 	
 	/* Protected Methods */
 	
+	/**
+	 * Returns the {@link List} that backs the Matrix row indicated by {@code passedRowIndex}.
+	 * 
+	 * If that particular {@link List} instance is {@code null}, it initializes it before returning it.
+	 * 
+	 * If {@code passedRowIndex} is not a valid index value, returns {@code null}.
+	 * 
+	 * @param passedRowIndex - The index of the row to fetch
+	 * @return The {@link List} corresponding to that row, or {@code null} if the index value is invalid.
+	 */
 	protected List getRow(int passedRowIndex) {
-		if (this.VALUES[passedRowIndex] == null) {
-			this.VALUES[passedRowIndex] = new List();
+		if (this.validateIndex(passedRowIndex)) {
+			if (this.VALUES[passedRowIndex] == null) {
+				this.VALUES[passedRowIndex] = new List();
+			}
+			return this.VALUES[passedRowIndex];
 		}
-		return this.VALUES[passedRowIndex];
+		return null;
 	}
 	
 	protected void addEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
