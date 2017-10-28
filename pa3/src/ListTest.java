@@ -12,21 +12,21 @@ public class ListTest {
 	public static void main(String[] passedArguments) {
 		System.out.println("Running List tests...");
 		
-		for (EnumTest iteratedTest : EnumTest.values()) {
+		for (EnumListTest iteratedTest : EnumListTest.values()) {
 			iteratedTest.execute();
 		}
 	}
 	
 	/* Tests */
 	
-	private enum EnumTest {
+	private enum EnumListTest {
 		;
 		
 		private final String NAME;
 		private final String RESULT;
 		private final ITestOperator<List> OPERATOR;
 		
-		EnumTest(String passedTestName, String passedResult, ITestOperator<List> passedOperator) {
+		EnumListTest(String passedTestName, String passedResult, ITestOperator<List> passedOperator) {
 			this.NAME = passedTestName;
 			this.RESULT = passedResult;
 			this.OPERATOR = passedOperator;
