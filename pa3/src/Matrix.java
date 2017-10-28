@@ -92,7 +92,19 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix mult(Matrix passedMatrix) {
-		// TODO:
+		if (this.validateSize(passedMatrix)) {
+			Matrix transpose = passedMatrix.transpose();
+			Matrix newMatrix = new Matrix(this.DIMENSION);
+			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
+				List firstRow = this.VALUES[iteratedRow];
+				for (int secondIteratedRow = 0; secondIteratedRow < this.DIMENSION; secondIteratedRow += 1) {
+					List secondRow = transpose.VALUES[secondIteratedRow];
+					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); parallelNext(firstRow, secondRow)) {
+						
+					}
+				}
+			}
+		}
 		return null;
 	}
 
@@ -161,44 +173,18 @@ public class Matrix implements Ipa3 {
 	
 	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
-		passedFirstRow.moveFront();
-		passedSecondRow.moveFront();
-		while ((passedFirstRow.index() >= 0) && (passedSecondRow.index() >= 0)) {
+		for (parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); parallelNext(passedFirstRow, passedSecondRow)) {
 			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
 			
-			if ((firstEntry != null) && (secondEntry != null)) { // Belt
-				if (firstEntry.getRow() == secondEntry.getRow()) { // Suspenders
-					/**
-					 * Case 1: Columns for both entries are equal.
-					 */
-					if (firstEntry.getColumn() == secondEntry.getColumn()) {
-						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), secondEntry.getValue(), passedOperator));
-					}
-					/**
-					 * Case 2: Column for first entry is less than that of second, implying that the second Matrix has a 0 at (first.row, first.column)
-					 */
-					else if (firstEntry.getColumn() < secondEntry.getColumn()) {
-						newList.append(fromOperator(firstEntry.getRow(), firstEntry.getColumn(), firstEntry.getValue(), 0, passedOperator));
-					}
-					/**
-					 * Case 3: Column for second entry is less than that of first, implying that the first Matrix has a 0 at (second.row, second.column)
-					 */
-					else {
-						newList.append(fromOperator(firstEntry.getRow(), secondEntry.getColumn(), 0, secondEntry.getValue(), passedOperator));
-					}
-				}
+			int row = firstEntry.getRow();
+			int column = getLesserColumn(firstEntry, secondEntry);
+			if (column >= 0) {
+				double result = passedOperator.operate(getValue(firstEntry), getValue(secondEntry));
+				newList.append(new MatrixEntry<Double>(result, row, column));
 			}
-			
-			passedFirstRow.moveNext();
-			passedSecondRow.moveNext();
 		}
 		return newList;
-	}
-	
-	private static MatrixEntry<Double> fromOperator(int passedRow, int passedColumn, double passedFirst, double passedSecond, IDoubleOperator<Double> passedOperator) {
-		Double result = passedOperator.operate(passedFirst, passedSecond);
-		return new MatrixEntry<Double>(result, passedRow, passedColumn);
 	}
 
 	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
@@ -210,6 +196,49 @@ public class Matrix implements Ipa3 {
 		}
 		return null;
 	}
+	
+	private static void parallelFront(List passedFirstList, List passedSecondList) {
+		passedFirstList.moveFront();
+		passedSecondList.moveBack();
+	}
+	
+	private static void parallelNext(List passedFirstList, List passedSecondList) {
+		passedFirstList.moveNext();
+		passedSecondList.moveNext();
+	}
+	
+	private static boolean parallelValid(List passedFirstList, List passedSecondList) {
+		return (passedFirstList.index() >= 0) || (passedSecondList.index() >= 0);
+	}
+	
+	private static int getLesserColumn(MatrixEntry<?> passedFirstEntry, MatrixEntry<?> passedSecondEntry) {
+		if ((passedFirstEntry == null) && (passedSecondEntry == null)) {
+			return -1;
+		}
+		else {
+			int firstColumn = getColumn(passedFirstEntry);
+			int secondColumn = getColumn(passedSecondEntry);
+			return (firstColumn <= secondColumn) ? firstColumn : secondColumn;
+		}
+	}
+	
+	private static int getColumn(MatrixEntry<?> passedEntry) {
+		if (passedEntry == null) {
+			return Integer.MAX_VALUE;
+		}
+		return passedEntry.getColumn();
+	}
+	
+	private static double getValue(MatrixEntry<Double> passedEntry) {
+		if (passedEntry == null) {
+			return 0;
+		}
+		else return passedEntry.getValue().doubleValue();
+	}
+	
+	/* EnumEntryEvaluation Implemenation */
+	
+	public enum EnumEntryEvaluation { ENTRIES_EQUAL, ENTRIES_NULL, FIRST_GREATER, SECOND_GREATER };
 	
 	/* IEntryOperator Implementation */
 	
