@@ -132,10 +132,10 @@ public class Matrix implements Ipa3 {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			List row = this.getRow(passedRowIndex);
 			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
-				MatrixEntry<Double> iteratedObject = getAsMatrixEntry(row.get());
-				if (iteratedObject != null ) {
-					if (iteratedObject.getColumn() >= passedColumnIndex) {
-						return iteratedObject;
+				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+				if (iteratedEntry != null ) {
+					if (iteratedEntry.getColumn() >= passedColumnIndex) {
+						return iteratedEntry;
 					}
 				}
 			}
