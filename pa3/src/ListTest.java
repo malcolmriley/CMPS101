@@ -6,17 +6,28 @@
  *
  * 10-2017
  *********************************************************************/
+import java.util.Arrays;
 
 public class ListTest {
 	
+	private static final int CHARACTER_COLUMN_ALIGN = 30;
+	
 	/* Test Implementations */
-	static {
-		
-	}
+	public static final ITestOperator<List> BASIC_INITIALIZE = (list) -> { 
+		list.append(3.0D);
+	};
+	public static final ITestOperator<List> POLYMORPHIC_INITIALIZE = (list) -> {
+		list.append(2.0D);
+		list.append("This is a String!");
+		list.append(1);
+		list.append(new Matrix.MatrixEntry<Double>(2.5, 1, 4));
+	};
 	
 	/* Tests */
 	
 	private enum EnumListTest {
+		INIT("Basic Initialization", "3.0", BASIC_INITIALIZE),
+		INIT_POLY("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", POLYMORPHIC_INITIALIZE),
 		;
 		
 		private final String NAME;
@@ -64,13 +75,21 @@ public class ListTest {
 	}
 	
 	public static <T> String getResult(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
-		String result = "\t\tPASSED!";
+		String padding = getPadding(passedTestName);
+		String result = padding + "PASSED!";
 		passedOperator.test(passedInstance);
 		String output = passedInstance.toString();
 		if (!output.equals(passedExpectedOutput)) {
-			result = String.format("\t\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
+			result = String.format(padding + "FAILED!\n\tExpected: \t%s\n\tActual: \t\t%s", passedExpectedOutput, output);
 		}
 		return String.format("%s: %s", passedTestName, result);
+	}
+	
+	private static String getPadding(String passedTestName) {
+		int paddingQuantity = (CHARACTER_COLUMN_ALIGN - passedTestName.length());
+		char paddingArray[] = new char[paddingQuantity];
+		Arrays.fill(paddingArray, ' ');
+		return new String(paddingArray);
 	}
 	
 	/* IListTest Implementation */
