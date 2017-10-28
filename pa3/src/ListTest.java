@@ -39,16 +39,16 @@ public class ListTest {
 	};
 	public static final ITestOperator<List> GET_BACK = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
-		return String.valueOf(list.back());
+		return list.back();
 	};
 	public static final ITestOperator<List> GET_NULL_CURSOR = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
-		return String.valueOf(list.get());
+		return list.get();
 	};
 	public static final ITestOperator<List> GET_NON_NULL_CURSOR = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
 		list.moveFront();
-		return String.valueOf(list.get());
+		return list.get();
 	};
 	public static final ITestOperator<List> INSERT_BEFORE = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
@@ -81,6 +81,43 @@ public class ListTest {
 		list.insertBefore(5);
 		return list.toString();
 	};
+	public static final ITestOperator<List> INSERT_NULL_CURSOR = (list) -> {
+		INSERT_DOUBLE_ALTERNATING.test(list);
+		list.moveBack();
+		list.moveNext();
+		list.insertBefore(1);
+		return list.toString();
+	};
+	public static final ITestOperator<List> EQUALS_SELF = (list) -> {
+		INSERT_ALTERNATING.test(list);
+		return list.equals(list);
+	};
+	public static final ITestOperator<List> EQUALS_SAME_OTHER = (list) -> {
+		List second = new List();
+		INSERT_ALTERNATING.test(second);
+		INSERT_ALTERNATING.test(list);
+		return list.equals(second);
+	};
+	public static final ITestOperator<List> EQUALS_DIFFERENT_OTHER = (list) -> {
+		List second = new List();
+		INSERT_ALTERNATING.test(list);
+		INITIALIZE_ALTERNATING.test(second);
+		return list.equals(second);
+	};
+	public static final ITestOperator<List> EQUALS_EMPTY_OTHER = (list) -> {
+		List second = new List();
+		INSERT_ALTERNATING.test(list);
+		return list.equals(second);
+	};
+	public static final ITestOperator<List> EQUALS_EMPTY_SELF = (list) -> {
+		List second = new List();
+		INSERT_ALTERNATING.test(second);
+		return list.equals(second);
+	};
+	public static final ITestOperator<List> EQUALS_BOTH_EMTPY = (list) -> {
+		List second = new List();
+		return list.equals(second);
+	};
 	
 	/* Tests */
 	
@@ -96,6 +133,12 @@ public class ListTest {
 		InsertAfter("Insert After", "6 0 4 2 1 3 5", INSERT_AFTER),
 		InsertAlternating("Insert Alternating", "2 4 1 5 3", INSERT_ALTERNATING),
 		InsertDoubleAlternating("Insert Doubly Alternating", "2 1 5 3 4", INSERT_DOUBLE_ALTERNATING),
+		InsertNullCursor("Insert Null Cursor", "2 1 5 3 4", INSERT_NULL_CURSOR),
+		EqualsSelf("Equals Self", "true", EQUALS_SELF),
+		EqualsSameOther("Equals Same Other", "true", EQUALS_SAME_OTHER),
+		EqualsDiffOther("Equals Different Other", "false", EQUALS_DIFFERENT_OTHER),
+		EqualsEmptySelf("Equals Empty Self", "false", EQUALS_EMPTY_SELF),
+		EqualsBothEmpty("Equals Both Empty", "true", EQUALS_BOTH_EMTPY),
 		;
 		
 		private final String NAME;
@@ -145,11 +188,20 @@ public class ListTest {
 	public static <T> String getResult(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
 		String padding = getPadding(passedTestName);
 		String result = padding + "PASSED!";
-		String output = passedOperator.test(passedInstance);
+		String output = processOutput(passedOperator.test(passedInstance));
 		if (!output.equals(passedExpectedOutput)) {
 			result = String.format(padding + "FAILED!\n\tExpected: \t%s\n\tActual: \t\t%s", passedExpectedOutput, output);
 		}
 		return String.format("\t%s: %s", passedTestName, result);
+	}
+	
+	private static String processOutput(Object passedObject) {
+		if (passedObject instanceof String) {
+			return (String) passedObject;
+		}
+		else {
+			return String.valueOf(passedObject);
+		}
 	}
 	
 	private static String getPadding(String passedTestName) {
@@ -170,6 +222,6 @@ public class ListTest {
 		 * 
 		 * @param passedList - The T to operate on
 		 */
-		public String test(T passedList);
+		public Object test(T passedList);
 	}
 }
