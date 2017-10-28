@@ -100,21 +100,12 @@ public class Matrix implements Ipa3 {
 				for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
 					List secondRow = transpose.getRow(iteratedColumn);
 					double dotProduct = 0;
-					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); parallelNext(firstRow, secondRow)) {
+					int column = 0;
+					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
 						MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
 						MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
 						
-						double firstValue = 0;
-						double secondValue = 0;
-						
-						if (firstEntry.getColumn() == secondEntry.getColumn()) {
-							firstValue = firstEntry.getValue();
-							secondValue = secondEntry.getValue();
-							dotProduct += (firstValue * secondValue);
-						}
-						dotProduct += (firstValue * secondValue);
-						
-						// TODO: Complete
+						dotProduct += (getValue(firstEntry, column) * getValue(secondEntry, column));
 					}
 					newMatrix.addEntry(iteratedRow, iteratedColumn, dotProduct);
 				}
