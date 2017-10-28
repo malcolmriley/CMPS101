@@ -10,9 +10,6 @@
 public class MatrixTest {
 	
 	/* Test Implementations */
-	static {
-		
-	}
 	
 	/* Tests */
 	

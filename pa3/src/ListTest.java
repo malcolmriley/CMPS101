@@ -13,6 +13,7 @@ public class ListTest {
 	private static final int CHARACTER_COLUMN_ALIGN = 35;
 	
 	/* Test Implementations */
+	
 	public static final ITestOperator<List> INITIALIZE_BASIC = (list) -> { 
 		list.append(3.0D);
 		return list.toString();
