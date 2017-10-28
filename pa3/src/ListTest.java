@@ -14,6 +14,8 @@ public class ListTest {
 		
 	}
 	
+	/* Test Methods */
+	
 	private static void performTests(String passedTestName, String[] passedExpectedOutputs, IListTest[] passedOperators) {
 		if (passedExpectedOutputs.length != passedOperators.length) {
 			System.out.println("ERROR: Cannot perform tests - Expected outputs array and operator array sizes do not match.");
