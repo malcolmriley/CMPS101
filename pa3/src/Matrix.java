@@ -101,8 +101,13 @@ public class Matrix implements Ipa3 {
 					List secondRow = transpose.getRow(iteratedColumn);
 					double dotProduct = 0;
 					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); parallelNext(firstRow, secondRow)) {
-						double firstValue = getValue(getAsMatrixEntry(firstRow.get()));
-						double secondValue = getValue(getAsMatrixEntry(secondRow.get()));
+						MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
+						MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
+						
+						int column = getLesserColumn(firstEntry, secondEntry);
+						
+						double firstValue = getValue(firstEntry, column);
+						double secondValue = getValue(secondEntry, column);
 						dotProduct += (firstValue * secondValue);
 					}
 					newMatrix.addEntry(iteratedRow, iteratedColumn, dotProduct);
@@ -207,8 +212,9 @@ public class Matrix implements Ipa3 {
 			
 			int row = firstEntry.getRow();
 			int column = getLesserColumn(firstEntry, secondEntry);
+			// TODO: Can't just blindly use values in first and second entries!
 			if (column >= 0) {
-				double result = passedOperator.operate(getValue(firstEntry), getValue(secondEntry));
+				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
 				newList.append(new MatrixEntry<Double>(result, row, column));
 			}
 		}
@@ -250,6 +256,12 @@ public class Matrix implements Ipa3 {
 		}
 	}
 	
+	/**
+	 * If {@code passedList} is {@code null}, returns true. Otherwise, returns {@link List#isEmpty()}.
+	 * 
+	 * @param passedList - The {@link List} to check
+	 * @return Whether {@code passedList} is {@code null} or empty.
+	 */
 	private static boolean isListEmpty(List passedList) {
 		if (passedList == null) {
 			return true;
@@ -257,6 +269,14 @@ public class Matrix implements Ipa3 {
 		return passedList.isEmpty();
 	}
 	
+	/**
+	 * Returns the column index of the passed {@link MatrixEntry} instance.
+	 * 
+	 * If {@code passedEntry} is {@code null}, returns {@link Integer#MAX_VALUE}.
+	 * 
+	 * @param passedEntry - The {@link MatrixEntry} to examine
+	 * @return The columin index of that {@link MatrixEntry}, or {@link Integer#MAX_VALUE} if it is null.
+	 */
 	private static int getColumn(MatrixEntry<?> passedEntry) {
 		if (passedEntry == null) {
 			return Integer.MAX_VALUE;
@@ -264,11 +284,22 @@ public class Matrix implements Ipa3 {
 		return passedEntry.getColumn();
 	}
 	
-	private static double getValue(MatrixEntry<Double> passedEntry) {
-		if (passedEntry == null) {
-			return 0;
+	/**
+	 * Returns the value of the passed {@link MatrixEntry} if its column value matches {@code passedExpectedColumn}.
+	 * 
+	 * Returns 0 for all other cases, including if {@code passedEntry} is {@code null}.
+	 * 
+	 * @param passedEntry - The {@link MatrixEntry} to examine
+	 * @param passedExpectedColumn - The expected column index
+	 * @return {@link MatrixEntry<Double>#getValue()} if non-{@code null} and column matches {@code passedExpectedColumn}, 0 for all other cases.
+	 */
+	private static double getValue(MatrixEntry<Double> passedEntry, int passedExpectedColumn) {
+		if (passedEntry != null) {
+			if (passedEntry.getColumn() == passedExpectedColumn) {
+				return passedEntry.getValue().doubleValue();
+			}
 		}
-		else return passedEntry.getValue().doubleValue();
+		return 0;
 	}
 	
 	/* IEntryOperator Implementation */
