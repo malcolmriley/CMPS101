@@ -12,16 +12,39 @@ public class ListTest {
 	public static void main(String[] passedArguments) {
 		System.out.println("Running List tests...");
 		
+		for (EnumTest iteratedTest : EnumTest.values()) {
+			iteratedTest.execute();
+		}
+	}
+	
+	/* Tests */
+	
+	private enum EnumTest {
+		;
+		
+		private final String NAME;
+		private final String RESULT;
+		private final ITestOperator<List> OPERATOR;
+		
+		EnumTest(String passedTestName, String passedResult, ITestOperator<List> passedOperator) {
+			this.NAME = passedTestName;
+			this.RESULT = passedResult;
+			this.OPERATOR = passedOperator;
+		}
+		
+		public void execute() {
+			performTest(this.NAME, new List(), this.RESULT, this.OPERATOR);
+		}
 	}
 	
 	/* Test Methods */
 	
-	private static void performTest(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
-		String result = getResult(passedTestName, passedList, passedExpectedOutput, passedOperator);
+	public static <T> void performTest(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
+		String result = getResult(passedTestName, passedInstance, passedExpectedOutput, passedOperator);
 		System.out.println(result);
 	}
 	
-	private static void performTests(String passedTestName, String[] passedExpectedOutputs, IListTest[] passedOperators) {
+	public static <T> void performTests(String passedTestName, T passedInstance, String[] passedExpectedOutputs, ITestOperator<T>[] passedOperators) {
 		if (passedExpectedOutputs.length != passedOperators.length) {
 			System.out.println("ERROR: Cannot perform tests - Expected outputs array and operator array sizes do not match.");
 			return;
@@ -29,35 +52,31 @@ public class ListTest {
 		else {
 			for (int iterator = 0; iterator < passedExpectedOutputs.length; iterator += 1) {
 				String testName = String.format("%s (%d of %d):", iterator + 1, passedExpectedOutputs.length);
-				String result = getResult(testName, passedExpectedOutputs[iterator], passedOperators[iterator]);
+				String result = getResult(testName, passedInstance, passedExpectedOutputs[iterator], passedOperators[iterator]);
 				System.out.println(result);
 			}
 		}
 	}
 	
-	private static String getResult(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
+	public static <T> String getResult(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
 		String result = "\tPASSED!";
-		passedOperator.test(passedList);
-		String output = passedList.toString();
+		passedOperator.test(passedInstance);
+		String output = passedInstance.toString();
 		if (!output.equals(passedExpectedOutput)) {
 			result = String.format("\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
 		}
 		return String.format("%s: %s", passedTestName, result);
 	}
 	
-	private static String getResult(String passedTestName, String passedExpectedOutput, IListTest passedOperator) {
-		return getResult(passedTestName, new List(), passedExpectedOutput, passedOperator);
-	}
-	
 	/* IListTest Implementation */
 	
-	public interface IListTest {
+	public interface ITestOperator<T> {
 		
 		/**
-		 * This method should perform a number of operations on the passed {@link List}.
+		 * This method should perform a number of operations on the passed T.
 		 * 
-		 * @param passedList - The {@link List} to operate on
+		 * @param passedList - The T to operate on
 		 */
-		public void test(List passedList);
+		public void test(T passedList);
 	}
 }
