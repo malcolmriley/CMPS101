@@ -118,6 +118,9 @@ public class ListTest {
 		List second = new List();
 		return list.equals(second);
 	};
+	public static final ITestOperator<List> EQUALS_EMPTY_NULL = (list) -> {
+		return list.equals(null);
+	};
 	public static final ITestOperator<List> DELETE_FRONT_AND_BACK = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
 		list.deleteFront();
@@ -233,6 +236,7 @@ public class ListTest {
 		EqualsDiffOther("Equals Different Other", "false", EQUALS_DIFFERENT_OTHER),
 		EqualsEmptySelf("Equals Empty Self", "false", EQUALS_EMPTY_SELF),
 		EqualsBothEmpty("Equals Both Empty", "true", EQUALS_BOTH_EMTPY),
+		EqualsEmptyNull("Equals Null", "false", EQUALS_EMPTY_NULL),
 		DeleteFrontBack("Deleting Front and Back", "4 2 1 3", DELETE_FRONT_AND_BACK),
 		DeleteFrontCursor("Deleting Cursor at Front", "4 2 1 3 5", DELETE_CURSOR_FRONT),
 		DeleteCursorBack("Deleting Cursor at Back", "6 4 2 1 3", DELETE_CURSOR_BACK),
@@ -302,7 +306,7 @@ public class ListTest {
 		String result = padding + "PASSED!";
 		String output = processOutput(passedOperator.test(passedInstance));
 		if (!output.equals(passedExpectedOutput)) {
-			result = String.format(padding + "FAILED!\n\t\tExpected: \t%s\n\t\tActual: \t\t%s", passedExpectedOutput, output);
+			result = String.format(padding + "\t\tFAILED!\n\t\tExpected: \t%s\n\t\tActual: \t\t%s", passedExpectedOutput, output);
 		}
 		return String.format("\t%s: %s", passedTestName, result);
 	}
