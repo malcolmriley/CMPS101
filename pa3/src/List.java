@@ -124,10 +124,12 @@ public class List {
 	 * Moves the cursor to the position one previous from its current position in this {@link List}.
 	 */
 	public void movePrev() {
-		if (this.setAndCheckCursor(this.NODE_CURSOR.getPrevious())) {
-			this.INDEX -= 1;
-			if (this.INDEX < 0) {
-				this.INDEX = CURSOR_INDEX_INVALID;
+		if (this.NODE_CURSOR != null) {
+			if (this.setAndCheckCursor(this.NODE_CURSOR.getPrevious())) {
+				this.INDEX -= 1;
+				if (this.INDEX < 0) {
+					this.INDEX = CURSOR_INDEX_INVALID;
+				}
 			}
 		}
 	}
@@ -136,10 +138,12 @@ public class List {
 	 * Moves the cursor to the position one next from its current position in this {@link List}.
 	 */
 	public void moveNext() {
-		if (this.setAndCheckCursor(this.NODE_CURSOR.getNext())) {
-			this.INDEX += 1;
-			if (this.INDEX > (this.LENGTH - 1)) {
-				this.INDEX = CURSOR_INDEX_INVALID;
+		if (this.NODE_CURSOR != null) {
+			if (this.setAndCheckCursor(this.NODE_CURSOR.getNext())) {
+				this.INDEX += 1;
+				if (this.INDEX > (this.LENGTH - 1)) {
+					this.INDEX = CURSOR_INDEX_INVALID;
+				}
 			}
 		}
 	}
