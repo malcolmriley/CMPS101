@@ -271,10 +271,6 @@ public class Matrix implements Ipa3 {
 		else return passedEntry.getValue().doubleValue();
 	}
 	
-	/* EnumEntryEvaluation Implemenation */
-	
-	public enum EnumEntryEvaluation { ENTRIES_EQUAL, ENTRIES_NULL, FIRST_GREATER, SECOND_GREATER };
-	
 	/* IEntryOperator Implementation */
 	
 	public interface IDoubleOperator<T> {
