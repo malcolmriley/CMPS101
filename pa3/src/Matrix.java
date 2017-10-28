@@ -210,6 +210,13 @@ public class Matrix implements Ipa3 {
 		return (passedIndex >= 0) && (passedIndex < this.DIMENSION);
 	}
 	
+	/**
+	 * Performs an operation on individual entries in this {@link Matrix}, using the passed {@link IEntryModifier}.
+	 * 
+	 * @param passedMatrix - The source {@link Matrix} to operate on
+	 * @param passedOperator - The operation to perform on each individual {@link MatrixEntry}
+	 * @return A new {@link Matrix} instance, the result of the completed operation.
+	 */
 	private static Matrix modifyUsing(Matrix passedMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedMatrix.getSize());
 		for (List iteratedList : passedMatrix.VALUES) {
@@ -227,6 +234,14 @@ public class Matrix implements Ipa3 {
 		return newMatrix;
 	}
 	
+	/**
+	 * Modifies all rows of the passed {@link Matrix} instances using the passed {@link IDoubleOperator<Double>}, returning the result as a new instance.
+	 * 
+	 * @param passedFirstMatrix - A {@link Matrix} to operate on
+	 * @param passedSecondMatrix - Another {@link Matrix} to operate on
+	 * @param passedOperator - The operation that will be performed on all discovered {@link MatrixEntry} instances
+	 * @return A new {@link Matrix}, the result of performing the completed operation.
+	 */
 	private static Matrix modifyRowsUsing(Matrix passedFirstMatrix, Matrix passedSecondMatrix, IDoubleOperator<Double> passedOperator) {
 		if (passedFirstMatrix.validateSize(passedSecondMatrix)) {
 			Matrix newMatrix = new Matrix(passedFirstMatrix.getSize());
@@ -240,6 +255,16 @@ public class Matrix implements Ipa3 {
 		return null;
 	}
 	
+	/**
+	 * Performs an interleaving operation on the passed row {@link List} instances. That is to say, it iterates over both {@link List} instances in parallel,
+	 * operating on the value of the entry with the lower {@link MatrixEntry#getColumn()} value (or both, if they are equal), using the passed {@link IDoubleOperator<Double>}.
+	 * 
+	 * @param passedFirstRow - A row-representing {@link List} to operate on
+	 * @param passedSecondRow - Another row-representing {@link List} to operate on
+	 * @param passedRowIndex - The index of both rows
+	 * @param passedOperator - The operation to perform
+	 * @return A new {@link List} instance, the result of performing the completed operation.
+	 */
 	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, int passedRowIndex, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
 		int column = -1;
