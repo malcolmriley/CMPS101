@@ -115,6 +115,24 @@ public class Matrix implements Ipa3 {
 		return newMatrix;
 	}
 	
+	public boolean equals(Object passedObject) {
+		if (passedObject instanceof Matrix) {
+			Matrix matrix = (Matrix)passedObject;
+			if (this.validateSize(matrix)) {
+				for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
+					// Check lengths before checking each entry (cheaper)
+					if (this.getRow(iteratedRow).length() != matrix.getRow(iteratedRow).length()) {
+						return false;
+					}
+					if (!this.getRow(iteratedRow).listsAreEqual(matrix.getRow(iteratedRow))) {
+						return false;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
 	public String toString() {
 		String matrix = "";
 		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
