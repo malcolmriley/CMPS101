@@ -115,6 +115,16 @@ public class Matrix implements Ipa3 {
 		return newMatrix;
 	}
 	
+	public String toString() {
+		String matrix = "";
+		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
+			if (!this.getRow(iteratedRow).isEmpty()) {
+				matrix += String.format("%d: %s\n", iteratedRow, this.getRow(iteratedRow).toString());
+			}
+		}
+		return matrix;
+	}
+	
 	/* Protected Methods */
 	
 	/**
@@ -452,6 +462,10 @@ public class Matrix implements Ipa3 {
 
 		public T getValue() {
 			return this.VALUE;
+		}
+		
+		public String toString() {
+			return String.format("(%d, %s)", this.COLUMN, this.VALUE);
 		}
 
 		public void setValue(T passedValue) {
