@@ -209,9 +209,6 @@ public class Matrix implements Ipa3 {
 		for (parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); parallelNext(passedFirstRow, passedSecondRow)) {
 			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
-			
-			int row = firstEntry.getRow();
-			int column = getLesserColumn(firstEntry, secondEntry);
 			if (column >= 0) {
 				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
 				newList.append(new MatrixEntry<Double>(result, row, column));
@@ -286,21 +283,6 @@ public class Matrix implements Ipa3 {
 			return true;
 		}
 		return passedList.isEmpty();
-	}
-	
-	/**
-	 * Returns the column index of the passed {@link MatrixEntry} instance.
-	 * 
-	 * If {@code passedEntry} is {@code null}, returns {@link Integer#MAX_VALUE}.
-	 * 
-	 * @param passedEntry - The {@link MatrixEntry} to examine
-	 * @return The columin index of that {@link MatrixEntry}, or {@link Integer#MAX_VALUE} if it is null.
-	 */
-	private static int getColumn(MatrixEntry<?> passedEntry) {
-		if (passedEntry == null) {
-			return Integer.MAX_VALUE;
-		}
-		return passedEntry.getColumn();
 	}
 	
 	/**
