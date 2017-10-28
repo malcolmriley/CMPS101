@@ -48,7 +48,7 @@ public class List {
 	 */
 	public boolean equals(Object passedList) {
 		if (passedList instanceof List) {
-			return Objects.equals(this, passedList);
+			return this.listsAreEqual((List) passedList);
 		}
 		return false;
 	}
@@ -59,7 +59,7 @@ public class List {
 	 * @param passedList - The list to compare this one to
 	 * @return Whether or not the two lists are equivalent.
 	 */
-	public boolean equals(List passedList) {
+	public boolean listsAreEqual(List passedList) {
 		if (this.length() == passedList.length()) {
 			if (!this.isEmpty()) {
 				Node<Object> thisListIterator = this.getFrontNode();
