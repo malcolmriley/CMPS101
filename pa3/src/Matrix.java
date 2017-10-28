@@ -104,11 +104,17 @@ public class Matrix implements Ipa3 {
 						MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
 						MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
 						
-						int column = getLesserColumn(firstEntry, secondEntry);
+						double firstValue = 0;
+						double secondValue = 0;
 						
-						double firstValue = getValue(firstEntry, column);
-						double secondValue = getValue(secondEntry, column);
+						if (firstEntry.getColumn() == secondEntry.getColumn()) {
+							firstValue = firstEntry.getValue();
+							secondValue = secondEntry.getValue();
+							dotProduct += (firstValue * secondValue);
+						}
 						dotProduct += (firstValue * secondValue);
+						
+						// TODO: Complete
 					}
 					newMatrix.addEntry(iteratedRow, iteratedColumn, dotProduct);
 				}
@@ -197,21 +203,24 @@ public class Matrix implements Ipa3 {
 			for (int iteratedRow = 0; iteratedRow < passedFirstMatrix.getSize(); iteratedRow += 1) {
 				List firstRow = passedFirstMatrix.getRow(iteratedRow);
 				List secondRow = passedSecondMatrix.getRow(iteratedRow);
-				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstRow, secondRow, passedOperator);
+				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstRow, secondRow, iteratedRow, passedOperator);
 			}
 			return newMatrix;
 		}
 		return null;
 	}
 	
-	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, IDoubleOperator<Double> passedOperator) {
+	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, int passedRowIndex, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
-		for (parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); parallelNext(passedFirstRow, passedSecondRow)) {
+		int column = -1;
+		for (parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); column = parallelNext(passedFirstRow, passedSecondRow)) {
 			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
 			if (column >= 0) {
 				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
-				newList.append(new MatrixEntry<Double>(result, row, column));
+				if (result != 0) {
+					newList.append(new MatrixEntry<Double>(result, passedRowIndex, column));
+				}
 			}
 		}
 		return newList;
@@ -251,14 +260,32 @@ public class Matrix implements Ipa3 {
 	}
 	
 	/**
-	 * Calls {@link List#moveNext()} on both passed {@link List} instances.
+	 * Calls {@link List#moveNext()} on the {@link List} instance with the lesser of the two {@link MatrixEntry#getColumn()} values.
+	 * 
+	 * If one or both are {@code null}, or if both returned {@link MatrixEntry#getColumn()} values are equal, calls {@link List#moveNext()} on both.
+	 * 
+	 * Returns the index of the lesser column (or the value of both if both are equal or {@code null}).
 	 * 
 	 * @param passedFirstList - A {@link List}
 	 * @param passedSecondList - Another {@link List}
 	 */
-	private static void parallelNext(List passedFirstList, List passedSecondList) {
+	private static int parallelNext(List passedFirstList, List passedSecondList) {
+		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
+		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
+		
+		if ((firstEntry != null) && (secondEntry != null)) {
+			if (firstEntry.getColumn() > secondEntry.getColumn()) {
+				passedSecondList.moveNext();
+				return secondEntry.getColumn();
+			}
+			if (firstEntry.getColumn() < secondEntry.getColumn()){
+				passedFirstList.moveNext();
+				return firstEntry.getColumn();
+			}
+		}
 		passedFirstList.moveNext();
 		passedSecondList.moveNext();
+		return (firstEntry != null) ? firstEntry.getColumn() : -1;
 	}
 	
 	/**
