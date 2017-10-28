@@ -9,7 +9,7 @@
  *********************************************************************/
 import java.util.Objects;
 
-public class Matrix implements Ipa3 {
+public class Matrix {
 
 	protected final int DIMENSION;
 	protected final List[] VALUES;
@@ -21,7 +21,6 @@ public class Matrix implements Ipa3 {
 
 	/* PA3 Required Methods */
 
-	@Override
 	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
 		MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
 		if (entry != null) {
@@ -39,12 +38,10 @@ public class Matrix implements Ipa3 {
 		}
 	}
 
-	@Override
 	public int getSize() {
 		return this.DIMENSION;
 	}
 
-	@Override
 	public int getNNZ() {
 		int nonzeroes = 0;
 		for (List iteratedList : this.VALUES) {
@@ -53,44 +50,37 @@ public class Matrix implements Ipa3 {
 		return nonzeroes;
 	}
 
-	@Override
 	public void makeZero() {
 		for (List iteratedList : this.VALUES) {
 			iteratedList.clear();
 		}
 	}
 
-	@Override
 	public Matrix copy() {
 		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue());};
 		return modifyUsing(this, operator);
 	}
 
-	@Override
 	public Matrix scalarMult(double passedValue) {
 		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);};
 		return modifyUsing(this, operator);
 	}
 
-	@Override
 	public Matrix transpose() {
 		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getColumn(), entry.getRow(), entry.getValue());};
 		return modifyUsing(this, operator);
 	}
 
-	@Override
 	public Matrix add(Matrix passedMatrix) {
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first + second); };
 		return modifyRowsUsing(this, passedMatrix, operation);
 	}
 
-	@Override
 	public Matrix sub(Matrix passedMatrix) {
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first - second); };
 		return modifyRowsUsing(this, passedMatrix, operation);
 	}
 
-	@Override
 	public Matrix mult(Matrix passedMatrix) {
 		Matrix newMatrix = null;
 		if (this.validateSize(passedMatrix)) {
