@@ -32,15 +32,24 @@ public class List {
 	}
 
 	public Object front() {
-		return this.NODE_FRONT.get();
+		if (this.NODE_FRONT != null) {
+			return this.NODE_FRONT.get();
+		}
+		return null;
 	}
 
 	public Object back() {
-		return this.NODE_BACK.get();
+		if (this.NODE_BACK != null) {
+			return this.NODE_BACK.get();
+		}
+		return null;
 	}
 
 	public Object get() {
-		return this.NODE_CURSOR.get();
+		if (this.NODE_CURSOR != null) {
+			return this.NODE_CURSOR.get();
+		}
+		return null;
 	}
 	
 	/**
