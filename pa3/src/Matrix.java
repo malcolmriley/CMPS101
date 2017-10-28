@@ -235,7 +235,7 @@ public class Matrix implements Ipa3 {
 	}
 	
 	/**
-	 * Modifies all rows of the passed {@link Matrix} instances using the passed {@link IDoubleOperator<Double>}, returning the result as a new instance.
+	 * Modifies all contained {@link MatrixEntry} instances owned by the passed {@link Matrix} instances using the passed {@link IDoubleOperator<Double>}, returning the result as a new instance.
 	 * 
 	 * @param passedFirstMatrix - A {@link Matrix} to operate on
 	 * @param passedSecondMatrix - Another {@link Matrix} to operate on
