@@ -9,12 +9,9 @@
 
 public class ListTest {
 	
-	public static void main(String[] passedArguments) {
-		System.out.println("Running List tests...");
+	/* Test Implementations */
+	static {
 		
-		for (EnumListTest iteratedTest : EnumListTest.values()) {
-			iteratedTest.execute();
-		}
 	}
 	
 	/* Tests */
@@ -34,6 +31,14 @@ public class ListTest {
 		
 		public void execute() {
 			performTest(this.NAME, new List(), this.RESULT, this.OPERATOR);
+		}
+	}
+	
+	public static void main(String[] passedArguments) {
+		System.out.println("Running List tests...");
+		
+		for (EnumListTest iteratedTest : EnumListTest.values()) {
+			iteratedTest.execute();
 		}
 	}
 	
@@ -59,11 +64,11 @@ public class ListTest {
 	}
 	
 	public static <T> String getResult(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
-		String result = "\tPASSED!";
+		String result = "\t\tPASSED!";
 		passedOperator.test(passedInstance);
 		String output = passedInstance.toString();
 		if (!output.equals(passedExpectedOutput)) {
-			result = String.format("\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
+			result = String.format("\t\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
 		}
 		return String.format("%s: %s", passedTestName, result);
 	}
