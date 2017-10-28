@@ -97,11 +97,15 @@ public class Matrix implements Ipa3 {
 			Matrix newMatrix = new Matrix(this.DIMENSION);
 			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
 				List firstRow = this.getRow(iteratedRow);
-				for (int secondIteratedRow = 0; secondIteratedRow < this.DIMENSION; secondIteratedRow += 1) {
-					List secondRow = transpose.getRow(secondIteratedRow);
+				for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
+					List secondRow = transpose.getRow(iteratedColumn);
+					double dotProduct = 0;
 					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); parallelNext(firstRow, secondRow)) {
-						
+						double firstValue = getValue(getAsMatrixEntry(firstRow.get()));
+						double secondValue = getValue(getAsMatrixEntry(secondRow.get()));
+						dotProduct += (firstValue * secondValue);
 					}
+					newMatrix.addEntry(iteratedRow, iteratedColumn, dotProduct);
 				}
 			}
 		}
