@@ -118,6 +118,37 @@ public class ListTest {
 		List second = new List();
 		return list.equals(second);
 	};
+	public static final ITestOperator<List> DELETE_FRONT_AND_BACK = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.deleteFront();
+		list.deleteBack();
+		return list.toString();
+	};
+	public static final ITestOperator<List> DELETE_CURSOR_FRONT = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.delete();
+		return list.toString();
+	};
+	public static final ITestOperator<List> DELETE_CURSOR_BACK = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveBack();
+		list.delete();
+		return list.toString();
+	};
+	public static final ITestOperator<List> DELETE_CURSOR_MIDDLE = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.moveNext();
+		list.moveNext();
+		list.delete();
+		return list.toString();
+	};
+	
+
+	public static final ITestOperator<List> DELIBERATE_FAIL = (list) -> {
+		return INITIALIZE_ALTERNATING.test(list);
+	};
 	
 	/* Tests */
 	
@@ -139,18 +170,24 @@ public class ListTest {
 		EqualsDiffOther("Equals Different Other", "false", EQUALS_DIFFERENT_OTHER),
 		EqualsEmptySelf("Equals Empty Self", "false", EQUALS_EMPTY_SELF),
 		EqualsBothEmpty("Equals Both Empty", "true", EQUALS_BOTH_EMTPY),
+		DeleteFrontBack("Deleting Front and Back", "4 2 1 3", DELETE_FRONT_AND_BACK),
+		DeleteFrontCursor("Deleting Cursor at Front", "4 2 1 3 5", DELETE_CURSOR_FRONT),
+		DeleteCursorBack("Deleting Cursor at Back", "6 4 2 1 3", DELETE_CURSOR_BACK),
+		DeleteCursorMiddle("Deleting Cursor at Middle", "6 4 1 3 5", DELETE_CURSOR_MIDDLE),
+
+		DeliberateFail("This Test Fails Deliberately", "!!!FAIL!!!", DELIBERATE_FAIL),
 		;
-		
+
 		private final String NAME;
 		private final String RESULT;
 		private final ITestOperator<List> OPERATOR;
-		
+
 		EnumListTest(String passedTestName, String passedResult, ITestOperator<List> passedOperator) {
 			this.NAME = passedTestName;
 			this.RESULT = passedResult;
 			this.OPERATOR = passedOperator;
 		}
-		
+
 		public void execute() {
 			performTest(this.NAME, new List(), this.RESULT, this.OPERATOR);
 		}
@@ -190,7 +227,7 @@ public class ListTest {
 		String result = padding + "PASSED!";
 		String output = processOutput(passedOperator.test(passedInstance));
 		if (!output.equals(passedExpectedOutput)) {
-			result = String.format(padding + "FAILED!\n\tExpected: \t%s\n\tActual: \t\t%s", passedExpectedOutput, output);
+			result = String.format(padding + "FAILED!\n\t\tExpected: \t%s\n\t\tActual: \t\t%s", passedExpectedOutput, output);
 		}
 		return String.format("\t%s: %s", passedTestName, result);
 	}
