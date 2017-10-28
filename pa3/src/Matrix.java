@@ -221,6 +221,18 @@ public class Matrix implements Ipa3 {
 		return newList;
 	}
 
+	/**
+	 * Casts the passed {@link Object} to {@link MatrixEntry<Double>}, returning it, or {@code null} instead if:
+	 * <li>
+	 * {@code passedObject} is not an instance of {@link MatrixEntry}
+	 * </li>
+	 * <li>
+	 * {@link MatrixEntry#getValue()} does not return an instance of {@link Double} (effectively verifying that the {@link MatrixEntry} can be safely cast to {@code MatrixEntry<Double>}.
+	 * </li>
+	 * 
+	 * @param passedObject - The {@link Object} to check and cast
+	 * @return An appropriately-cast {@link MatrixEntry<Double>}, or {@code null} if the cast is invalid.
+	 */
 	@SuppressWarnings("unchecked") // Cast checked by instance of contained entry value
 	private static MatrixEntry<Double> getAsMatrixEntry(Object passedObject) {
 		if (passedObject instanceof MatrixEntry<?>) {
@@ -231,21 +243,34 @@ public class Matrix implements Ipa3 {
 		return null;
 	}
 	
+	/**
+	 * Calls {@link List#moveFront()} on both passed {@link List} instances.
+	 * 
+	 * @param passedFirstList - A {@link List}
+	 * @param passedSecondList - Another {@link List}
+	 */
 	private static void parallelFront(List passedFirstList, List passedSecondList) {
 		passedFirstList.moveFront();
 		passedSecondList.moveBack();
 	}
 	
+	/**
+	 * Calls {@link List#moveNext()} on both passed {@link List} instances.
+	 * 
+	 * @param passedFirstList - A {@link List}
+	 * @param passedSecondList - Another {@link List}
+	 */
 	private static void parallelNext(List passedFirstList, List passedSecondList) {
 		passedFirstList.moveNext();
 		passedSecondList.moveNext();
 	}
 	
 	/**
-	 * Checks whether {@link List#index()} is greater than or equal to zero
-	 * @param passedFirstList
-	 * @param passedSecondList
-	 * @return
+	 * Checks whether {@link List#index()} is greater than or equal to zero for either of the passed {@link List} instances.
+	 * 
+	 * @param passedFirstList - The first {@link List} to check
+	 * @param passedSecondList - The second {@link List} to check
+	 * @return Whether either or both {@link List} indices are valid.
 	 */
 	private static boolean parallelValid(List passedFirstList, List passedSecondList) {
 		return (passedFirstList.index() >= 0) || (passedSecondList.index() >= 0);
