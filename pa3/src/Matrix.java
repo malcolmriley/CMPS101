@@ -195,8 +195,8 @@ public class Matrix implements Ipa3 {
 		if (passedFirstMatrix.validateSize(passedSecondMatrix)) {
 			Matrix newMatrix = new Matrix(passedFirstMatrix.getSize());
 			for (int iteratedRow = 0; iteratedRow < passedFirstMatrix.getSize(); iteratedRow += 1) {
-				List firstRow = passedFirstMatrix.VALUES[iteratedRow];
-				List secondRow = passedSecondMatrix.VALUES[iteratedRow];
+				List firstRow = passedFirstMatrix.getRow(iteratedRow);
+				List secondRow = passedSecondMatrix.getRow(iteratedRow);
 				newMatrix.VALUES[iteratedRow] = interleaveAndOperate(firstRow, secondRow, passedOperator);
 			}
 			return newMatrix;
@@ -241,6 +241,12 @@ public class Matrix implements Ipa3 {
 		passedSecondList.moveNext();
 	}
 	
+	/**
+	 * Checks whether {@link List#index()} is greater than or equal to zero
+	 * @param passedFirstList
+	 * @param passedSecondList
+	 * @return
+	 */
 	private static boolean parallelValid(List passedFirstList, List passedSecondList) {
 		return (passedFirstList.index() >= 0) || (passedSecondList.index() >= 0);
 	}
