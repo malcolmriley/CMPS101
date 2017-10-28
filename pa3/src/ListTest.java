@@ -36,15 +36,13 @@ public class ListTest {
 	}
 	
 	private static String getResult(String passedTestName, List passedList, String passedExpectedOutput, IListTest passedOperator) {
-		System.out.println(passedTestName);
+		String result = "\tPASSED!";
 		passedOperator.test(passedList);
 		String output = passedList.toString();
-		if (output.equals(passedExpectedOutput)) {
-			return "\tPASSED!";
+		if (!output.equals(passedExpectedOutput)) {
+			result = String.format("\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
 		}
-		else {
-			return String.format("\tFAILED!\n\tExpected: \t%s\n\tActual: \t%s", passedExpectedOutput, output);
-		}
+		return String.format("%s: %s", passedTestName, result);
 	}
 	
 	private static String getResult(String passedTestName, String passedExpectedOutput, IListTest passedOperator) {
