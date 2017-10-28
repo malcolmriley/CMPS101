@@ -26,7 +26,7 @@ public class Matrix implements Ipa3 {
 		MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
 		if (entry != null) {
 			if (passedNewValue == 0) {
-				this.VALUES[passedRow].delete();
+				this.getRow(passedRow).delete();
 			}
 			else {
 				entry.setValue(Double.valueOf(passedNewValue));
@@ -34,7 +34,7 @@ public class Matrix implements Ipa3 {
 		}
 		else {
 			if (passedNewValue != 0) {
-				this.VALUES[passedRow].insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
+				this.getRow(passedRow).insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
 			}
 		}
 	}
@@ -96,9 +96,9 @@ public class Matrix implements Ipa3 {
 			Matrix transpose = passedMatrix.transpose();
 			Matrix newMatrix = new Matrix(this.DIMENSION);
 			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-				List firstRow = this.VALUES[iteratedRow];
+				List firstRow = this.getRow(iteratedRow);
 				for (int secondIteratedRow = 0; secondIteratedRow < this.DIMENSION; secondIteratedRow += 1) {
-					List secondRow = transpose.VALUES[secondIteratedRow];
+					List secondRow = transpose.getRow(secondIteratedRow);
 					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); parallelNext(firstRow, secondRow)) {
 						
 					}
@@ -107,12 +107,21 @@ public class Matrix implements Ipa3 {
 		}
 		return null;
 	}
+	
+	/* Protected Methods */
+	
+	protected List getRow(int passedRowIndex) {
+		if (this.VALUES[passedRowIndex] == null) {
+			this.VALUES[passedRowIndex] = new List();
+		}
+		return this.VALUES[passedRowIndex];
+	}
 
 	/* Internal Methods */
 
 	private MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
-			List row = this.VALUES[passedRowIndex];
+			List row = this.getRow(passedRowIndex);
 			if (!row.isEmpty()) {
 				row.moveFront();
 				while (row.index() >= 0) {
