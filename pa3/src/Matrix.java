@@ -124,7 +124,7 @@ public class Matrix implements Ipa3 {
 				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
 				if (iteratedEntry != null ) {
 					if (iteratedEntry.getColumn() < passedColumnIndex) {
-						row.insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
+						row.insertAfter(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
 					}
 				}
 			}
