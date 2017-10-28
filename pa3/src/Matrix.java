@@ -62,19 +62,19 @@ public class Matrix implements Ipa3 {
 
 	@Override
 	public Matrix copy() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue());};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue());};
 		return modifyUsing(this, operator);
 	}
 
 	@Override
 	public Matrix scalarMult(double passedValue) {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);};
 		return modifyUsing(this, operator);
 	}
 
 	@Override
 	public Matrix transpose() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getColumn(), entry.getRow(), entry.getValue());};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getColumn(), entry.getRow(), entry.getValue());};
 		return modifyUsing(this, operator);
 	}
 
