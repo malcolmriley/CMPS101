@@ -144,9 +144,72 @@ public class ListTest {
 		list.delete();
 		return list.toString();
 	};
-	
+	public static final ITestOperator<List> DELETE_CURSOR_NULL = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.movePrev();
+		list.delete();
+		return list.toString();
+	};
+	public static final ITestOperator<List> DELETE_ALL = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.clear();
+		return String.format("%s %s %s %s", list.front(), list.back(), list.get(), list.toString());
+	};
+	public static final ITestOperator<List> LENGTH_EMPTY = (list) -> {
+		return list.length();
+	};
+	public static final ITestOperator<List> LENGTH_NONEMPTY = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		return list.length();
+	};
+	public static final ITestOperator<List> LENGTH_DELETING = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.deleteBack();
+		list.deleteFront();
+		return list.length();
+	};
+	public static final ITestOperator<List> INDEX_NONNULL = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.moveNext();
+		list.movePrev();
+		list.moveNext();
+		list.moveNext();
+		return list.index();
+	};
+	public static final ITestOperator<List> INDEX_MOVED_NULL = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.movePrev();
+		list.movePrev();
+		return list.index();
+	};
+	public static final ITestOperator<List> INDEX_DELETE_CURSOR = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.delete();
+		return list.index();
+	};
+	public static final ITestOperator<List> INDEX_DELETE_BACK = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.moveNext();
+		list.moveNext();
+		list.deleteBack();
+		return list.index();
+	};
+	public static final ITestOperator<List> INDEX_DELETE_FRONT = (list) -> {
+		INITIALIZE_ALTERNATING.test(list);
+		list.moveFront();
+		list.moveNext();
+		list.moveNext();
+		list.deleteFront();
+		return list.index();
+	};
 
 	public static final ITestOperator<List> DELIBERATE_FAIL = (list) -> {
+		System.out.println();
 		return INITIALIZE_ALTERNATING.test(list);
 	};
 	
@@ -174,8 +237,18 @@ public class ListTest {
 		DeleteFrontCursor("Deleting Cursor at Front", "4 2 1 3 5", DELETE_CURSOR_FRONT),
 		DeleteCursorBack("Deleting Cursor at Back", "6 4 2 1 3", DELETE_CURSOR_BACK),
 		DeleteCursorMiddle("Deleting Cursor at Middle", "6 4 1 3 5", DELETE_CURSOR_MIDDLE),
+		DeleteCursorNull("Deleting Null Cursor", "6 4 2 1 3 5", DELETE_CURSOR_NULL),
+		DeleteAll("Deleting All", "null null null ", DELETE_ALL),
+		LengthEmpty("Length Empty", "0", LENGTH_EMPTY),
+		LengthNonEmpty("Length After Insertions", "6", LENGTH_NONEMPTY),
+		LengthDeleting("Length After Deletions", "4", LENGTH_DELETING),
+		IndexNonNull("Index of Non Null Cursor", "2", INDEX_NONNULL),
+		IndexNull("Index of Null Cursor", "-1", INDEX_MOVED_NULL),
+		IndexDeleteCursor("Index of Deleted Cursor", "-1", INDEX_DELETE_CURSOR),
+		IndexDeleteBack("Index After Deleting Back", "2", INDEX_DELETE_BACK),
+		IndexDeleteFront("Index After Deleting Front", "1", INDEX_DELETE_FRONT),
 
-		DeliberateFail("This Test Fails Deliberately", "!!!FAIL!!!", DELIBERATE_FAIL),
+		DeliberateFail("This Test Fails Deliberately", "What tests the tester? Itself of course!", DELIBERATE_FAIL),
 		;
 
 		private final String NAME;
@@ -199,6 +272,8 @@ public class ListTest {
 		for (EnumListTest iteratedTest : EnumListTest.values()) {
 			iteratedTest.execute();
 		}
+		
+		System.out.println("\nAll List tests completed.");
 	}
 	
 	/* Test Methods */
@@ -253,7 +328,7 @@ public class ListTest {
 	public interface ITestOperator<T> {
 		
 		/**
-		 * This method should perform a number of operations on the passed T, and return a particular result (in the form of a String) from the passed T.
+		 * This method should perform a number of operations on the passed T, and return a particular result (in the form of an Object) from the passed T.
 		 * 
 		 * This is usually simply {@link #toString()}, but may be other methods depending on the type of T.
 		 * 
