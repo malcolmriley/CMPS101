@@ -117,11 +117,16 @@ public class Matrix implements Ipa3 {
 		return this.VALUES[passedRowIndex];
 	}
 	
-	protected void addEntry(int passedRow, int passedColumn, double passedNewValue) {
-		if (this.validateIndices(passedRow, passedColumn)) {
-			List row = this.getRow(passedRow);
-			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
-				
+	protected void addEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
+		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
+			List row = this.getRow(passedRowIndex);
+			for (row.moveBack(); row.index() >= 0; row.movePrev()) {
+				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+				if (iteratedEntry != null ) {
+					if (iteratedEntry.getColumn() < passedColumnIndex) {
+						row.insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
+					}
+				}
 			}
 		}
 	}
@@ -134,7 +139,10 @@ public class Matrix implements Ipa3 {
 			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
 				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
 				if (iteratedEntry != null ) {
-					if (iteratedEntry.getColumn() >= passedColumnIndex) {
+					if (iteratedEntry.getColumn() > passedColumnIndex) {
+						break;
+					}
+					if (iteratedEntry.getColumn() == passedColumnIndex) {
 						return iteratedEntry;
 					}
 				}
