@@ -123,12 +123,14 @@ public class Matrix implements Ipa3 {
 	
 	protected void addEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
-			List row = this.getRow(passedRowIndex);
-			for (row.moveBack(); row.index() >= 0; row.movePrev()) {
-				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
-				if (iteratedEntry != null ) {
-					if (iteratedEntry.getColumn() < passedColumnIndex) {
-						row.insertAfter(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
+			if (passedNewValue != 0) {
+				List row = this.getRow(passedRowIndex);
+				for (row.moveBack(); row.index() >= 0; row.movePrev()) {
+					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+					if (iteratedEntry != null ) {
+						if (iteratedEntry.getColumn() < passedColumnIndex) {
+							row.insertAfter(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
+						}
 					}
 				}
 			}
