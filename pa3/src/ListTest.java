@@ -13,21 +13,33 @@ public class ListTest {
 	private static final int CHARACTER_COLUMN_ALIGN = 30;
 	
 	/* Test Implementations */
-	public static final ITestOperator<List> BASIC_INITIALIZE = (list) -> { 
+	public static final ITestOperator<List> INITIALIZE_BASIC = (list) -> { 
 		list.append(3.0D);
+		return list.toString();
 	};
-	public static final ITestOperator<List> POLYMORPHIC_INITIALIZE = (list) -> {
+	public static final ITestOperator<List> INITIALIZE_POLYMORPHIC = (list) -> {
 		list.append(2.0D);
 		list.append("This is a String!");
 		list.append(1);
 		list.append(new Matrix.MatrixEntry<Double>(2.5, 1, 4));
+		return list.toString();
+	};
+	public static final ITestOperator<List> INITIALIZE_ALTERNATE = (list) -> {
+		list.append(1);
+		list.prepend(2);
+		list.append(3);
+		list.prepend(4);
+		list.append(5);
+		list.prepend(6);
+		return list.toString();
 	};
 	
 	/* Tests */
 	
 	private enum EnumListTest {
-		INIT("Basic Initialization", "3.0", BASIC_INITIALIZE),
-		INIT_POLY("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", POLYMORPHIC_INITIALIZE),
+		INIT("Basic Initialization", "3.0", INITIALIZE_BASIC),
+		INIT_POLY("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
+		INIT_ALT("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATE)
 		;
 		
 		private final String NAME;
@@ -77,8 +89,7 @@ public class ListTest {
 	public static <T> String getResult(String passedTestName, T passedInstance, String passedExpectedOutput, ITestOperator<T> passedOperator) {
 		String padding = getPadding(passedTestName);
 		String result = padding + "PASSED!";
-		passedOperator.test(passedInstance);
-		String output = passedInstance.toString();
+		String output = passedOperator.test(passedInstance);
 		if (!output.equals(passedExpectedOutput)) {
 			result = String.format(padding + "FAILED!\n\tExpected: \t%s\n\tActual: \t\t%s", passedExpectedOutput, output);
 		}
@@ -92,15 +103,17 @@ public class ListTest {
 		return new String(paddingArray);
 	}
 	
-	/* IListTest Implementation */
+	/* ITestOperator Implementation */
 	
 	public interface ITestOperator<T> {
 		
 		/**
-		 * This method should perform a number of operations on the passed T.
+		 * This method should perform a number of operations on the passed T, and return a particular result (in the form of a String) from the passed T.
+		 * 
+		 * This is usually simply {@link #toString()}, but may be other methods depending on the type of T.
 		 * 
 		 * @param passedList - The T to operate on
 		 */
-		public void test(T passedList);
+		public String test(T passedList);
 	}
 }
