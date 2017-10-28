@@ -9,13 +9,12 @@
 
 public class MatrixTest {
 	
-	public static void main(String[] passedArguments) {
-		System.out.println("Running Matrix tests...");
+	/* Test Implementations */
+	static {
 		
-		for (EnumMatrixTest iteratedTest : EnumMatrixTest.values()) {
-			iteratedTest.execute();
-		}
 	}
+	
+	/* Tests */
 	
 	private enum EnumMatrixTest {
 		;
@@ -34,6 +33,14 @@ public class MatrixTest {
 		
 		public void execute() {
 			ListTest.performTest(this.NAME, new Matrix(this.DIMENSION), this.RESULT, this.OPERATOR);
+		}
+	}
+	
+	public static void main(String[] passedArguments) {
+		System.out.println("Running Matrix tests...");
+		
+		for (EnumMatrixTest iteratedTest : EnumMatrixTest.values()) {
+			iteratedTest.execute();
 		}
 	}
 }
