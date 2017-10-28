@@ -33,13 +33,28 @@ public class ListTest {
 		list.prepend(6);
 		return list.toString();
 	};
+	public static final ITestOperator<List> GET_FRONT = (list) -> {
+		INITIALIZE_ALTERNATE.test(list);
+		return String.valueOf(list.front());
+	};
+	public static final ITestOperator<List> GET_BACK = (list) -> {
+		INITIALIZE_ALTERNATE.test(list);
+		return String.valueOf(list.back());
+	};
+	public static final ITestOperator<List> GET_NULL_CURSOR = (list) -> {
+		INITIALIZE_ALTERNATE.test(list);
+		return String.valueOf(list.get());
+	};
 	
 	/* Tests */
 	
 	private enum EnumListTest {
-		INIT("Basic Initialization", "3.0", INITIALIZE_BASIC),
-		INIT_POLY("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
-		INIT_ALT("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATE)
+		Init("Basic Initialization", "3.0", INITIALIZE_BASIC),
+		InitPoly("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
+		InitAlt("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATE),
+		GetFront("Get Front", "6", GET_FRONT),
+		GetBack("Get Back", "5", GET_BACK),
+		GetNullCursor("Get Null Cursor", "null", GET_NULL_CURSOR)
 		;
 		
 		private final String NAME;
