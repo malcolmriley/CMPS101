@@ -225,7 +225,8 @@ public class Matrix {
 	 */
 	private static Matrix modifyUsing(Matrix passedSourceMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedSourceMatrix.getSize());
-		for (List iteratedList : passedSourceMatrix.VALUES) {
+		for (int iteratedRow = 0; iteratedRow < passedSourceMatrix.getSize(); iteratedRow += 1) {
+			List iteratedList = newMatrix.getRow(iteratedRow);
 			for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
 				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
 				if (entry != null) {
