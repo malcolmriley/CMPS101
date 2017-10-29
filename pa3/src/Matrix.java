@@ -22,6 +22,8 @@ public class Matrix {
 	/* PA3 Required Methods */
 
 	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
+		passedRow -= 1;
+		passedColumn -= 1;
 		MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
 		if (entry != null) {
 			if (passedNewValue == 0) {
@@ -133,7 +135,7 @@ public class Matrix {
 		String matrix = "";
 		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
 			if (!this.getRow(iteratedRow).isEmpty()) {
-				matrix += String.format("%d: %s\n", iteratedRow, this.getRow(iteratedRow).toString());
+				matrix += String.format("%d: %s\n", (iteratedRow + 1), this.getRow(iteratedRow).toString());
 			}
 		}
 		return matrix;
@@ -479,7 +481,7 @@ public class Matrix {
 		}
 		
 		public String toString() {
-			return String.format("(%d, %s)", this.COLUMN, this.VALUE);
+			return String.format("(%d, %s)", (this.COLUMN + 1), this.VALUE);
 		}
 
 		public void setValue(T passedValue) {
