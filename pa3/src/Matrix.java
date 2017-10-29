@@ -74,22 +74,24 @@ public class Matrix {
 	}
 
 	public Matrix mult(Matrix passedMatrix) {
-		Matrix newMatrix = null;
+		Matrix newMatrix = getCopyIfThis(passedMatrix);
 		if (this.validateSize(passedMatrix)) {
-			Matrix transpose = passedMatrix.transpose();
-			newMatrix = new Matrix(this.DIMENSION);
-			for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-				List firstRow = this.getRow(iteratedRow);
-				for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
-					List secondRow = transpose.getRow(iteratedColumn);
-					double dotProduct = 0;
-					for (int column = parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
-						MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
-						MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
-						
-						dotProduct += (getValue(firstEntry, column) * getValue(secondEntry, column));
+			if (passedMatrix.getNNZ() > 0) {
+				Matrix transpose = passedMatrix.transpose();
+				newMatrix = new Matrix(this.DIMENSION);
+				for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
+					List firstRow = this.getRow(iteratedRow);
+					for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
+						List secondRow = transpose.getRow(iteratedColumn);
+						double dotProduct = 0;
+						for (int column = parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
+							MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
+							MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
+							
+							dotProduct += (getValue(firstEntry, column) * getValue(secondEntry, column));
+						}
+						newMatrix.changeEntryInternal(iteratedRow, iteratedColumn, dotProduct);
 					}
-					newMatrix.changeEntry(iteratedRow, iteratedColumn, dotProduct);
 				}
 			}
 		}
@@ -178,7 +180,9 @@ public class Matrix {
 			List row = this.getRow(passedRowIndex);
 			// * If the list is empty, just append a new entry
 			if (row.isEmpty()) {
-				row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+				if (passedNewValue != 0) {
+					row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+				}
 			}
 			// Guaranteed to operate on a List with at least one entry
 			else {
@@ -204,7 +208,9 @@ public class Matrix {
 					}
 				}
 				// If we reach the end of the List before either previous * condition is met, append a new entry
-				row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+				if (passedNewValue != 0) {
+					row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+				}
 			}
 		}
 	}
