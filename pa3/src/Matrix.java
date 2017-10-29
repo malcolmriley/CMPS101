@@ -1,4 +1,3 @@
-
 /*********************************************************************
  * Malcolm Riley
  *
@@ -343,8 +342,11 @@ public class Matrix {
 	private static int parallelFront(List passedFirstList, List passedSecondList) {
 		passedFirstList.moveFront();
 		passedSecondList.moveBack();
+
+		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
+		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
 		
-		return getLesserColumn(passedFirstList, passedSecondList);
+		return getLesserColumn(firstEntry, secondEntry);
 	}
 	
 	/**
@@ -358,36 +360,56 @@ public class Matrix {
 	 * @param passedSecondList - Another {@link List}
 	 */
 	private static int parallelNext(List passedFirstList, List passedSecondList) {
-		passedFirstList.moveNext();
-		passedSecondList.moveNext();
-		
-		return getLesserColumn(passedFirstList, passedSecondList);
-	}
-	
-	/**
-	 * Method returns the lesser of the two {@link MatrixEntry#getColumn()} values when called on {@link List#get()} on the two passed lists.
-	 * 
-	 * @param passedFirstList - The first {@link List} to compare
-	 * @param passedSecondList - The second {@link List} to compare
-	 * @return The lesser of the two currently-indicated {@link MatrixEntry#getColumn()} values.
-	 */
-	private static final int getLesserColumn(List passedFirstList, List passedSecondList) {
 		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
 		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
 		
-		int firstColumn = Integer.MAX_VALUE;
-		int secondColumn = Integer.MAX_VALUE;
-		
-		if ((firstEntry == null) && (secondEntry == null)) {
+		if ((firstEntry != null) && (secondEntry != null)) {
+			int firstValue = getColumnValue(firstEntry);
+			int secondValue = getColumnValue(secondEntry);
+			if (firstValue == secondValue) {
+				passedFirstList.moveNext();
+				passedSecondList.moveNext();
+				return firstValue;
+			}
+			if (firstValue < secondValue) {
+				passedFirstList.moveNext();
+				return firstValue;
+			}
+			if (firstValue > secondValue) {
+				passedSecondList.moveNext();
+				return secondValue;
+			}
+		}
+		passedFirstList.moveNext();
+		passedSecondList.moveNext();
+		return -1;
+	}
+	
+	/**
+	 * Returns the lesser of the two {@link MatrixEntry#getColumn()} values.
+	 * 
+	 * @param passedFirstEntry - A {@link MatrixEntry} to examine
+	 * @param passedSecondEntry - Another {@link MatrixEntry} to examine
+	 * @return The result of {@link Integer#min(int, int)} upon the two {@link MatrixEntry#getColumn()} values, or -1 if both are null.
+	 */
+	private static final <T> int getLesserColumn(MatrixEntry<T> passedFirstEntry, MatrixEntry<T> passedSecondEntry) {
+		if ((passedFirstEntry == null) && (passedSecondEntry == null)) {
 			return -1;
 		}
-		if (firstEntry != null) {
-			firstColumn = firstEntry.getColumn();
+		return Integer.min(getColumnValue(passedFirstEntry), getColumnValue(passedFirstEntry));
+	}
+	
+	/**
+	 * Returns the result of {@link MatrixEntry#getColumn()} on the passed {@link MatrixEntry} instance, or {@link Integer#MAX_VALUE} if it is null.
+	 * 
+	 * @param passedFirstEntry - A {@link MatrixEntry} to examine
+	 * @return The column value.
+	 */
+	private static final int getColumnValue(MatrixEntry<?> passedEntry) {
+		if (passedEntry == null) {
+			return Integer.MAX_VALUE;
 		}
-		if (secondEntry != null) {
-			secondColumn = secondEntry.getColumn();
-		}
-		return Integer.min(firstColumn, secondColumn);
+		return passedEntry.getColumn();
 	}
 	
 	/**
