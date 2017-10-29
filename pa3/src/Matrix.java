@@ -33,7 +33,13 @@ public class Matrix {
 		}
 		else {
 			if (passedNewValue != 0) {
-				this.getRow(passedRow).insertBefore(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn));
+				MatrixEntry<Double> insertedEntry = new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn);
+				if (this.getRow(passedRow).isEmpty()) {
+					this.getRow(passedRow).append(insertedEntry);
+				}
+				else {
+					this.getRow(passedRow).insertBefore(insertedEntry);
+				}
 			}
 		}
 	}
