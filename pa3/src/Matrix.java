@@ -225,10 +225,12 @@ public class Matrix {
 	 */
 	private static Matrix modifyUsing(Matrix passedSourceMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedSourceMatrix.getSize());
-		for (int iteratedRow = 0; iteratedRow < passedSourceMatrix.getSize(); iteratedRow += 1) {
-			List iteratedList = newMatrix.getRow(iteratedRow);
+		for (List iteratedList : passedSourceMatrix.VALUES) {
 			for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
-				passedOperator.modify(newMatrix, getAsMatrixEntry(iteratedList.get()));
+				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+				if (entry != null) {
+					passedOperator.modify(newMatrix, entry);
+				}
 			}
 		}
 		return newMatrix;
