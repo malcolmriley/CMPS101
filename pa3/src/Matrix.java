@@ -108,6 +108,7 @@ public class Matrix {
 						return false;
 					}
 				}
+				return true;
 			}
 		}
 		return false;
@@ -445,7 +446,7 @@ public class Matrix {
 	 * @return Whether or not both lists are {@code null} or equal.
 	 */
 	private static boolean listsAreEqual(List passedFirstList, List passedSecondList) {
-		if ((!isEmptyOrNull(passedFirstList)) && (!isEmptyOrNull(passedSecondList))) {
+		if (isEmptyOrNull(passedFirstList) && isEmptyOrNull(passedSecondList)) {
 			return true;
 		}
 		else {
