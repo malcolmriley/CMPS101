@@ -61,8 +61,10 @@ public class List {
 		}
 		if (passedObject instanceof List) {
 			List passedList = (List)passedObject;
-			// Abuse toString method to test equality
-			return this.toString().equals(passedList.toString());
+			if (this.length() == passedList.length()) {
+				// Abuse toString method to test equality
+				return this.toString().equals(passedList.toString());
+			}
 		}
 		return false;
 	}
