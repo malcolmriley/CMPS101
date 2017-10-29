@@ -396,19 +396,6 @@ public class Matrix {
 	}
 	
 	/**
-	 * If {@code passedList} is {@code null}, returns true. Otherwise, returns {@link List#isEmpty()}.
-	 * 
-	 * @param passedList - The {@link List} to check
-	 * @return Whether {@code passedList} is {@code null} or empty.
-	 */
-	private static boolean isListEmpty(List passedList) {
-		if (passedList == null) {
-			return true;
-		}
-		return passedList.isEmpty();
-	}
-	
-	/**
 	 * Returns the value of the passed {@link MatrixEntry} if its column value matches {@code passedExpectedColumn}.
 	 * 
 	 * Returns 0 for all other cases, including if {@code passedEntry} is {@code null}.
