@@ -132,16 +132,16 @@ public class Matrix {
 	}
 	
 	public String toString() {
-		String matrix = "";
+		String representation = "";
 		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
 			if (!this.getRow(iteratedRow).isEmpty()) {
-				matrix += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
+				representation += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
 			}
-			if (iteratedRow < (this.DIMENSION - 1) && (!matrix.isEmpty())) {
-				matrix += "\n";
+			if (iteratedRow < (this.DIMENSION - 1) && (!representation.isEmpty())) {
+				representation += "\n";
 			}
 		}
-		return matrix;
+		return representation;
 	}
 	
 	/* Protected Methods */
