@@ -291,6 +291,7 @@ public class Matrix {
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
 			if (column >= 0) {
 				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
+				System.out.println("Result: " + result);
 				if (result != 0) {
 					newList.append(new MatrixEntry<Double>(result, passedRowIndex, column));
 				}
@@ -385,7 +386,7 @@ public class Matrix {
 		if ((passedFirstEntry == null) && (passedSecondEntry == null)) {
 			return -1;
 		}
-		return Integer.min(getColumnValue(passedFirstEntry), getColumnValue(passedFirstEntry));
+		return Integer.min(getColumnValue(passedFirstEntry), getColumnValue(passedSecondEntry));
 	}
 	
 	/**
