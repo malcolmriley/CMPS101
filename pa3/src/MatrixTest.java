@@ -10,10 +10,15 @@
 public class MatrixTest {
 	
 	/* Test Implementations */
+	private static final ListTest.ITestOperator<Matrix> INITIALIZE_BASIC = (matrix) -> {
+		matrix.changeEntry(1, 1, 2.0);
+		return matrix.toString();
+	};
 	
 	/* Tests */
 	
 	private enum EnumMatrixTest {
+		InitBasic("Basic Initialization", 1, "", INITIALIZE_BASIC),
 		;
 		
 		private final String NAME;
