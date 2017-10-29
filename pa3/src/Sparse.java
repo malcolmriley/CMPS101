@@ -102,9 +102,6 @@ public class Sparse {
 	
 	private static final String getResult(String passedHeader, Matrix passedMatrix){
 		String matrix = passedMatrix.toString();
-		if (!matrix.isEmpty()) {
-			matrix += "\n";
-		}
 		return String.format("%s\n%s", passedHeader, matrix);
 	}
 	
