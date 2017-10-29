@@ -64,13 +64,15 @@ public class Matrix {
 	}
 
 	public Matrix add(Matrix passedMatrix) {
+		Matrix usedMatrix = getCopyIfThis(passedMatrix);
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first + second); };
-		return modifyRowsUsing(this, passedMatrix, operation);
+		return modifyRowsUsing(usedMatrix, passedMatrix, operation);
 	}
 
 	public Matrix sub(Matrix passedMatrix) {
+		Matrix usedMatrix = getCopyIfThis(passedMatrix);
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first - second); };
-		return modifyRowsUsing(this, passedMatrix, operation);
+		return modifyRowsUsing(usedMatrix, passedMatrix, operation);
 	}
 
 	public Matrix mult(Matrix passedMatrix) {
@@ -150,6 +152,21 @@ public class Matrix {
 	}
 
 	/* Internal Methods */
+
+	/**
+	 * If {@code passedMatrix} is reference-equal to {@code this}, returns the result of {@link #copy()}.
+	 * 
+	 * Used to avoid some very confusing bugs if the methods are passed {@code this}, as the backing {@link List} instances occasionally double-iterate.
+	 * 
+	 * @param passedMatrix - The matrix to be used for the operation
+	 * @return If not reference-equal to {@code this}, {@code passedMatrix}, otherwise a {@link #copy()}.
+	 */
+	private Matrix getCopyIfThis(Matrix passedMatrix) {
+		if (passedMatrix == this) {
+			return this.copy();
+		}
+		return passedMatrix;
+	}
 	
 	/**
 	 * Internal version of {@link #changeEntry(int, int, double)}, that doesn't modify the row and column indices.
@@ -361,6 +378,7 @@ public class Matrix {
 
 				firstEntry = getAsMatrixEntry(passedFirstList.get());
 				secondEntry = getAsMatrixEntry(passedSecondList.get());
+				
 				return getLesserColumn(firstEntry, secondEntry);
 			}
 			else if (firstValue < secondValue) {
