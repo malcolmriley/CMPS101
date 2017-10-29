@@ -251,14 +251,10 @@ public class Matrix {
 	private static Matrix modifyUsing(Matrix passedMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedMatrix.getSize());
 		for (List iteratedList : passedMatrix.VALUES) {
-			if (!isListEmpty(iteratedList)) {
-				iteratedList.moveFront();
-				while (iteratedList.index() >= 0) {
-					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
-					if (entry != null) {
-						passedOperator.modify(passedMatrix, entry);
-					}
-					iteratedList.moveNext();
+			for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
+				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+				if (entry != null) {
+					passedOperator.modify(passedMatrix, entry);
 				}
 			}
 		}
@@ -366,16 +362,17 @@ public class Matrix {
 		if ((firstEntry != null) && (secondEntry != null)) {
 			int firstValue = getColumnValue(firstEntry);
 			int secondValue = getColumnValue(secondEntry);
+			
 			if (firstValue == secondValue) {
 				passedFirstList.moveNext();
 				passedSecondList.moveNext();
 				return firstValue;
 			}
-			if (firstValue < secondValue) {
+			else if (firstValue < secondValue) {
 				passedFirstList.moveNext();
 				return firstValue;
 			}
-			if (firstValue > secondValue) {
+			else if (firstValue > secondValue) {
 				passedSecondList.moveNext();
 				return secondValue;
 			}
