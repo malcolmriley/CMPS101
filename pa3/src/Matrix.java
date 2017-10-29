@@ -126,7 +126,7 @@ public class Matrix {
 				representation += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
 			}
 		}
-		return representation;
+		return representation + "\n";
 	}
 	
 	/* Protected Methods */
