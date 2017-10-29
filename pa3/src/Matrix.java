@@ -287,11 +287,15 @@ public class Matrix {
 	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, int passedRowIndex, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
 		for (int column = parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); column = parallelNext(passedFirstRow, passedSecondRow)) {
+			System.out.println("Operating on: ");
 			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
+			System.out.println(firstEntry);
+			System.out.println(secondEntry);
+			System.out.println("\tColumn: " + column);
 			if (column >= 0) {
 				double result = passedOperator.operate(getValue(firstEntry, column), getValue(secondEntry, column));
-				System.out.println("Result: " + result);
+				System.out.println("\tResult: " + result);
 				if (result != 0) {
 					newList.append(new MatrixEntry<Double>(result, passedRowIndex, column));
 				}
@@ -359,7 +363,10 @@ public class Matrix {
 			if (firstValue == secondValue) {
 				passedFirstList.moveNext();
 				passedSecondList.moveNext();
-				return firstValue;
+
+				firstEntry = getAsMatrixEntry(passedFirstList.get());
+				secondEntry = getAsMatrixEntry(passedSecondList.get());
+				return getLesserColumn(firstEntry, secondEntry);
 			}
 			else if (firstValue < secondValue) {
 				passedFirstList.moveNext();
