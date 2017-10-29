@@ -77,17 +77,17 @@ public class Matrix {
 	}
 
 	public Matrix copy() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue());};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix scalarMult(double passedValue) {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue);};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix transpose() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getColumn(), entry.getRow(), entry.getValue());};
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getColumn(), entry.getRow(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
@@ -244,17 +244,17 @@ public class Matrix {
 	/**
 	 * Performs an operation on individual entries in this {@link Matrix}, using the passed {@link IEntryModifier}.
 	 * 
-	 * @param passedMatrix - The source {@link Matrix} to operate on
+	 * @param passedSourceMatrix - The source {@link Matrix} to operate on
 	 * @param passedOperator - The operation to perform on each individual {@link MatrixEntry}
 	 * @return A new {@link Matrix} instance, the result of the completed operation.
 	 */
-	private static Matrix modifyUsing(Matrix passedMatrix, IEntryModifier<Double> passedOperator) {
-		Matrix newMatrix = new Matrix(passedMatrix.getSize());
-		for (List iteratedList : passedMatrix.VALUES) {
+	private static Matrix modifyUsing(Matrix passedSourceMatrix, IEntryModifier<Double> passedOperator) {
+		Matrix newMatrix = new Matrix(passedSourceMatrix.getSize());
+		for (List iteratedList : passedSourceMatrix.VALUES) {
 			for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
 				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
 				if (entry != null) {
-					passedOperator.modify(passedMatrix, entry);
+					passedOperator.modify(newMatrix, entry);
 				}
 			}
 		}
