@@ -104,8 +104,9 @@ public class Matrix {
 			Matrix matrix = (Matrix)passedObject;
 			if (this.validateSize(matrix)) {
 				for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-					List thisRow = this.VALUES[iteratedRow];
-					List otherRow = matrix.VALUES[iteratedRow];
+					if (!listsAreEqual(this.VALUES[iteratedRow], matrix.VALUES[iteratedRow])) {
+						return false;
+					}
 				}
 			}
 		}
@@ -432,6 +433,30 @@ public class Matrix {
 			}
 		}
 		return 0;
+	}
+	
+	/**
+	 * Returns whether the two passed {@link List} instances are equal.
+	 * 
+	 * If they are both {@code null}, also returns true (since they are considered empty lists).
+	 * 
+	 * @param passedFirstList - A {@link List} to examine
+	 * @param passedSecondList - Another {@link List} to examine
+	 * @return Whether or not both lists are {@code null} or equal.
+	 */
+	private static boolean listsAreEqual(List passedFirstList, List passedSecondList) {
+		if ((passedFirstList == null) && (passedSecondList == null)) {
+			return true;
+		}
+		else {
+			if (passedFirstList != null) {
+				return passedFirstList.equals(passedSecondList);
+			}
+			if (passedSecondList != null) {
+				return passedSecondList.equals(passedFirstList);
+			}
+		}
+		return false;
 	}
 	
 	/* IEntryOperator Implementation */
