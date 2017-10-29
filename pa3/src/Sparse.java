@@ -6,11 +6,14 @@
  *
  * 10-2017
  *********************************************************************/
-
 public class Sparse {
+
+	public static void main(String[] passedArguments) {
+		// TODO Auto-generated method stub
+
+	}
 	
-	public class MatrixFileReader {
-		
+	protected static class MatrixFileReader {
 		
 	}
 }
