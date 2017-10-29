@@ -37,3 +37,6 @@ Thumbs.db
 **/*.project
 **/*.classpath
 **/*.metadata
+
+# Output Files #
+*.txt
