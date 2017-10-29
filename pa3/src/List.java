@@ -61,22 +61,8 @@ public class List {
 		}
 		if (passedObject instanceof List) {
 			List passedList = (List)passedObject;
-			if (this.length() == passedList.length()) {
-				if (!this.isEmpty()) {
-					Node<Object> thisListIterator = this.getFrontNode();
-					Node<Object> passedListIterator = passedList.getFrontNode();
-					while (isNodeDefined(thisListIterator)) {
-						if (!Objects.equals(thisListIterator.get(), passedListIterator.get())) {
-							return false;
-						}
-						thisListIterator = thisListIterator.getNext();
-						passedListIterator = passedListIterator.getNext();
-					}
-				}
-				else {
-					return true;
-				}
-			}
+			// Abuse toString method to test equality
+			return this.toString().equals(passedList.toString());
 		}
 		return false;
 	}
