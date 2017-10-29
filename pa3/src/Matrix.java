@@ -65,7 +65,9 @@ public class Matrix {
 	public int getNNZ() {
 		int nonzeroes = 0;
 		for (List iteratedList : this.VALUES) {
-			nonzeroes += iteratedList.length();
+			if (iteratedList != null) {
+				nonzeroes += iteratedList.length();
+			}
 		}
 		return nonzeroes;
 	}
