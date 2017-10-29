@@ -26,18 +26,22 @@ public class Matrix {
 		int columnIndex = (passedColumnIndex - 1);
 		if (this.validateIndices(rowIndex, columnIndex)) {
 			List row = this.getRow(rowIndex);
+			// * If the list is empty, just append a new entry
 			if (row.isEmpty()) {
 				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
 			}
+			// Guaranteed to operate on a List with at least one entry
 			else {
 				for (row.moveFront(); row.index() >= 0; row.moveNext()) {
 					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+					// * If the discovered column index is greater than the inserted, we passed the entry, insert before the cursor and return
 					if (iteratedEntry.getColumn() > passedColumnIndex) {
 						if (passedNewValue != 0) {
 							row.insertBefore(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
 							return;
 						}
 					}
+					// * If the discovered column index equals the desired index, alter the cursor node
 					else if (iteratedEntry.getColumn() == columnIndex) {
 						if (passedNewValue == 0) {
 							row.delete();
@@ -49,6 +53,7 @@ public class Matrix {
 						}
 					}
 				}
+				// If we reach the end of the List before either previous * condition is met, append a new entry
 				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
 			}
 		}
@@ -107,8 +112,7 @@ public class Matrix {
 				for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
 					List secondRow = transpose.getRow(iteratedColumn);
 					double dotProduct = 0;
-					int column = 0;
-					for (parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
+					for (int column = parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
 						MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
 						MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
 						
@@ -295,8 +299,7 @@ public class Matrix {
 	 */
 	private static List interleaveAndOperate(List passedFirstRow, List passedSecondRow, int passedRowIndex, IDoubleOperator<Double> passedOperator) {
 		List newList = new List();
-		int column = -1;
-		for (parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); column = parallelNext(passedFirstRow, passedSecondRow)) {
+		for (int column = parallelFront(passedFirstRow, passedSecondRow); parallelValid(passedFirstRow, passedSecondRow); column = parallelNext(passedFirstRow, passedSecondRow)) {
 			MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstRow.get());
 			MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondRow.get());
 			if (column >= 0) {
@@ -337,9 +340,11 @@ public class Matrix {
 	 * @param passedFirstList - A {@link List}
 	 * @param passedSecondList - Another {@link List}
 	 */
-	private static void parallelFront(List passedFirstList, List passedSecondList) {
+	private static int parallelFront(List passedFirstList, List passedSecondList) {
 		passedFirstList.moveFront();
 		passedSecondList.moveBack();
+		
+		return getLesserColumn(passedFirstList, passedSecondList);
 	}
 	
 	/**
@@ -353,22 +358,36 @@ public class Matrix {
 	 * @param passedSecondList - Another {@link List}
 	 */
 	private static int parallelNext(List passedFirstList, List passedSecondList) {
+		passedFirstList.moveNext();
+		passedSecondList.moveNext();
+		
+		return getLesserColumn(passedFirstList, passedSecondList);
+	}
+	
+	/**
+	 * Method returns the lesser of the two {@link MatrixEntry#getColumn()} values when called on {@link List#get()} on the two passed lists.
+	 * 
+	 * @param passedFirstList - The first {@link List} to compare
+	 * @param passedSecondList - The second {@link List} to compare
+	 * @return The lesser of the two currently-indicated {@link MatrixEntry#getColumn()} values.
+	 */
+	private static final int getLesserColumn(List passedFirstList, List passedSecondList) {
 		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
 		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
 		
-		if ((firstEntry != null) && (secondEntry != null)) {
-			if (firstEntry.getColumn() > secondEntry.getColumn()) {
-				passedSecondList.moveNext();
-				return secondEntry.getColumn();
-			}
-			if (firstEntry.getColumn() < secondEntry.getColumn()){
-				passedFirstList.moveNext();
-				return firstEntry.getColumn();
-			}
+		int firstColumn = Integer.MAX_VALUE;
+		int secondColumn = Integer.MAX_VALUE;
+		
+		if ((firstEntry == null) && (secondEntry == null)) {
+			return -1;
 		}
-		passedFirstList.moveNext();
-		passedSecondList.moveNext();
-		return (firstEntry != null) ? firstEntry.getColumn() : -1;
+		if (firstEntry != null) {
+			firstColumn = firstEntry.getColumn();
+		}
+		if (secondEntry != null) {
+			secondColumn = secondEntry.getColumn();
+		}
+		return Integer.min(firstColumn, secondColumn);
 	}
 	
 	/**
