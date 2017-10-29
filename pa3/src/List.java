@@ -63,7 +63,7 @@ public class List {
 					Node<Object> thisListIterator = this.getFrontNode();
 					Node<Object> passedListIterator = passedList.getFrontNode();
 					while (isNodeDefined(thisListIterator)) {
-						if (!Objects.equals(thisListIterator, passedListIterator)) {
+						if (!Objects.equals(thisListIterator.get(), passedListIterator.get())) {
 							return false;
 						}
 						thisListIterator = thisListIterator.getNext();
