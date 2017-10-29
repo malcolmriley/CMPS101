@@ -16,14 +16,14 @@ public class ListTest {
 	
 	public static final ITestOperator<List> INITIALIZE_BASIC = (list) -> { 
 		list.append(3.0D);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> INITIALIZE_POLYMORPHIC = (list) -> {
 		list.append(2.0D);
 		list.append("This is a String!");
 		list.append(1);
 		list.append(new Matrix.MatrixEntry<Double>(2.5, 1, 4));
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> INITIALIZE_ALTERNATING = (list) -> {
 		list.append(1);
@@ -32,11 +32,11 @@ public class ListTest {
 		list.prepend(4);
 		list.append(5);
 		list.prepend(6);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> GET_FRONT = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
-		return String.valueOf(list.front());
+		return list.front();
 	};
 	public static final ITestOperator<List> GET_BACK = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
@@ -61,7 +61,7 @@ public class ListTest {
 		INITIALIZE_ALTERNATING.test(list);
 		list.moveFront();
 		list.insertAfter(0);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> INSERT_ALTERNATING = (list) -> {
 		list.append(1);
@@ -70,7 +70,7 @@ public class ListTest {
 		list.insertAfter(3);
 		list.insertBefore(4);
 		list.insertAfter(5);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> INSERT_DOUBLE_ALTERNATING = (list) -> {
 		list.append(1);
@@ -80,14 +80,14 @@ public class ListTest {
 		list.moveBack();
 		list.insertAfter(4);
 		list.insertBefore(5);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> INSERT_NULL_CURSOR = (list) -> {
 		INSERT_DOUBLE_ALTERNATING.test(list);
 		list.moveBack();
 		list.moveNext();
 		list.insertBefore(1);
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> EQUALS_SELF = (list) -> {
 		INSERT_ALTERNATING.test(list);
@@ -132,13 +132,13 @@ public class ListTest {
 		INITIALIZE_ALTERNATING.test(list);
 		list.moveFront();
 		list.delete();
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> DELETE_CURSOR_BACK = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
 		list.moveBack();
 		list.delete();
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> DELETE_CURSOR_MIDDLE = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
@@ -146,14 +146,14 @@ public class ListTest {
 		list.moveNext();
 		list.moveNext();
 		list.delete();
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> DELETE_CURSOR_NULL = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
 		list.moveFront();
 		list.movePrev();
 		list.delete();
-		return list.toString();
+		return list;
 	};
 	public static final ITestOperator<List> DELETE_ALL = (list) -> {
 		INITIALIZE_ALTERNATING.test(list);
@@ -222,7 +222,7 @@ public class ListTest {
 	private enum EnumListTest {
 		// Initialization Tests
 		Init("Basic Initialization", "3.0", INITIALIZE_BASIC),
-		InitPoly("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
+		InitPoly("Polymorphic Initialization", "2.0 This is a String! 1 (5, 2.5)", INITIALIZE_POLYMORPHIC), // MatrixEntry column output index one more than value initialized to (internally is actually 4)
 		InitAlt("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATING),
 		
 		// Getter Tests
