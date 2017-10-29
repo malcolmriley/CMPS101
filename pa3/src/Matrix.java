@@ -116,12 +116,12 @@ public class Matrix {
 	
 	public String toString() {
 		String representation = "";
-		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
+		for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
 			if (!this.getRow(iteratedRow).isEmpty()) {
+				if (iteratedRow != 0) {
+					representation += "\n";
+				}
 				representation += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
-			}
-			if ((iteratedRow < this.getRow(iteratedRow).length() - 1) && (!representation.isEmpty())) {
-				representation += "\n";
 			}
 		}
 		return representation;
