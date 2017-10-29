@@ -55,37 +55,29 @@ public class List {
 	/**
 	 * Overrides {@link Object#equals(Object)}.
 	 */
-	public boolean equals(Object passedList) {
-		if (passedList instanceof List) {
-			return this.listsAreEqual((List) passedList);
-		}
-		return false;
-	}
-
-	/**
-	 * Determines whether this {@link List} is equivalent to the passed {@link List}; that is, whether it contains equivalent values in the same order.
-	 * 
-	 * @param passedList - The list to compare this one to
-	 * @return Whether or not the two lists are equivalent.
-	 */
-	public boolean listsAreEqual(List passedList) {
-		if (this.length() == passedList.length()) {
-			if (!this.isEmpty()) {
-				Node<Object> thisListIterator = this.getFrontNode();
-				Node<Object> passedListIterator = passedList.getFrontNode();
-				while (isNodeDefined(thisListIterator)) {
-					if (!Objects.equals(thisListIterator, passedListIterator)) {
-						return false;
+	public boolean equals(Object passedObject) {
+		if (passedObject instanceof List) {
+			List passedList = (List)passedObject;
+			if (this.length() == passedList.length()) {
+				if (!this.isEmpty()) {
+					Node<Object> thisListIterator = this.getFrontNode();
+					Node<Object> passedListIterator = passedList.getFrontNode();
+					while (isNodeDefined(thisListIterator)) {
+						if (!Objects.equals(thisListIterator, passedListIterator)) {
+							return false;
+						}
+						thisListIterator = thisListIterator.getNext();
+						passedListIterator = passedListIterator.getNext();
 					}
-					thisListIterator = thisListIterator.getNext();
-					passedListIterator = passedListIterator.getNext();
+				}
+				else {
+					return true;
 				}
 			}
-			return true;
 		}
 		return false;
 	}
-
+	
 	/**
 	 * Clears the list, removing and resetting all owned {@link Node}s.
 	 */
