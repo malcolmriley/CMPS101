@@ -97,17 +97,15 @@ public class Matrix {
 	}
 	
 	public boolean equals(Object passedObject) {
-		if (passedObject instanceof Matrix) {
+		if (passedObject == this) {
+			return true;
+		}
+		else if (passedObject instanceof Matrix) {
 			Matrix matrix = (Matrix)passedObject;
 			if (this.validateSize(matrix)) {
 				for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-					// Check lengths before checking each entry (cheaper)
-					if (this.getRow(iteratedRow).length() != matrix.getRow(iteratedRow).length()) {
-						return false;
-					}
-					if (!this.getRow(iteratedRow).listsAreEqual(matrix.getRow(iteratedRow))) {
-						return false;
-					}
+					List thisRow = this.VALUES[iteratedRow];
+					List otherRow = matrix.VALUES[iteratedRow];
 				}
 			}
 		}
@@ -387,7 +385,7 @@ public class Matrix {
 	 * @param passedSecondEntry - Another {@link MatrixEntry} to examine
 	 * @return The result of {@link Integer#min(int, int)} upon the two {@link MatrixEntry#getColumn()} values, or -1 if both are null.
 	 */
-	private static final <T> int getLesserColumn(MatrixEntry<T> passedFirstEntry, MatrixEntry<T> passedSecondEntry) {
+	private static <T> int getLesserColumn(MatrixEntry<T> passedFirstEntry, MatrixEntry<T> passedSecondEntry) {
 		if ((passedFirstEntry == null) && (passedSecondEntry == null)) {
 			return -1;
 		}
@@ -400,7 +398,7 @@ public class Matrix {
 	 * @param passedFirstEntry - A {@link MatrixEntry} to examine
 	 * @return The column value.
 	 */
-	private static final int getColumnValue(MatrixEntry<?> passedEntry) {
+	private static int getColumnValue(MatrixEntry<?> passedEntry) {
 		if (passedEntry == null) {
 			return Integer.MAX_VALUE;
 		}
