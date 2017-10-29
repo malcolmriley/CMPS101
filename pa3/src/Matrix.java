@@ -42,7 +42,9 @@ public class Matrix {
 
 	public void makeZero() {
 		for (List iteratedList : this.VALUES) {
-			iteratedList.clear();
+			if (iteratedList != null) {
+				iteratedList.clear();
+			}
 		}
 	}
 
