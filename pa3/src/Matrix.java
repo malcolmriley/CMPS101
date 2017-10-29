@@ -445,7 +445,7 @@ public class Matrix {
 	 * @return Whether or not both lists are {@code null} or equal.
 	 */
 	private static boolean listsAreEqual(List passedFirstList, List passedSecondList) {
-		if ((passedFirstList == null) && (passedSecondList == null)) {
+		if ((!isEmptyOrNull(passedFirstList)) && (!isEmptyOrNull(passedSecondList))) {
 			return true;
 		}
 		else {
@@ -457,6 +457,13 @@ public class Matrix {
 			}
 		}
 		return false;
+	}
+	
+	private static boolean isEmptyOrNull(List passedList) {
+		if (passedList == null) {
+			return true;
+		}
+		else return passedList.isEmpty();
 	}
 	
 	/* IEntryOperator Implementation */

@@ -56,6 +56,9 @@ public class List {
 	 * Overrides {@link Object#equals(Object)}.
 	 */
 	public boolean equals(Object passedObject) {
+		if (this == passedObject) {
+			return true;
+		}
 		if (passedObject instanceof List) {
 			List passedList = (List)passedObject;
 			if (this.length() == passedList.length()) {
