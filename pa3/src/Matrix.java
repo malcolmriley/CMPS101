@@ -23,39 +23,7 @@ public class Matrix {
 	public void changeEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
 		int rowIndex = (passedRowIndex - 1);
 		int columnIndex = (passedColumnIndex - 1);
-		if (this.validateIndices(rowIndex, columnIndex)) {
-			List row = this.getRow(rowIndex);
-			// * If the list is empty, just append a new entry
-			if (row.isEmpty()) {
-				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
-			}
-			// Guaranteed to operate on a List with at least one entry
-			else {
-				for (row.moveFront(); row.index() >= 0; row.moveNext()) {
-					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
-					// * If the discovered column index is greater than the inserted, we passed the entry, insert before the cursor and return
-					if (iteratedEntry.getColumn() > passedColumnIndex) {
-						if (passedNewValue != 0) {
-							row.insertBefore(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
-							return;
-						}
-					}
-					// * If the discovered column index equals the desired index, alter the cursor node
-					else if (iteratedEntry.getColumn() == columnIndex) {
-						if (passedNewValue == 0) {
-							row.delete();
-							return;
-						}
-						else {
-							iteratedEntry.setValue(passedNewValue);
-							return;
-						}
-					}
-				}
-				// If we reach the end of the List before either previous * condition is met, append a new entry
-				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
-			}
-		}
+		this.changeEntryInternal(rowIndex, columnIndex, passedNewValue);
 	}
 
 	public int getSize() {
@@ -79,17 +47,17 @@ public class Matrix {
 	}
 
 	public Matrix copy() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getRow(), entry.getColumn(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix scalarMult(double passedValue) {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix transpose() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getColumn(), entry.getRow(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getColumn(), entry.getRow(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
@@ -180,6 +148,49 @@ public class Matrix {
 	}
 
 	/* Internal Methods */
+	
+	/**
+	 * Internal version of {@link #changeEntry(int, int, double)}, that doesn't modify the row and column indices.
+	 * 
+	 * @param passedRowIndex - The row index of the entry to modify
+	 * @param passedColumnIndex - The column index of the entry to modify
+	 * @param passedNewValue - The new value to use for modifying
+	 */
+	private void changeEntryInternal(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
+		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
+			List row = this.getRow(passedRowIndex);
+			// * If the list is empty, just append a new entry
+			if (row.isEmpty()) {
+				row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+			}
+			// Guaranteed to operate on a List with at least one entry
+			else {
+				for (row.moveFront(); row.index() >= 0; row.moveNext()) {
+					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+					// * If the discovered column index is greater than the inserted, we passed the entry, insert before the cursor and return
+					if (iteratedEntry.getColumn() > passedColumnIndex) {
+						if (passedNewValue != 0) {
+							row.insertBefore(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+							return;
+						}
+					}
+					// * If the discovered column index equals the desired index, alter the cursor node
+					else if (iteratedEntry.getColumn() == passedColumnIndex) {
+						if (passedNewValue == 0) {
+							row.delete();
+							return;
+						}
+						else {
+							iteratedEntry.setValue(passedNewValue);
+							return;
+						}
+					}
+				}
+				// If we reach the end of the List before either previous * condition is met, append a new entry
+				row.append(new MatrixEntry<Double>(passedNewValue, passedRowIndex, passedColumnIndex));
+			}
+		}
+	}
 
 	/**
 	 * Verifies that this {@link Matrix} is the same size as {@code passedMatrix}, by calling {@link Matrix#getSize()} on both.
@@ -228,10 +239,12 @@ public class Matrix {
 	private static Matrix modifyUsing(Matrix passedSourceMatrix, IEntryModifier<Double> passedOperator) {
 		Matrix newMatrix = new Matrix(passedSourceMatrix.getSize());
 		for (List iteratedList : passedSourceMatrix.VALUES) {
-			for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
-				MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
-				if (entry != null) {
-					passedOperator.modify(newMatrix, entry);
+			if (iteratedList != null) {
+				for (iteratedList.moveFront(); iteratedList.index() >= 0; iteratedList.moveNext()) {
+					MatrixEntry<Double> entry = getAsMatrixEntry(iteratedList.get());
+					if (entry != null) {
+						passedOperator.modify(newMatrix, entry);
+					}
 				}
 			}
 		}
