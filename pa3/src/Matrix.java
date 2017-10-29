@@ -341,7 +341,7 @@ public class Matrix {
 	 */
 	private static int parallelFront(List passedFirstList, List passedSecondList) {
 		passedFirstList.moveFront();
-		passedSecondList.moveBack();
+		passedSecondList.moveFront();
 
 		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
 		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
