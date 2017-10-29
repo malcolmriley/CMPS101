@@ -220,39 +220,53 @@ public class ListTest {
 	/* Tests */
 	
 	private enum EnumListTest {
+		// Initialization Tests
 		Init("Basic Initialization", "3.0", INITIALIZE_BASIC),
 		InitPoly("Polymorphic Initialization", "2.0 This is a String! 1 (4, 2.5)", INITIALIZE_POLYMORPHIC),
 		InitAlt("Alternating Initialization", "6 4 2 1 3 5", INITIALIZE_ALTERNATING),
+		
+		// Getter Tests
 		GetFront("Get Front", "6", GET_FRONT),
 		GetBack("Get Back", "5", GET_BACK),
 		GetNullCursor("Get Null Cursor", "null", GET_NULL_CURSOR),
 		GetNonNullCursor("Get Non-Null Cursor", "6", GET_NON_NULL_CURSOR),
+		
+		// Insertion Tests
 		InsertBefore("Insert Before", "0 6 4 2 1 3 5", INSERT_BEFORE),
 		InsertAfter("Insert After", "6 0 4 2 1 3 5", INSERT_AFTER),
 		InsertAlternating("Insert Alternating", "2 4 1 5 3", INSERT_ALTERNATING),
 		InsertDoubleAlternating("Insert Doubly Alternating", "2 1 5 3 4", INSERT_DOUBLE_ALTERNATING),
 		InsertNullCursor("Insert Null Cursor", "2 1 5 3 4", INSERT_NULL_CURSOR),
+		
+		// Equality Tests
 		EqualsSelf("Equals Self", "true", EQUALS_SELF),
 		EqualsSameOther("Equals Same Other", "true", EQUALS_SAME_OTHER),
 		EqualsDiffOther("Equals Different Other", "false", EQUALS_DIFFERENT_OTHER),
 		EqualsEmptySelf("Equals Empty Self", "false", EQUALS_EMPTY_SELF),
 		EqualsBothEmpty("Equals Both Empty", "true", EQUALS_BOTH_EMTPY),
 		EqualsEmptyNull("Equals Null", "false", EQUALS_EMPTY_NULL),
+		
+		// Deletion Tests
 		DeleteFrontBack("Deleting Front and Back", "4 2 1 3", DELETE_FRONT_AND_BACK),
 		DeleteFrontCursor("Deleting Cursor at Front", "4 2 1 3 5", DELETE_CURSOR_FRONT),
 		DeleteCursorBack("Deleting Cursor at Back", "6 4 2 1 3", DELETE_CURSOR_BACK),
 		DeleteCursorMiddle("Deleting Cursor at Middle", "6 4 1 3 5", DELETE_CURSOR_MIDDLE),
 		DeleteCursorNull("Deleting Null Cursor", "6 4 2 1 3 5", DELETE_CURSOR_NULL),
 		DeleteAll("Deleting All", "null null null ", DELETE_ALL),
+		
+		// Length Tests
 		LengthEmpty("Length Empty", "0", LENGTH_EMPTY),
 		LengthNonEmpty("Length After Insertions", "6", LENGTH_NONEMPTY),
 		LengthDeleting("Length After Deletions", "4", LENGTH_DELETING),
+		
+		// Index Tests
 		IndexNonNull("Index of Non Null Cursor", "2", INDEX_NONNULL),
 		IndexNull("Index of Null Cursor", "-1", INDEX_MOVED_NULL),
 		IndexDeleteCursor("Index of Deleted Cursor", "-1", INDEX_DELETE_CURSOR),
 		IndexDeleteBack("Index After Deleting Back", "2", INDEX_DELETE_BACK),
 		IndexDeleteFront("Index After Deleting Front", "1", INDEX_DELETE_FRONT),
 
+		// Tester Test
 		DeliberateFail("This Test Fails Deliberately", "What tests the tester? Itself of course!", DELIBERATE_FAIL),
 		;
 
