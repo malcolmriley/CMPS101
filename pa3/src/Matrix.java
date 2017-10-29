@@ -77,17 +77,17 @@ public class Matrix {
 	}
 
 	public Matrix copy() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix scalarMult(double passedValue) {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix transpose() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.addEntry(entry.getColumn(), entry.getRow(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntry(entry.getColumn(), entry.getRow(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
@@ -117,7 +117,7 @@ public class Matrix {
 						
 						dotProduct += (getValue(firstEntry, column) * getValue(secondEntry, column));
 					}
-					newMatrix.addEntry(iteratedRow, iteratedColumn, dotProduct);
+					newMatrix.changeEntry(iteratedRow, iteratedColumn, dotProduct);
 				}
 			}
 		}
@@ -175,31 +175,6 @@ public class Matrix {
 			return this.VALUES[passedRowIndex];
 		}
 		return null;
-	}
-	
-	/**
-	 * Adds a new {@link MatrixEntry} to this {@link Matrix}.
-	 * 
-	 * IMPORTANT: This method does not verify that a {@link MatrixEntry} with {@code passedColumnIndex} does not already exist.
-	 * 
-	 * @param passedRowIndex - The index of the row to add a {@link MatrixEntry} at
-	 * @param passedColumnIndex - The index of the column to add a {@link MatrixEntry} at
-	 * @param passedNewValue - The value of the new {@link MatrixEntry}
-	 */
-	protected void addEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
-		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
-			if (passedNewValue != 0) {
-				List row = this.getRow(passedRowIndex);
-				for (row.moveBack(); row.index() >= 0; row.movePrev()) {
-					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
-					if (iteratedEntry != null ) {
-						if (iteratedEntry.getColumn() < passedColumnIndex) {
-							row.insertAfter(new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRowIndex, passedColumnIndex));
-						}
-					}
-				}
-			}
-		}
 	}
 
 	/* Internal Methods */
