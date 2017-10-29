@@ -64,15 +64,13 @@ public class Matrix {
 	}
 
 	public Matrix add(Matrix passedMatrix) {
-		Matrix usedMatrix = getCopyIfThis(passedMatrix);
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first + second); };
-		return modifyRowsUsing(usedMatrix, passedMatrix, operation);
+		return modifyRowsUsing(this, getCopyIfThis(passedMatrix), operation);
 	}
 
 	public Matrix sub(Matrix passedMatrix) {
-		Matrix usedMatrix = getCopyIfThis(passedMatrix);
 		final IDoubleOperator<Double> operation = (first, second) -> { return (first - second); };
-		return modifyRowsUsing(usedMatrix, passedMatrix, operation);
+		return modifyRowsUsing(this, getCopyIfThis(passedMatrix), operation);
 	}
 
 	public Matrix mult(Matrix passedMatrix) {
@@ -365,32 +363,21 @@ public class Matrix {
 	 * @param passedSecondList - Another {@link List}
 	 */
 	private static int parallelNext(List passedFirstList, List passedSecondList) {
-		MatrixEntry<Double> firstEntry = getAsMatrixEntry(passedFirstList.get());
-		MatrixEntry<Double> secondEntry = getAsMatrixEntry(passedSecondList.get());
-		
-		if ((firstEntry != null) && (secondEntry != null)) {
-			int firstValue = getColumnValue(firstEntry);
-			int secondValue = getColumnValue(secondEntry);
-			
-			if (firstValue == secondValue) {
-				passedFirstList.moveNext();
-				passedSecondList.moveNext();
-			}
-			else if (firstValue < secondValue) {
-				passedFirstList.moveNext();
-			}
-			else if (firstValue > secondValue) {
-				passedSecondList.moveNext();
-			}
+		int firstValue = getColumnValue(getAsMatrixEntry(passedFirstList.get()));
+		int secondValue = getColumnValue(getAsMatrixEntry(passedSecondList.get()));
 
-			firstEntry = getAsMatrixEntry(passedFirstList.get());
-			secondEntry = getAsMatrixEntry(passedSecondList.get());
-			
-			return getLesserColumn(firstEntry, secondEntry);
+		if (firstValue == secondValue) {
+			passedFirstList.moveNext();
+			passedSecondList.moveNext();
 		}
-		passedFirstList.moveNext();
-		passedSecondList.moveNext();
-		return -1;
+		else if (firstValue < secondValue) {
+			passedFirstList.moveNext();
+		}
+		else if (firstValue > secondValue) {
+			passedSecondList.moveNext();
+		}
+
+		return getLesserColumn(getAsMatrixEntry(passedFirstList.get()), getAsMatrixEntry(passedSecondList.get()));
 	}
 	
 	/**
