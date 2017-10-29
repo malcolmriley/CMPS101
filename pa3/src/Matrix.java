@@ -145,7 +145,7 @@ public class Matrix {
 			if (!this.getRow(iteratedRow).isEmpty()) {
 				representation += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
 			}
-			if (iteratedRow < (this.DIMENSION - 1) && (!representation.isEmpty())) {
+			if ((iteratedRow < this.getRow(iteratedRow).length() - 1) && (!representation.isEmpty())) {
 				representation += "\n";
 			}
 		}
