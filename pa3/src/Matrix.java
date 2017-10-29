@@ -135,7 +135,10 @@ public class Matrix {
 		String matrix = "";
 		for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
 			if (!this.getRow(iteratedRow).isEmpty()) {
-				matrix += String.format("%d: %s\n", (iteratedRow + 1), this.getRow(iteratedRow).toString());
+				matrix += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
+			}
+			if (iteratedRow < (this.DIMENSION - 1) && (!matrix.isEmpty())) {
+				matrix += "\n";
 			}
 		}
 		return matrix;
