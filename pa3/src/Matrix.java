@@ -21,27 +21,35 @@ public class Matrix {
 
 	/* PA3 Required Methods */
 
-	public void changeEntry(int passedRow, int passedColumn, double passedNewValue) {
-		passedRow -= 1;
-		passedColumn -= 1;
-		MatrixEntry<Double> entry = this.getEntry(passedRow, passedColumn);
-		if (entry != null) {
-			if (passedNewValue == 0) {
-				this.getRow(passedRow).delete();
+	public void changeEntry(int passedRowIndex, int passedColumnIndex, double passedNewValue) {
+		int rowIndex = (passedRowIndex - 1);
+		int columnIndex = (passedColumnIndex - 1);
+		if (this.validateIndices(rowIndex, columnIndex)) {
+			List row = this.getRow(rowIndex);
+			if (row.isEmpty()) {
+				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
 			}
 			else {
-				entry.setValue(Double.valueOf(passedNewValue));
-			}
-		}
-		else {
-			if (passedNewValue != 0) {
-				MatrixEntry<Double> insertedEntry = new MatrixEntry<Double>(Double.valueOf(passedNewValue), passedRow, passedColumn);
-				if (this.getRow(passedRow).isEmpty()) {
-					this.getRow(passedRow).append(insertedEntry);
+				for (row.moveFront(); row.index() >= 0; row.moveNext()) {
+					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+					if (iteratedEntry.getColumn() > passedColumnIndex) {
+						if (passedNewValue != 0) {
+							row.insertBefore(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
+							return;
+						}
+					}
+					else if (iteratedEntry.getColumn() == columnIndex) {
+						if (passedNewValue == 0) {
+							row.delete();
+							return;
+						}
+						else {
+							iteratedEntry.setValue(passedNewValue);
+							return;
+						}
+					}
 				}
-				else {
-					this.getRow(passedRow).insertBefore(insertedEntry);
-				}
+				row.append(new MatrixEntry<Double>(passedNewValue, rowIndex, columnIndex));
 			}
 		}
 	}
@@ -192,34 +200,6 @@ public class Matrix {
 	}
 
 	/* Internal Methods */
-
-	/**
-	 * Returns the {@link MatrixEntry} at the indices specified, or {@code null} if no such {@link MatrixEntry} exists, or if the indices
-	 * fall out of range.
-	 * 
-	 * Importantly, it does not modify the cursors of the row {@link List} instances backing this {@link Matrix} before it returns.
-	 * 
-	 * @param passedRowIndex - The row index to fetch from
-	 * @param passedColumnIndex - The column index to fetch from
-	 * @return The {@link MatrixEntry} at those indices, or {@code null} if no such entry exists, or if the indices are out of range.
-	 */
-	private MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
-		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
-			List row = this.getRow(passedRowIndex);
-			for (row.moveFront(); row.index() >= 0; row.moveNext()) {
-				MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
-				if (iteratedEntry != null ) {
-					if (iteratedEntry.getColumn() > passedColumnIndex) {
-						break;
-					}
-					if (iteratedEntry.getColumn() == passedColumnIndex) {
-						return iteratedEntry;
-					}
-				}
-			}
-		}
-		return null;
-	}
 
 	/**
 	 * Verifies that this {@link Matrix} is the same size as {@code passedMatrix}, by calling {@link Matrix#getSize()} on both.
