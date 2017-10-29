@@ -375,20 +375,18 @@ public class Matrix {
 			if (firstValue == secondValue) {
 				passedFirstList.moveNext();
 				passedSecondList.moveNext();
-
-				firstEntry = getAsMatrixEntry(passedFirstList.get());
-				secondEntry = getAsMatrixEntry(passedSecondList.get());
-				
-				return getLesserColumn(firstEntry, secondEntry);
 			}
 			else if (firstValue < secondValue) {
 				passedFirstList.moveNext();
-				return firstValue;
 			}
 			else if (firstValue > secondValue) {
 				passedSecondList.moveNext();
-				return secondValue;
 			}
+
+			firstEntry = getAsMatrixEntry(passedFirstList.get());
+			secondEntry = getAsMatrixEntry(passedSecondList.get());
+			
+			return getLesserColumn(firstEntry, secondEntry);
 		}
 		passedFirstList.moveNext();
 		passedSecondList.moveNext();
