@@ -180,16 +180,16 @@ public class List {
 
 	@Override
 	public String toString() {
-		String stringRepresentation = "";
+		StringBuilder representation = new StringBuilder();
 		Node<Object> thisListIterator = this.getFrontNode();
 		while (this.isNodeDefined(thisListIterator)) {
-			stringRepresentation += thisListIterator.toString();
+			representation.append(thisListIterator.toString());
 			thisListIterator = thisListIterator.getNext();
 			if (thisListIterator != null) {
-				stringRepresentation += " ";
+				representation.append(" ");
 			}
 		}
-		return stringRepresentation;
+		return representation.toString();
 	}
 
 	protected Node<Object> getFrontNode() {
