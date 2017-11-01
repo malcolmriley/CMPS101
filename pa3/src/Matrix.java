@@ -12,6 +12,8 @@ public class Matrix {
 
 	protected final int DIMENSION;
 	protected final List[] VALUES;
+	
+	private static long elapsedTime;
 
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
@@ -121,19 +123,22 @@ public class Matrix {
 	}
 	
 	public String toString() {
-		String representation = "";
+		elapsedTime = System.nanoTime();
+		elapsedTime = Sparse.printElapsedTime("toString begin", elapsedTime);
+		StringBuilder builder = new StringBuilder();
 		for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
 			if (!isEmptyOrNull(this.VALUES[iteratedRow])) {
 				if (iteratedRow != 0) {
-					representation += "\n";
+					builder.append("\n");
 				}
-				representation += String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString());
+				builder.append(String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString()));
 			}
 		}
 		if (this.getNNZ() > 0) {
-			representation += "\n";
+			builder.append("\n");
 		}
-		return representation;
+		elapsedTime = Sparse.printElapsedTime("toString end", elapsedTime);
+		return builder.toString();
 	}
 	
 	/* Protected Methods */
