@@ -123,7 +123,7 @@ public class Matrix {
 	public String toString() {
 		String representation = "";
 		for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
-			if (!this.getRow(iteratedRow).isEmpty()) {
+			if (!isEmptyOrNull(this.VALUES[iteratedRow])) {
 				if (iteratedRow != 0) {
 					representation += "\n";
 				}
