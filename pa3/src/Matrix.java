@@ -49,17 +49,17 @@ public class Matrix {
 	}
 
 	public Matrix copy() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getRow(), entry.getColumn(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.appendEntry(entry.getRow(), entry.getColumn(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix scalarMult(double passedValue) {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.appendEntry(entry.getRow(), entry.getColumn(), entry.getValue() * passedValue); };
 		return modifyUsing(this, operator);
 	}
 
 	public Matrix transpose() {
-		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.changeEntryInternal(entry.getColumn(), entry.getRow(), entry.getValue()); };
+		final IEntryModifier<Double> operator = (matrix, entry) -> { matrix.appendEntry(entry.getColumn(), entry.getRow(), entry.getValue()); };
 		return modifyUsing(this, operator);
 	}
 
@@ -177,6 +177,22 @@ public class Matrix {
 	}
 
 	/* Internal Methods */
+	
+	/**
+	 * Method appends a new {@link MatrixEntry} to the {@link List} backing the passed row in question.
+	 * 
+	 * It does not perform any checks for column sorting.
+	 * 
+	 * @param passedRowIndex
+	 * @param passedColumnIndex
+	 * @param passedValue
+	 */
+	private void appendEntry(int passedRowIndex, int passedColumnIndex, double passedValue) {
+		if (this.validateIndices(passedRowIndex, passedColumnIndex) && (passedValue != 0)) {
+			List row = this.getRow(passedRowIndex);
+			row.append(new MatrixEntry<Double>(passedValue, passedRowIndex, passedColumnIndex));
+		}
+	}
 	
 	/**
 	 * Internal version of {@link #changeEntry(int, int, double)}, that doesn't modify the row and column indices.
