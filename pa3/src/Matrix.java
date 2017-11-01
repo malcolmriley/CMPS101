@@ -12,8 +12,6 @@ public class Matrix {
 
 	protected final int DIMENSION;
 	protected final List[] VALUES;
-	
-	private static long elapsedTime;
 
 	public Matrix(int passedDimension) {
 		this.DIMENSION = passedDimension;
@@ -123,8 +121,6 @@ public class Matrix {
 	}
 	
 	public String toString() {
-		elapsedTime = System.nanoTime();
-		elapsedTime = Sparse.printElapsedTime("toString begin", elapsedTime);
 		StringBuilder builder = new StringBuilder();
 		for (int iteratedRow = 0; iteratedRow < this.getSize(); iteratedRow += 1) {
 			if (!isEmptyOrNull(this.VALUES[iteratedRow])) {
@@ -137,7 +133,6 @@ public class Matrix {
 		if (this.getNNZ() > 0) {
 			builder.append("\n");
 		}
-		elapsedTime = Sparse.printElapsedTime("toString end", elapsedTime);
 		return builder.toString();
 	}
 	
