@@ -220,10 +220,10 @@ public class MatrixTest {
 	
 	private enum EnumMatrixTest {
 		// Initialization Tests
-		InitBasic("Basic Initialization", 1, "1: (1, 2.0)", INITIALIZE_BASIC),
-		InitOrdered("Ordered Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)", INITIALIZE_ORDERED),
-		InitUnordered("Unordered Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)", INITIALIZE_UNORDERED),
-		InitCopy("Copy Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)", INITIALIZE_COPY),
+		InitBasic("Basic Initialization", 1, "1: (1, 2.0)\n", INITIALIZE_BASIC),
+		InitOrdered("Ordered Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)\n", INITIALIZE_ORDERED),
+		InitUnordered("Unordered Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)\n", INITIALIZE_UNORDERED),
+		InitCopy("Copy Initialization", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)\n", INITIALIZE_COPY),
 		
 		// Equality Tests
 		EqualsSelf("Equals Self", 3, "true", EQUALS_SELF),
@@ -243,32 +243,32 @@ public class MatrixTest {
 		
 		// Scalar Mult Tests
 		ScalarMultEmpty("Scalar Mult of Empty", 3, "", SCALAR_MULT_EMPTY),
-		ScalarMultNonempty("Scalar Mult of Nonempty", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)", SCALAR_MULT_NONEMPTY),
-		ScalarMultNegative("Scalar Mult of Negative", 3, "1: (2, -4.0) (3, -6.2)\n2: (1, -10.0)", SCALAR_MULT_NEGATIVE),
+		ScalarMultNonempty("Scalar Mult of Nonempty", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)\n", SCALAR_MULT_NONEMPTY),
+		ScalarMultNegative("Scalar Mult of Negative", 3, "1: (2, -4.0) (3, -6.2)\n2: (1, -10.0)\n", SCALAR_MULT_NEGATIVE),
 		
 		// Transpose Tests
 		TransposeEmpty("Transpose Empty", 3, "", TRANSPOSE_EMPTY),
-		TransposeNonempty("Transpose Nonempty", 3, "1: (2, 5.0)\n2: (1, 2.0)\n3: (1, 3.1)", TRANSPOSE_NONEMPTY),
+		TransposeNonempty("Transpose Nonempty", 3, "1: (2, 5.0)\n2: (1, 2.0)\n3: (1, 3.1)\n", TRANSPOSE_NONEMPTY),
 		
 		// Addition Tests
-		AddSelf("Adding self", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)", ADD_SELF),
-		AddCopy("Adding copy", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)", ADD_COPY),
-		AddEmpty("Adding Empty", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)", ADD_EMPTY),
-		AddOther("Adding Other", 3, "1: (1, -0.5) (2, 3.5) (3, 3.1)\n2: (1, 5.0)\n3: (3, 0.5)", ADD_OTHER),
+		AddSelf("Adding self", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)\n", ADD_SELF),
+		AddCopy("Adding copy", 3, "1: (2, 4.0) (3, 6.2)\n2: (1, 10.0)\n", ADD_COPY),
+		AddEmpty("Adding Empty", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)\n", ADD_EMPTY),
+		AddOther("Adding Other", 3, "1: (1, -0.5) (2, 3.5) (3, 3.1)\n2: (1, 5.0)\n3: (3, 0.5)\n", ADD_OTHER),
 		
 		// Subtraction Tests
 		SubSelf("Subtracting Self", 3, "", SUBTRACT_SELF),
-		SubCopy("Subtracting Self", 3, "", SUBTRACT_COPY),
-		SubEmpty("Subtracting Self", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)", SUBTRACT_EMPTY),
-		SubOther("Subtracting Other", 3, "1: (1, 0.5) (2, 0.5) (3, 3.1)\n2: (1, 5.0)\n3: (3, -0.5)", SUBTRACT_OTHER),
+		SubCopy("Subtracting Copy", 3, "", SUBTRACT_COPY),
+		SubEmpty("Subtracting Empty", 3, "1: (2, 2.0) (3, 3.1)\n2: (1, 5.0)\n", SUBTRACT_EMPTY),
+		SubOther("Subtracting Other", 3, "1: (1, 0.5) (2, 0.5) (3, 3.1)\n2: (1, 5.0)\n3: (3, -0.5)\n", SUBTRACT_OTHER),
 		
 		// Multiplication Tests
 		MultZero("Multiplying by Zero", 3, "", MULTIPLY_ZERO),
 		MultIdentity("Multiplying by Identity", 3, "true", MULTIPLY_IDENTITY),
-		MultSelf("Multipyling by Self", 3, "1: (1, 10.0)\n2: (2, 10.0) (3, 15.5)", MULTIPLY_SELF),
-		MultCopy("Multiplying by Copy", 3, "1: (1, 10.0)\n2: (2, 10.0) (3, 15.5)", MULTIPLY_COPY),
-		MultOther1("Multiplying by Other 1", 3, "1: (3, 1.55)\n2: (1, -2.5) (2, 7.5)", MULTIPLY_OTHER_1),
-		MultOther2("Multiplying by Other 2", 3, "1: (1, 7.5) (2, -1.0) (3, -1.55)", MULTIPLY_OTHER_2),
+		MultSelf("Multipyling by Self", 3, "1: (1, 10.0)\n2: (2, 10.0) (3, 15.5)\n", MULTIPLY_SELF),
+		MultCopy("Multiplying by Copy", 3, "1: (1, 10.0)\n2: (2, 10.0) (3, 15.5)\n", MULTIPLY_COPY),
+		MultOther1("Multiplying by Other 1", 3, "1: (3, 1.55)\n2: (1, -2.5) (2, 7.5)\n", MULTIPLY_OTHER_1),
+		MultOther2("Multiplying by Other 2", 3, "1: (1, 7.5) (2, -1.0) (3, -1.55)\n", MULTIPLY_OTHER_2),
 		
 		// Test Tester
 		TestFail("This Test Deliberately Fails", 3, "What tests the tester? Itself, of course!", TEST_FAIL),
