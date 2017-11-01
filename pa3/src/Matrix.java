@@ -158,6 +158,14 @@ public class Matrix {
 		return null;
 	}
 	
+	/**
+	 * Returns the {@link MatrixEntry} instance associated with the passed row and column index, or {@code null}
+	 * if no such instance exists.
+	 * 
+	 * @param passedRowIndex - The row index
+	 * @param passedColumnIndex - The column index
+	 * @return The corresponding {@link MatrixEntry} instance, or {@code null} if no such entry exists.
+	 */
 	protected MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
 		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
 			if (this.VALUES[passedRowIndex] != null) {
@@ -347,7 +355,7 @@ public class Matrix {
 	}
 
 	/**
-	 * Casts the passed {@link Object} to {@link MatrixEntry<Double>}, returning it, or {@code null} instead if:
+	 * Convenience method that casts the passed {@link Object} to {@link MatrixEntry<Double>}, returning it, or {@code null} instead if:
 	 * <li>
 	 * {@code passedObject} is not an instance of {@link MatrixEntry}
 	 * </li>
