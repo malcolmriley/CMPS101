@@ -74,28 +74,26 @@ public class Matrix {
 	}
 
 	public Matrix mult(Matrix passedMatrix) {
-		Matrix newMatrix = getCopyIfThis(passedMatrix);
-		if (this.validateSize(passedMatrix)) {
-			if (passedMatrix.getNNZ() > 0) {
-				Matrix transpose = passedMatrix.transpose();
-				newMatrix = new Matrix(this.DIMENSION);
-				for (int iteratedRow = 0; iteratedRow < this.DIMENSION; iteratedRow += 1) {
-					List firstRow = this.getRow(iteratedRow);
-					for (int iteratedColumn = 0; iteratedColumn < this.DIMENSION; iteratedColumn += 1) {
-						List secondRow = transpose.getRow(iteratedColumn);
-						double dotProduct = 0;
-						for (int column = parallelFront(firstRow, secondRow); parallelValid(firstRow, secondRow); column = parallelNext(firstRow, secondRow)) {
-							MatrixEntry<Double> firstEntry = getAsMatrixEntry(firstRow.get());
-							MatrixEntry<Double> secondEntry = getAsMatrixEntry(secondRow.get());
-							
-							dotProduct += (getValue(firstEntry, column) * getValue(secondEntry, column));
+		IEntryModifier<Double> operator = (destinationMatrix, leftEntry) -> {
+			List rightRow = passedMatrix.VALUES[leftEntry.getColumn()];
+			if (!isEmptyOrNull(rightRow)) {
+				for (rightRow.moveFront(); rightRow.index() >= 0; rightRow.moveNext()) {
+					MatrixEntry<Double> rightEntry = getAsMatrixEntry(rightRow.get());
+					MatrixEntry<Double> destinationEntry = destinationMatrix.getEntry(leftEntry.getRow(), rightEntry.getColumn());
+					double product = leftEntry.getValue() * rightEntry.getValue();
+					if (destinationEntry != null) {
+						destinationEntry.setValue(destinationEntry.getValue() + product);
+						if (destinationEntry.getValue() == 0) {
+							destinationMatrix.changeEntryInternal(destinationEntry.getRow(), destinationEntry.getColumn(), 0);
 						}
-						newMatrix.changeEntryInternal(iteratedRow, iteratedColumn, dotProduct);
+					}
+					else {
+						destinationMatrix.changeEntryInternal(leftEntry.getRow(), rightEntry.getColumn(), product);
 					}
 				}
 			}
-		}
-		return newMatrix;
+		};
+		return modifyUsing(this.copy(), operator);
 	}
 	
 	public boolean equals(Object passedObject) {
@@ -150,6 +148,24 @@ public class Matrix {
 				this.VALUES[passedRowIndex] = new List();
 			}
 			return this.VALUES[passedRowIndex];
+		}
+		return null;
+	}
+	
+	protected MatrixEntry<Double> getEntry(int passedRowIndex, int passedColumnIndex) {
+		if (this.validateIndices(passedRowIndex, passedColumnIndex)) {
+			if (this.VALUES[passedRowIndex] != null) {
+				List row = this.VALUES[passedRowIndex];
+				for (row.moveFront(); row.index() >= 0; row.moveNext()) {
+					MatrixEntry<Double> iteratedEntry = getAsMatrixEntry(row.get());
+					if (iteratedEntry.getColumn() == passedColumnIndex) {
+						return iteratedEntry;
+					}
+					else if (iteratedEntry.getColumn() > passedColumnIndex) {
+						break;
+					}
+				}
+			}
 		}
 		return null;
 	}
