@@ -406,14 +406,10 @@ public class Matrix {
 		int firstValue = getColumnValue(getAsMatrixEntry(passedFirstList.get()));
 		int secondValue = getColumnValue(getAsMatrixEntry(passedSecondList.get()));
 
-		if (firstValue == secondValue) {
-			passedFirstList.moveNext();
-			passedSecondList.moveNext();
-		}
-		else if (firstValue < secondValue) {
+		if (firstValue <= secondValue) {
 			passedFirstList.moveNext();
 		}
-		else if (firstValue > secondValue) {
+		if (firstValue >= secondValue) {
 			passedSecondList.moveNext();
 		}
 
