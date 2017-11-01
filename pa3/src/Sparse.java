@@ -86,9 +86,6 @@ public class Sparse {
 				
 				for (int ii = 0; ii < results.length; ii += 1) {
 					String result = results[ii];
-					if (ii < (results.length - 1)) {
-						result += "\n";
-					}
 					writer.write(result);
 				}
 			}
@@ -102,7 +99,7 @@ public class Sparse {
 	
 	private static final String getResult(String passedHeader, Matrix passedMatrix){
 		String matrix = passedMatrix.toString();
-		return String.format("%s\n%s", passedHeader, matrix);
+		return String.format("%s%s\n", passedHeader, matrix);
 	}
 	
 	private static final boolean defineFromLine(String[] passedArray, String passedLine, Integer passedIteration) {
