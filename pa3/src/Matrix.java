@@ -130,9 +130,7 @@ public class Matrix {
 				builder.append(String.format("%d: %s", (iteratedRow + 1), this.getRow(iteratedRow).toString()));
 			}
 		}
-		if (this.getNNZ() > 0) {
-			builder.append("\n");
-		}
+		builder.append("\n");
 		return builder.toString();
 	}
 	
