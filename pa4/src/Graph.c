@@ -98,12 +98,8 @@ void makeNull(Graph passedGraph) {
  * inserts a new (undirected) edge joining passedFirstIndex to passedSecondIndex
  */
 void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
-	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
-
-	}
-	else {
-		// TODO: Error?
-	}
+	addArc(passedGraph, passedFirstIndex, passedSecondIndex);
+	addArc(passedGraph, passedSecondIndex, passedFirstIndex);
 }
 
 /**
@@ -111,7 +107,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
-
+		insertSorted(passedGraph.ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 	else {
 		// TODO: Error?
@@ -120,7 +116,7 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 
 /* Miscellaneous */
 void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
-
+	// TODO!
 }
 
 /* Internal Functions */
