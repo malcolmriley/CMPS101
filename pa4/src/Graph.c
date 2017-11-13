@@ -68,9 +68,60 @@ int getParent(Graph passedGraph, int passedIndex) {
 	return NIL;
 }
 
+
+int getDist(Graph passedGraph, int passedIndex) {
+	if (validateIndex(passedIndex)) {
+		return passedGraph.DISTANCE[passedIndex];
+	}
+	return INF;
+}
+
+/**
+ * appends to passedList the vertices of a shortest path in the passed graph from the currently-set source to the passedIndex, or NIL if no such path exists.
+ */
+void getPath(List passedList, Graph passedGraph, int passedIndex) {
+	// TODO:
+}
+
 /* Manipulatiors */
 
+void makeNull(Graph passedGraph) {
+	for (int ii = 0; ii < getSize(passedGraph); ii += 1) {
+		clear(passedGraph.ADJACENCIES[ii]);
+		passedGraph.DISTANCE[ii] = INF;
+		passedGraph.COLOR[ii] = WHITE;
+		passedGraph.PARENTS[ii] = NIL;
+	}
+}
+
+/**
+ * inserts a new (undirected) edge joining passedFirstIndex to passedSecondIndex
+ */
+void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
+	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
+
+	}
+	else {
+		// TODO: Error?
+	}
+}
+
+/**
+ * inserts a new directed edge from passedFirstIndex to passedSecondIndex
+ */
+void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
+	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
+
+	}
+	else {
+		// TODO: Error?
+	}
+}
+
 /* Miscellaneous */
+void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
+
+}
 
 /* Internal Functions */
 int validateIndex(Graph passedGraph, int passedIndex) {
