@@ -6,8 +6,8 @@
  *
  * 11-2017
  *********************************************************************/
-#ifndef CONSTANTS
-#define CONSTANTS
+#ifndef LIST_CONSTANTS
+#define LIST_CONSTANTS
 
 #define TRUE 1
 #define FALSE 0
