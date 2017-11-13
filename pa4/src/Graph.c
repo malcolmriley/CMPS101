@@ -116,7 +116,10 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 
 /* Miscellaneous */
 void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
-	// TODO!
+	for (int ii = 0; ii < passedGraph.ORDER; ii += 1) {
+		fprintf(passedOuptutFile, "%d: ", ii);
+		printList(passedGraph.ADJACENCIES[ii]);
+	}
 }
 
 /* Internal Functions */
