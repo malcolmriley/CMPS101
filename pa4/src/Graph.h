@@ -6,6 +6,14 @@
  *
  * 11-2017
  *********************************************************************/
+#ifndef GRAPH_CONTSTANTS
+
+#include <limits.h>
+#define NIL INT_MIN
+#define INF INT_MAX
+
+#endif
+
 #ifndef GRAPH_MASRILEY_PA4
 #define GRAPH_MASRILEY_PA4
 
