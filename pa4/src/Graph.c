@@ -12,14 +12,23 @@
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
 	Graph newGraph = malloc(sizeof(Graph));
+	// Set internal fields
 	newGraph.ORDER = passedOrder;
-	newGraph.SOURCE = -1;
+	newGraph.SOURCE = NIL;
+	newGraph.SIZE = 0;
+
+	// Malloc internal arrays
 	newGraph.PARENTS = malloc(sizeof(int) * passedOrder);
 	newGraph.DISTANCE = malloc(sizeof(int) * passedOrder);
 	newGraph.COLOR = malloc(sizeof(enum VertexColor) * passedOrder);
-	newGraph.ADJACENCIES = malloc(sizeof(*List) * passedOrder);
+	newGraph.ADJACENCIES = malloc(sizeof(List*) * passedOrder);
+
+	// Initialize internal arrays
 	for (int ii = 0; ii < passedOrder; ii += 1) {
 		newGraph.ADJACENCIES[ii] = newList();
+		newGraph.DISTANCE[ii] = INF;
+		newGraph.COLOR[ii] = WHITE;
+		newGraph.PARENTS[ii] = NIL;
 	}
 	return newGraph;
 }
@@ -42,6 +51,15 @@ int getOrder(Graph passedGraph) {
 
 int getSize(Graph passedGraph) {
 	return passedGraph.SIZE;
+}
+
+
+int getSource(Graph passedGraph) {
+
+}
+
+int getParent(Graph passedGraph, int passedIndex) {
+
 }
 
 /* Manipulatiors */
