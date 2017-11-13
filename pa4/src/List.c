@@ -2,9 +2,9 @@
  * Malcolm Riley
  *
  * CruzID: masriley
- * Assignment: pa2
+ * Assignment: pa4
  *
- * 10-2017
+ * 11-2017
  *********************************************************************/
 
 #include <stdio.h>
