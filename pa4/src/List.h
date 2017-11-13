@@ -68,6 +68,6 @@ void printList(FILE* passedOutputFile, List passedList);
 List copyList(List passedList);
 
 /* New for pa4 */
-void insertInto(List passedList, int passedValue);
+void insertSorted(List passedList, int passedValue);
 
 #endif

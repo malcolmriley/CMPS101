@@ -309,7 +309,7 @@ List copyList(List passedList) {
  * List is not already sorted, this only has the effect of inserting the value
  * at the first place that it is less than the next value.
  */
-void insertInto(List passedList, int passedValue) {
+void insertSorted(List passedList, int passedValue) {
 	if (!isNull(passedList, "Cannot insert into a null List!", TRUE)) {
 		if (passedList->length == 0) {
 			append(passedList, passedValue);
