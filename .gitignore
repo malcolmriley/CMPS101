@@ -35,6 +35,7 @@ Thumbs.db
 **/build/
 **/*.settings
 **/*.project
+**/*.cproject
 **/*.classpath
 **/*.metadata
 
