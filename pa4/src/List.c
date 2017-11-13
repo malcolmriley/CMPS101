@@ -300,6 +300,33 @@ List copyList(List passedList) {
 	return allocatedList;
 }
 
+/* New for pa4 */
+
+/**
+ * Inserts the passed value in sorted order into the passed List.
+ *
+ * This does not SORT the List, merely inserts into sorted order, so if the
+ * List is not already sorted, this only has the effect of inserting the value
+ * at the first place that it is less than the next value.
+ */
+void insertInto(List passedList, int passedValue) {
+	if (!isNull(passedList, "Cannot insert into a null List!", TRUE)) {
+		if (passedList->length == 0) {
+			append(passedList, passedValue);
+		}
+		else {
+			int value = -1;
+			for (moveFront(passedList); get(passedList) > 0; moveNext(passedList)) {
+				value = get(passedList);
+				if (passedValue < value) {
+					insertBefore(passedList, passedValue);
+					return;
+				}
+			}
+		}
+	}
+}
+
 /* Internal Functions */
 
 /**
