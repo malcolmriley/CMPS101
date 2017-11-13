@@ -9,6 +9,9 @@
 
 #include "Graph.h"
 
+/* Internal Function Declarations */
+int validateIndex(Graph, int);
+
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
 	Graph newGraph = malloc(sizeof(Graph));
@@ -55,13 +58,24 @@ int getSize(Graph passedGraph) {
 
 
 int getSource(Graph passedGraph) {
-
+	return passedGraph.SOURCE;
 }
 
 int getParent(Graph passedGraph, int passedIndex) {
-
+	if (validateIndex(passedIndex)) {
+		return passedGraph.PARENTS[passedIndex];
+	}
+	return NIL;
 }
 
 /* Manipulatiors */
 
 /* Miscellaneous */
+
+/* Internal Functions */
+int validateIndex(Graph passedGraph, int passedIndex) {
+	if ((passedIndex > getSize(passedGraph)) || (passedIndex < 0)) {
+		return FALSE;
+	}
+	return TRUE;
+}
