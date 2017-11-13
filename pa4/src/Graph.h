@@ -13,8 +13,16 @@
 
 #include "List.h"
 
-typedef struct Graph {
+enum VertexColor{WHITE, BLACK, GRAY};
 
+typedef struct Graph {
+	List* ADJACENCIES;
+	enum VertexColor* COLOR;
+	int* PARENTS;
+	int* DISTANCE;
+	int ORDER;
+	int SOURCE;
+	int SIZE;
 } Graph;
 
 /* Constructors-Destructors */
