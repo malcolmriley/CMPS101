@@ -15,8 +15,8 @@
 
 #endif
 
-#ifndef LIST_H
-#define LIST_H
+#ifndef LIST_MASRILEY_PA4
+#define LIST_MASRILEY_PA4
 
 /* Node Typedef */
 typedef struct NodeObject {
