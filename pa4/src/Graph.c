@@ -80,16 +80,18 @@ int getDist(Graph passedGraph, int passedIndex) {
  * appends to passedList the vertices of a shortest path in the passed graph from the currently-set source to the passedIndex, or NIL if no such path exists.
  */
 void getPath(List passedList, Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedGraph, getSource(passedGraph)) && validateIndex(passedGraph, passedIndex)) {
+	if (getColor(passedGraph, passedIndex) == WHITE) {
+		clear(passedList);
+	}
+	else if (validateIndex(passedGraph, getSource(passedGraph)) && validateIndex(passedGraph, passedIndex)) {
 		int parent = getParent(passedGraph, passedIndex);
 		if (parent != NIL) {
 			getPath(passedList, passedGraph, parent);
 		}
 		append(passedList, passedIndex);
+		return;
 	}
-	else {
-		append(passedList, NIL);
-	}
+	append(passedList, NIL);
 }
 
 /* Manipulatiors */
@@ -155,4 +157,11 @@ int validateIndex(Graph passedGraph, int passedIndex) {
 		return FALSE;
 	}
 	return TRUE;
+}
+
+enum VertexColor getColor(Graph passedGraph, int passedIndex) {
+	if (validateIndex(passedGraph, passedIndex)) {
+		return passedGraph.COLOR[passedIndex];
+	}
+	return WHITE;
 }
