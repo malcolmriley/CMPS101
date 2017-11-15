@@ -136,6 +136,10 @@ void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
 	}
 }
 
+void resetVertices(Graph passedGraph) {
+
+}
+
 /* Internal Functions */
 int validateIndex(Graph passedGraph, int passedIndex) {
 	if ((passedIndex > getSize(passedGraph)) || (passedIndex < 0)) {

@@ -53,5 +53,6 @@ void BFS(Graph, int);
 
 /* Miscellaneous */
 void printGraph(FILE*, Graph);
+void resetVertices(Graph);
 
 #endif
