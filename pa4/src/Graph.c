@@ -136,8 +136,15 @@ void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
 	}
 }
 
+/**
+ * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
+ */
 void resetVertices(Graph passedGraph) {
-
+	for (int ii = 0; ii < order(passedGraph); ii += 1) {
+		passedGraph.DISTANCE[ii] = INF;
+		passedGraph.COLOR[ii] = WHITE;
+		passedGraph.PARENTS[ii] = NIL;
+	}
 }
 
 /* Internal Functions */
