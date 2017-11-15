@@ -37,7 +37,7 @@ Graph newGraph(int passedOrder) {
 }
 
 void freeGraph(Graph* passedGraph) {
-	for (int ii = 0; ii < passedGraph->ORDER; ii += 1) {
+	for (int ii = 0; ii < order(&passedGraph); ii += 1) {
 		freeList(&(passedGraph->ADJACENCIES[ii]));
 	}
 	free(passedGraph->ADJACENCIES);
@@ -80,7 +80,7 @@ int getDist(Graph passedGraph, int passedIndex) {
  * appends to passedList the vertices of a shortest path in the passed graph from the currently-set source to the passedIndex, or NIL if no such path exists.
  */
 void getPath(List passedList, Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedGraph, passedGraph.SOURCE) && validateIndex(passedGraph, passedIndex)) {
+	if (validateIndex(passedGraph, getSource(passedGraph)) && validateIndex(passedGraph, passedIndex)) {
 		// TODO: GetPath algorithm
 		return;
 	}
@@ -130,7 +130,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 /* Miscellaneous */
 void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
-	for (int ii = 0; ii < passedGraph.ORDER; ii += 1) {
+	for (int ii = 0; ii < order(passedGraph); ii += 1) {
 		fprintf(passedOuptutFile, "%d: ", ii);
 		printList(passedGraph.ADJACENCIES[ii]);
 	}
