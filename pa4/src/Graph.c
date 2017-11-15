@@ -80,7 +80,11 @@ int getDist(Graph passedGraph, int passedIndex) {
  * appends to passedList the vertices of a shortest path in the passed graph from the currently-set source to the passedIndex, or NIL if no such path exists.
  */
 void getPath(List passedList, Graph passedGraph, int passedIndex) {
-	// TODO:
+	if (validateIndex(passedGraph, passedGraph.SOURCE) && validateIndex(passedGraph, passedIndex)) {
+		// TODO: GetPath algorithm
+		return;
+	}
+	append(passedList, NIL);
 }
 
 /* Manipulatiors */
@@ -95,7 +99,7 @@ void makeNull(Graph passedGraph) {
 }
 
 /**
- * inserts a new (undirected) edge joining passedFirstIndex to passedSecondIndex
+ * "inserts a new (undirected) edge joining passedFirstIndex to passedSecondIndex"
  */
 void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	addArc(passedGraph, passedFirstIndex, passedSecondIndex);
@@ -103,7 +107,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 }
 
 /**
- * inserts a new directed edge from passedFirstIndex to passedSecondIndex
+ * "inserts a new directed edge from passedFirstIndex to passedSecondIndex"
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
@@ -111,6 +115,16 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	}
 	else {
 		// TODO: Error?
+	}
+}
+
+/*
+ * "runs the BFS algorithm on the Graph G with source s, setting the color, distance, parent, and source fields of G accordingly."
+ */
+void BFS(Graph passedGraph, int passedSourceIndex) {
+	if (validateIndex(passedGraph, passedSourceIndex)) {
+		passedGraph.SOURCE = passedSourceIndex;
+		// TODO: BFS Algorithm
 	}
 }
 
