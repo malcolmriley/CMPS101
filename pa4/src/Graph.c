@@ -81,10 +81,15 @@ int getDist(Graph passedGraph, int passedIndex) {
  */
 void getPath(List passedList, Graph passedGraph, int passedIndex) {
 	if (validateIndex(passedGraph, getSource(passedGraph)) && validateIndex(passedGraph, passedIndex)) {
-		// TODO: GetPath algorithm
-		return;
+		int parent = getParent(passedGraph, passedIndex);
+		if (parent != NIL) {
+			getPath(passedList, passedGraph, parent);
+		}
+		append(passedList, passedIndex);
 	}
-	append(passedList, NIL);
+	else {
+		append(passedList, NIL);
+	}
 }
 
 /* Manipulatiors */
