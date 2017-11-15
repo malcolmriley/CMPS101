@@ -11,6 +11,7 @@
 
 /* Internal Function Declarations */
 int validateIndex(Graph, int);
+enum VertexColor getColor(Graph, int);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -126,9 +127,26 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  * "runs the BFS algorithm on the Graph G with source s, setting the color, distance, parent, and source fields of G accordingly."
  */
 void BFS(Graph passedGraph, int passedSourceIndex) {
-	if (validateIndex(passedGraph, passedSourceIndex)) {
+	if (validateIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
+		resetVertices(passedGraph);
 		passedGraph.SOURCE = passedSourceIndex;
-		// TODO: BFS Algorithm
+		List tempList = newList();
+
+		int depth = 1;
+		for (int iteratedVertex = passedSourceIndex; size(tempList) > 0; iteratedVertex = pop(tempList)) {
+			List adjacencies = passedGraph.ADJACENCIES[iteratedVertex];
+			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
+				int neighbor = get(adjacencies);
+				passedGraph.PARENTS[neighbor] = iteratedVertex;
+				passedGraph.COLOR[neighbor] = GRAY;
+				passedGraph.DISTANCE[neighbor] = depth;
+				prepend(tempList, neighbor);
+			}
+			passedGraph[iteratedVertex] = BLACK;
+			depth += 1;
+		}
+
+		freeList(tempList);
 	}
 }
 
@@ -164,4 +182,13 @@ enum VertexColor getColor(Graph passedGraph, int passedIndex) {
 		return passedGraph.COLOR[passedIndex];
 	}
 	return WHITE;
+}
+
+/**
+ * Retrieves the value of the node at the back of the passed list, additionally removing the back node of the passed list.
+ */
+int pop(List passedList) {
+	int value = back(passedList);
+	deleteBack(passedList);
+	return value;
 }
