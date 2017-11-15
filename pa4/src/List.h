@@ -38,36 +38,36 @@ typedef struct ListObject* List;
 
 /* Constructor/Destructor */
 List newList(void);
-void freeList(List* passedlist);
+void freeList(List*);
 
 /* Accessors */
-int length(List passedList);
-int index(List passedList);
-int front(List passedList);
-int back(List passedList);
-int get(List passedList);
-int equals(List passedFirstList, List passedSecondList);
+int length(List);
+int index(List);
+int front(List);
+int back(List);
+int get(List);
+int equals(List, List);
 
 /* Manipulators */
-void clear(List passedList);
-void moveFront(List passedList);
-void moveBack(List passedList);
-void movePrev(List passedList);
-void moveNext(List passedList);
-void prepend(List passedList, int passedValue);
-void append(List passedList, int passedValue);
-void insertBefore(List passedList, int passedValue);
-void insertAfter(List passedList, int passedValue);
-void deleteFront(List passedList);
-void deleteBack(List passedList);
-void delete(List passedList);
-List concatList(List passedFirstList, List passedSecondList);
+void clear(List);
+void moveFront(List);
+void moveBack(List);
+void movePrev(List);
+void moveNext(List);
+void prepend(List, int);
+void append(List, int);
+void insertBefore(List, int);
+void insertAfter(List, int);
+void deleteFront(List);
+void deleteBack(List);
+void delete(List);
+List concatList(List, List);
 
 /* Miscellaneous */
-void printList(FILE* passedOutputFile, List passedList);
-List copyList(List passedList);
+void printList(FILE*, List);
+List copyList(List);
 
 /* New for pa4 */
-void insertSorted(List passedList, int passedValue);
+void insertSorted(List, int);
 
 #endif
