@@ -113,9 +113,6 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
 		insertSorted(passedGraph.ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
-	else {
-		// TODO: Error?
-	}
 }
 
 /*
