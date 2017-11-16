@@ -137,10 +137,12 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 			List adjacencies = passedGraph.ADJACENCIES[iteratedVertex];
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
-				passedGraph.PARENTS[neighbor] = iteratedVertex;
-				passedGraph.COLOR[neighbor] = GRAY;
-				passedGraph.DISTANCE[neighbor] = depth;
-				prepend(tempList, neighbor);
+				if (passedGraph.COLOR[neighbor] == WHITE) {
+					passedGraph.PARENTS[neighbor] = iteratedVertex;
+					passedGraph.COLOR[neighbor] = GRAY;
+					passedGraph.DISTANCE[neighbor] = depth;
+					prepend(tempList, neighbor);
+				}
 			}
 			passedGraph[iteratedVertex] = BLACK;
 			depth += 1;
