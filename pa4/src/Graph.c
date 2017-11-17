@@ -23,7 +23,7 @@ Graph newGraph(int passedOrder) {
 	}
 
 	// Allocate
-	Graph newGraph = malloc(sizeof(Graph));
+	Graph newGraph = malloc(sizeof(GraphObject));
 
 	// Set internal fields
 	newGraph->ORDER = passedOrder;
