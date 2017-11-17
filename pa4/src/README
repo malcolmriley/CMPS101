@@ -8,3 +8,6 @@ List.c			Implementation file for List ADT
 List.h			Header file for List.h
 makefile			Makefile for pa4
 README			This file
+
+Written by Malcolm Riley, for CMPS101 Fall 2017
+CruzID: masriley
