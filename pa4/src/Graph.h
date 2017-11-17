@@ -23,7 +23,7 @@
 
 enum VertexColor{WHITE, BLACK, GRAY};
 
-typedef struct Graph {
+typedef struct GraphObject {
 	List* ADJACENCIES;
 	enum VertexColor* COLOR;
 	int* PARENTS;
@@ -31,7 +31,8 @@ typedef struct Graph {
 	int ORDER;
 	int SOURCE;
 	int SIZE;
-} Graph;
+} GraphObject;
+typedef struct GraphObject* Graph;
 
 /* Constructors-Destructors */
 Graph newGraph(int);
