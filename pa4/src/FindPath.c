@@ -9,12 +9,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "Graph.h"
 
-FILE* openAndVerify(char*[], char*[], char*);
-readPair(FILE*, int*, int*);
+FILE* openAndVerify(char[], char[], char);
+int readPair(FILE*, int*, int*);
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 	if (passedArgumentCount < 3) {
@@ -45,7 +44,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				addEdge(graph, firstValue, secondValue);
 			}
 			printGraph(outputFile, graph);
-			fprintf("\n");
+			fputs("\n", outputFile);
 
 			// Get paths and print results
 			List tempList = newList();
@@ -54,16 +53,16 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				BFS(graph, firstValue);
 
 				// Print distance
-				fprintf("The distance from %d to %d is %d\n", firstValue, secondValue, getDist(graph, secondValue));
+				fprintf(outputFile, "The distance from %d to %d is %d\n", firstValue, secondValue, getDist(graph, secondValue));
 
 				// Print path
-				clearList(tempList);
-				getPath(graph, tempList, secondValue);
-				fprintf("A shortest %d-%d path is:", firstValue, secondValue);
+				clear(tempList);
+				getPath(tempList, graph, secondValue);
+				fprintf(outputFile, "A shortest %d-%d path is:", firstValue, secondValue);
 				printList(outputFile, tempList);
-				fprintf("\n");
+				fputs("\n", outputFile);
 			}
-			freeList(tempList);
+			freeList(&tempList);
 		}
 		else {
 			puts("Error: Could not initialize graph from file.");
@@ -91,7 +90,7 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 
 FILE* openAndVerify(char passedFileName[], char passedFileType[], char passedOpenType) {
 	FILE* openedFile;
-	openedFile = fopen(passedFileName, passedOpenType);
+	openedFile = fopen(passedFileName, &passedOpenType);
 	if (openedFile == NULL) {
 		printf("Error reading %s file: %s\n", passedFileType, passedFileName);
 		exit(1);

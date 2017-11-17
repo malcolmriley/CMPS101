@@ -8,10 +8,12 @@
  *********************************************************************/
 
 #include "Graph.h"
+#include <stdlib.h>
 
 /* Internal Function Declarations */
 int validateIndex(Graph, int);
 enum VertexColor getColor(Graph, int);
+int pop(List);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -24,62 +26,62 @@ Graph newGraph(int passedOrder) {
 	Graph newGraph = malloc(sizeof(Graph));
 
 	// Set internal fields
-	newGraph.ORDER = passedOrder;
-	newGraph.SOURCE = NIL;
-	newGraph.SIZE = 0;
+	newGraph->ORDER = passedOrder;
+	newGraph->SOURCE = NIL;
+	newGraph->SIZE = 0;
 
 	// Malloc internal arrays
-	newGraph.PARENTS = malloc(sizeof(int) * passedOrder);
-	newGraph.DISTANCE = malloc(sizeof(int) * passedOrder);
-	newGraph.COLOR = malloc(sizeof(enum VertexColor) * passedOrder);
-	newGraph.ADJACENCIES = malloc(sizeof(List*) * passedOrder);
+	newGraph->PARENTS = malloc(sizeof(int) * passedOrder);
+	newGraph->DISTANCE = malloc(sizeof(int) * passedOrder);
+	newGraph->COLOR = malloc(sizeof(enum VertexColor) * passedOrder);
+	newGraph->ADJACENCIES = malloc(sizeof(List*) * passedOrder);
 
 	// Initialize internal arrays
 	for (int ii = 0; ii < passedOrder; ii += 1) {
-		newGraph.ADJACENCIES[ii] = newList();
-		newGraph.DISTANCE[ii] = INF;
-		newGraph.COLOR[ii] = WHITE;
-		newGraph.PARENTS[ii] = NIL;
+		newGraph->ADJACENCIES[ii] = newList();
+		newGraph->DISTANCE[ii] = INF;
+		newGraph->COLOR[ii] = WHITE;
+		newGraph->PARENTS[ii] = NIL;
 	}
 	return newGraph;
 }
 
 void freeGraph(Graph* passedGraph) {
-	for (int ii = 0; ii < order(&passedGraph); ii += 1) {
-		freeList(&(passedGraph->ADJACENCIES[ii]));
+	for (int ii = 0; ii < getOrder(*passedGraph); ii += 1) {
+		freeList(&((*passedGraph)->ADJACENCIES[ii]));
 	}
-	free(passedGraph->ADJACENCIES);
-	free(passedGraph->COLOR);
-	free(passedGraph->DISTANCE);
-	free(passedGraph->PARENTS);
+	free((*passedGraph)->ADJACENCIES);
+	free((*passedGraph)->COLOR);
+	free((*passedGraph)->DISTANCE);
+	free((*passedGraph)->PARENTS);
 	free(*passedGraph);
 }
 
 /* Accessors */
 int getOrder(Graph passedGraph) {
-	return passedGraph.ORDER;
+	return passedGraph->ORDER;
 }
 
 int getSize(Graph passedGraph) {
-	return passedGraph.SIZE;
+	return passedGraph->SIZE;
 }
 
 
 int getSource(Graph passedGraph) {
-	return passedGraph.SOURCE;
+	return passedGraph->SOURCE;
 }
 
 int getParent(Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedIndex)) {
-		return passedGraph.PARENTS[passedIndex];
+	if (validateIndex(passedGraph, passedIndex)) {
+		return passedGraph->PARENTS[passedIndex];
 	}
 	return NIL;
 }
 
 
 int getDist(Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedIndex)) {
-		return passedGraph.DISTANCE[passedIndex];
+	if (validateIndex(passedGraph, passedIndex)) {
+		return passedGraph->DISTANCE[passedIndex];
 	}
 	return INF;
 }
@@ -106,10 +108,10 @@ void getPath(List passedList, Graph passedGraph, int passedIndex) {
 
 void makeNull(Graph passedGraph) {
 	for (int ii = 0; ii < getSize(passedGraph); ii += 1) {
-		clear(passedGraph.ADJACENCIES[ii]);
-		passedGraph.DISTANCE[ii] = INF;
-		passedGraph.COLOR[ii] = WHITE;
-		passedGraph.PARENTS[ii] = NIL;
+		clear(passedGraph->ADJACENCIES[ii]);
+		passedGraph->DISTANCE[ii] = INF;
+		passedGraph->COLOR[ii] = WHITE;
+		passedGraph->PARENTS[ii] = NIL;
 	}
 }
 
@@ -126,7 +128,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
-		insertSorted(passedGraph.ADJACENCIES[passedFirstIndex], passedSecondIndex);
+		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 }
 
@@ -136,34 +138,33 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 void BFS(Graph passedGraph, int passedSourceIndex) {
 	if (validateIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
 		resetVertices(passedGraph);
-		passedGraph.SOURCE = passedSourceIndex;
+		passedGraph->SOURCE = passedSourceIndex;
 		List tempList = newList();
 
 		int depth = 1;
-		for (int iteratedVertex = passedSourceIndex; size(tempList) > 0; iteratedVertex = pop(tempList)) {
-			List adjacencies = passedGraph.ADJACENCIES[iteratedVertex];
+		for (int iteratedVertex = passedSourceIndex; length(tempList) > 0; iteratedVertex = pop(tempList)) {
+			List adjacencies = passedGraph->ADJACENCIES[iteratedVertex];
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
-				if (passedGraph.COLOR[neighbor] == WHITE) {
-					passedGraph.PARENTS[neighbor] = iteratedVertex;
-					passedGraph.COLOR[neighbor] = GRAY;
-					passedGraph.DISTANCE[neighbor] = depth;
+				if (passedGraph->COLOR[neighbor] == WHITE) {
+					passedGraph->PARENTS[neighbor] = iteratedVertex;
+					passedGraph->COLOR[neighbor] = GRAY;
+					passedGraph->DISTANCE[neighbor] = depth;
 					prepend(tempList, neighbor);
 				}
 			}
-			passedGraph[iteratedVertex] = BLACK;
+			passedGraph->COLOR[iteratedVertex] = BLACK;
 			depth += 1;
 		}
-
-		freeList(tempList);
+		freeList(&tempList);
 	}
 }
 
 /* Miscellaneous */
 void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
-	for (int ii = 0; ii < order(passedGraph); ii += 1) {
+	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
 		fprintf(passedOuptutFile, "%d: ", ii);
-		printList(passedGraph.ADJACENCIES[ii]);
+		printList(passedOuptutFile, passedGraph->ADJACENCIES[ii]);
 	}
 }
 
@@ -171,10 +172,10 @@ void printGraph(FILE* passedOuptutFile, Graph passedGraph) {
  * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
  */
 void resetVertices(Graph passedGraph) {
-	for (int ii = 0; ii < order(passedGraph); ii += 1) {
-		passedGraph.DISTANCE[ii] = INF;
-		passedGraph.COLOR[ii] = WHITE;
-		passedGraph.PARENTS[ii] = NIL;
+	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
+		passedGraph->DISTANCE[ii] = INF;
+		passedGraph->COLOR[ii] = WHITE;
+		passedGraph->PARENTS[ii] = NIL;
 	}
 }
 
@@ -188,7 +189,7 @@ int validateIndex(Graph passedGraph, int passedIndex) {
 
 enum VertexColor getColor(Graph passedGraph, int passedIndex) {
 	if (validateIndex(passedGraph, passedIndex)) {
-		return passedGraph.COLOR[passedIndex];
+		return passedGraph->COLOR[passedIndex];
 	}
 	return WHITE;
 }
