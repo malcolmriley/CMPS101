@@ -15,10 +15,14 @@ enum VertexColor getColor(Graph, int);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
+	// Verify passedOrder is a positive number
 	if (passedOrder <= 0) {
 		return NULL;
 	}
+
+	// Allocate
 	Graph newGraph = malloc(sizeof(Graph));
+
 	// Set internal fields
 	newGraph.ORDER = passedOrder;
 	newGraph.SOURCE = NIL;
