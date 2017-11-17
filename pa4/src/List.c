@@ -275,7 +275,7 @@ List concatList(List passedFirstList, List passedSecondList) {
 
 void printList(FILE* passedOutputFile, List passedList) {
 	if(!isNull(passedOutputFile, "Cannot print to a null file reference.", FALSE)) {
-		if (!isListEmpty(passedList, "Error with List during print:", FALSE)) {
+		if (length(passedList) > 0) {
 			Node iteratedNode = passedList->nodeFront;
 			while (iteratedNode != NULL) {
 				fprintf(passedOutputFile, "%d", iteratedNode->value);
