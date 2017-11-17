@@ -58,7 +58,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				// Print path
 				clear(tempList);
 				getPath(tempList, graph, secondValue);
-				fprintf(outputFile, "A shortest %d-%d path is:", firstValue, secondValue);
+				fprintf(outputFile, "A shortest %d-%d path is: ", firstValue, secondValue);
 				printList(outputFile, tempList);
 				fputs("\n", outputFile);
 			}
