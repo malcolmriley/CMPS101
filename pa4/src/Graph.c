@@ -15,6 +15,9 @@ enum VertexColor getColor(Graph, int);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
+	if (passedOrder <= 0) {
+		return NULL;
+	}
 	Graph newGraph = malloc(sizeof(Graph));
 	// Set internal fields
 	newGraph.ORDER = passedOrder;
