@@ -24,7 +24,7 @@
 enum VertexColor{WHITE, BLACK, GRAY};
 
 typedef struct GraphObject {
-	List* ADJACENCIES;
+	ListObject* ADJACENCIES;
 	enum VertexColor* COLOR;
 	int* PARENTS;
 	int* DISTANCE;
