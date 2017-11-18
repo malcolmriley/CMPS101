@@ -53,13 +53,25 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				BFS(graph, firstValue);
 
 				// Print distance
-				fprintf(outputFile, "The distance from %d to %d is %d\n", firstValue, secondValue, getDist(graph, secondValue));
+				int distance = getDist(graph, secondValue);
+				if (distance != INF) {
+					fprintf(outputFile, "The distance from %d to %d is %d\n", firstValue, secondValue, getDist(graph, secondValue));
+				}
+				else {
+					fprintf(outputFile, "The distance from %d to %d is infinity\n", firstValue, secondValue);
+				}
 
 				// Print path
 				clear(tempList);
 				getPath(tempList, graph, secondValue);
-				fprintf(outputFile, "A shortest %d-%d path is: ", firstValue, secondValue);
-				printList(outputFile, tempList);
+				moveFront(tempList);
+				if (get(tempList) != NIL) {
+					fprintf(outputFile, "A shortest %d-%d path is: ", firstValue, secondValue);
+					printList(outputFile, tempList);
+				}
+				else {
+					fprintf(outputFile, "No %d-%d path exists", firstValue, secondValue);
+				}
 				fputs("\n\n", outputFile);
 			}
 			freeList(&tempList);
