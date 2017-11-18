@@ -12,7 +12,7 @@
 
 #include "Graph.h"
 
-FILE* openAndVerify(char[], char[], char);
+FILE* openAndVerify(char[], char[], char*);
 int readPair(FILE*, int*, int*);
 
 int main(int passedArgumentCount, char* passedArguments[]) {
@@ -90,7 +90,7 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 
 FILE* openAndVerify(char passedFileName[], char passedFileType[], char* passedOpenType) {
 	FILE* openedFile;
-	openedFile = fopen(passedFileName, &passedOpenType);
+	openedFile = fopen(passedFileName, passedOpenType);
 	if (openedFile == NULL) {
 		printf("Error reading %s file: %s\n", passedFileType, passedFileName);
 		exit(1);
