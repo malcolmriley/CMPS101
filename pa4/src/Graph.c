@@ -128,6 +128,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
+		puts("Adding Arc");
 		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 }
@@ -165,7 +166,7 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
 		fprintf(passedOutputFile, "%d: ", ii);
 		printList(passedOutputFile, passedGraph->ADJACENCIES[ii]);
-		fputs(passedOutputFile, "\n");
+		fputs("\n", passedOutputFile);
 	}
 }
 
@@ -182,7 +183,7 @@ void resetVertices(Graph passedGraph) {
 
 /* Internal Functions */
 int validateGraphIndex(Graph passedGraph, int passedIndex) {
-	if ((passedIndex > getSize(passedGraph)) || (passedIndex < 0)) {
+	if ((passedIndex > getOrder(passedGraph)) || (passedIndex < 0)) {
 		return FALSE;
 	}
 	return TRUE;
