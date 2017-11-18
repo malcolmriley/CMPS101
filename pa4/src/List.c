@@ -18,7 +18,6 @@ int insertNodeBefore(List passedList, Node passedNode, Node passedInsertedNode);
 int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode);
 int removeNode(List passedList, Node passedNode);
 int isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal);
-int isListEmpty(List passedList, char* passedCharArray, int passedIsTerminal);
 int validateListIndex(List passedList);
 int isCursorValid(List passedList, char* passedCharArray, int passedIsTerminal);
 
@@ -133,7 +132,7 @@ void clear(List passedList) {
 }
 
 void moveFront(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when moveFront was called:", TRUE)) {
+	if (length(passedList) > 0) {
 		if (!isNull(passedList->nodeFront, "Error with List's front Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeFront;
 			passedList->cursorIndex = 0;
@@ -142,7 +141,7 @@ void moveFront(List passedList) {
 }
 
 void moveBack(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when moveBack was called:", TRUE)) {
+	if (length(passedList) > 0) {
 		if (!isNull(passedList->nodeBack, "Error with List's back Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeBack;
 			passedList->cursorIndex = (length(passedList) - 1);
@@ -151,7 +150,7 @@ void moveBack(List passedList) {
 }
 
 void movePrev(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when movePrev was called:", FALSE)) {
+	if (length(passedList) > 0) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->previousNode;
 			passedList->cursorIndex -= 1;
@@ -160,7 +159,7 @@ void movePrev(List passedList) {
 }
 
 void moveNext(List passedList) {
-	if (!isListEmpty(passedList, "Error with List when moveNext was called:", FALSE)) {
+	if (length(passedList) > 0) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->nextNode;
 			passedList->cursorIndex += 1;
@@ -219,7 +218,7 @@ void insertAfter(List passedList, int passedValue) {
 }
 
 void deleteFront(List passedList) {
-	if (!isListEmpty(passedList, "Error when deleting the front Node of a List", TRUE)) {
+	if (length(passedList) > 0) {
 		if (removeNode(passedList, passedList->nodeFront)) {
 			passedList->cursorIndex -= 1;
 			passedList->length -= 1;
@@ -228,7 +227,7 @@ void deleteFront(List passedList) {
 }
 
 void deleteBack(List passedList) {
-	if (!isListEmpty(passedList, "Error when deleting the back Node of a List", TRUE)) {
+	if (length(passedList) > 0) {
 		if (removeNode(passedList, passedList->nodeBack)) {
 			passedList->length -= 1;
 		}
@@ -236,7 +235,7 @@ void deleteBack(List passedList) {
 }
 
 void delete(List passedList) {
-	if (!isListEmpty(passedList, "Error when deleting the cursor Node of a List", TRUE)) {
+	if (length(passedList) > 0) {
 		if (removeNode(passedList, passedList->nodeCursor)) {
 			passedList->length -= 1;
 			passedList->cursorIndex = UNDEFINED;
@@ -245,8 +244,8 @@ void delete(List passedList) {
 }
 
 List concatList(List passedFirstList, List passedSecondList) {
-	int firstListValid = !isListEmpty(passedFirstList, "Error with prepended List during concatenation:", FALSE);
-	int secondListValid = !isListEmpty(passedFirstList, "Error with appended List during concatenation:", FALSE);
+	int firstListValid = (length(passedFirstList) > 0);
+	int secondListValid = (length(passedSecondList) > 0);
 	List allocatedList = newList();
 	// If both Lists are valid, concatenate
 	if ((firstListValid != FALSE) && (secondListValid != FALSE)) {
@@ -289,7 +288,7 @@ void printList(FILE* passedOutputFile, List passedList) {
 
 List copyList(List passedList) {
 	List allocatedList = newList();
-	if (!isListEmpty(passedList, "Cannot copy a null List.", FALSE)) {
+	if (length(passedList) > 0) {
 		Node iteratedNode = passedList->nodeFront;
 		while (iteratedNode != NULL) {
 			append(allocatedList, iteratedNode->value);
@@ -424,20 +423,6 @@ int inline isNull(void* passedPointer, char* passedCharArray, int passedIsTermin
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
 			exitBadWithMessage("Fatal Error: Null pointer received.");
-		}
-		return TRUE;
-	}
-	return FALSE;
-}
-
-/**
- * Checks whether the passed List is empty. Does not perform null check on the passed List.
- */
-int inline isListEmpty(List passedList, char* passedCharArray, int passedIsTerminal) {
-	if (length(passedList) <= 0) {
-		puts(passedCharArray);
-		if (passedIsTerminal == TRUE) {
-			exitBadWithMessage("Fatal Error: List is empty.");
 		}
 		return TRUE;
 	}
