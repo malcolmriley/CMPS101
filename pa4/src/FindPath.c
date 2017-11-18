@@ -74,6 +74,9 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 	exit(0);
 }
 
+/**
+ * Reads a pair of integer values into the passed integer locations from the passed FILE.
+ */
 int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 	int firstIndex = NIL, secondIndex = NIL;
 	int firstCharsRead = NIL, secondCharsRead = NIL;
@@ -90,6 +93,9 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 	return FALSE;
 }
 
+/**
+ * Opens and verifies the passed file, printing a message and exiting the program with status 1 if the file fails to load.
+ */
 FILE* openAndVerify(char passedFileName[], char passedFileType[], char* passedOpenType) {
 	FILE* openedFile;
 	openedFile = fopen(passedFileName, passedOpenType);
