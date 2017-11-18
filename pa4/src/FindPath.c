@@ -77,8 +77,8 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 }
 
 int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
-	int firstIndex, secondIndex;
-	int firstCharsRead, secondCharsRead;
+	int firstIndex = NIL, secondIndex = NIL;
+	int firstCharsRead = NIL, secondCharsRead = NIL;
 	firstCharsRead = fscanf(passedFile, "%d", &firstIndex);
 	secondCharsRead = fscanf(passedFile, "%d", &secondIndex);
 
