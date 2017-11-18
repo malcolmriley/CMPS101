@@ -21,23 +21,24 @@ Graph newGraph(int passedOrder) {
 	if (passedOrder <= 0) {
 		return NULL;
 	}
+	int order = (passedOrder + 1);
 
 	// Allocate
 	Graph newGraph = malloc(sizeof(GraphObject));
 
 	// Set internal fields
-	newGraph->ORDER = passedOrder;
+	newGraph->ORDER = order;
 	newGraph->SOURCE = NIL;
 	newGraph->SIZE = 0;
 
 	// Malloc internal arrays
-	newGraph->PARENTS = malloc(sizeof(int) * passedOrder);
-	newGraph->DISTANCE = malloc(sizeof(int) * passedOrder);
-	newGraph->COLOR = malloc(sizeof(enum VertexColor) * passedOrder);
-	newGraph->ADJACENCIES = malloc(sizeof(ListObject) * passedOrder);
+	newGraph->PARENTS = malloc(sizeof(int) * order);
+	newGraph->DISTANCE = malloc(sizeof(int) * order);
+	newGraph->COLOR = malloc(sizeof(enum VertexColor) * order);
+	newGraph->ADJACENCIES = malloc(sizeof(ListObject) * order);
 
 	// Initialize internal arrays
-	for (int ii = 0; ii < passedOrder; ii += 1) {
+	for (int ii = 0; ii < order; ii += 1) {
 		newGraph->ADJACENCIES[ii] = *newList();
 		newGraph->DISTANCE[ii] = INF;
 		newGraph->COLOR[ii] = WHITE;
