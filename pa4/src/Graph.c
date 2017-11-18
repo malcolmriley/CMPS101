@@ -34,7 +34,7 @@ Graph newGraph(int passedOrder) {
 	newGraph->PARENTS = malloc(sizeof(int) * passedOrder);
 	newGraph->DISTANCE = malloc(sizeof(int) * passedOrder);
 	newGraph->COLOR = malloc(sizeof(enum VertexColor) * passedOrder);
-	newGraph->ADJACENCIES = malloc(sizeof(List*) * passedOrder);
+	newGraph->ADJACENCIES = malloc(sizeof(ListObject) * passedOrder);
 
 	// Initialize internal arrays
 	for (int ii = 0; ii < passedOrder; ii += 1) {
