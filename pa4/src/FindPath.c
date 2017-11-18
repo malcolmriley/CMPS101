@@ -41,7 +41,9 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 			// Populate graph with edges and print resulting graph
 			while (readPair(inputFile, &firstValue, &secondValue)) {
-				addEdge(graph, firstValue, secondValue);
+				if ((firstValue > 0) && (secondValue > 0)) {
+					addEdge(graph, firstValue, secondValue);
+				}
 			}
 			printGraph(outputFile, graph);
 			fputs("\n", outputFile);
