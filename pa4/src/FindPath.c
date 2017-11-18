@@ -27,8 +27,8 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 		Graph graph;
 
 		// Verify indicated files
-		inputFile = openAndVerify(passedArguments[1], "input", 'r');
-		outputFile = openAndVerify(passedArguments[2], "output", 'w');
+		inputFile = openAndVerify(passedArguments[1], "input", "r");
+		outputFile = openAndVerify(passedArguments[2], "output", "w");
 
 		// Initialize Graph using first line of file
 		int order = NIL;
@@ -88,7 +88,7 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 	return FALSE;
 }
 
-FILE* openAndVerify(char passedFileName[], char passedFileType[], char passedOpenType) {
+FILE* openAndVerify(char passedFileName[], char passedFileType[], char* passedOpenType) {
 	FILE* openedFile;
 	openedFile = fopen(passedFileName, &passedOpenType);
 	if (openedFile == NULL) {
