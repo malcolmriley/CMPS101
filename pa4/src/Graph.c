@@ -138,7 +138,7 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  * "runs the BFS algorithm on the Graph G with source s, setting the color, distance, parent, and source fields of G accordingly."
  */
 void BFS(Graph passedGraph, int passedSourceIndex) {
-	if (validateGraphIndex(passedGraph, passedSourceIndex)) {
+	if (validateGraphIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
 		resetVertices(passedGraph);
 		passedGraph->SOURCE = passedSourceIndex;
 		passedGraph->DISTANCE[passedSourceIndex] = 0;
