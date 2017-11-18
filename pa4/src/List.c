@@ -101,7 +101,7 @@ int back(List passedList) {
 
 int get(List passedList) {
 	if (!isNull(passedList, "Cannot retrieve the cursor of a null List.", TRUE)) {
-		if (!isNull(passedList->nodeCursor, "Cursor Node is NULL.", FALSE)) {
+		if (passedList->nodeCursor != NULL) {
 			return passedList->nodeCursor->value;
 		}
 	}
