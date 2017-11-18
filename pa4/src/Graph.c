@@ -128,7 +128,6 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
-		puts("Adding Arc");
 		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 }
