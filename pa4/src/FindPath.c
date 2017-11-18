@@ -28,7 +28,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 		// Verify indicated files
 		inputFile = openAndVerify(passedArguments[1], "input", 'r');
-		outputFile = openAndVerify(passedArguments[2], "input", 'w');
+		outputFile = openAndVerify(passedArguments[2], "output", 'w');
 
 		// Initialize Graph using first line of file
 		int order = NIL;
