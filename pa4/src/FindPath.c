@@ -83,9 +83,11 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 	secondCharsRead = fscanf(passedFile, "%d", &secondIndex);
 
 	if ((firstCharsRead > 0) && (secondCharsRead > 0)) {
-		(*passedFirstValue) = firstIndex;
-		(*passedSecondValue) = secondIndex;
-		return TRUE;
+		if ((firstIndex > 0) && (secondIndex > 0)) {
+			(*passedFirstValue) = firstIndex;
+			(*passedSecondValue) = secondIndex;
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
