@@ -11,8 +11,8 @@
 #include <stdlib.h>
 
 /* Internal Function Declarations */
-int validateIndex(Graph, int);
 enum VertexColor getColor(Graph, int);
+int validateGraphIndex(Graph, int);
 int pop(List);
 
 /* Constructors-Destructors */
@@ -72,7 +72,7 @@ int getSource(Graph passedGraph) {
 }
 
 int getParent(Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedGraph, passedIndex)) {
+	if (validateGraphIndex(passedGraph, passedIndex)) {
 		return passedGraph->PARENTS[passedIndex];
 	}
 	return NIL;
@@ -80,7 +80,7 @@ int getParent(Graph passedGraph, int passedIndex) {
 
 
 int getDist(Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedGraph, passedIndex)) {
+	if (validateGraphIndex(passedGraph, passedIndex)) {
 		return passedGraph->DISTANCE[passedIndex];
 	}
 	return INF;
@@ -93,7 +93,7 @@ void getPath(List passedList, Graph passedGraph, int passedIndex) {
 	if (getColor(passedGraph, passedIndex) == WHITE) {
 		clear(passedList);
 	}
-	else if (validateIndex(passedGraph, getSource(passedGraph)) && validateIndex(passedGraph, passedIndex)) {
+	else if (validateGraphIndex(passedGraph, getSource(passedGraph)) && validateGraphIndex(passedGraph, passedIndex)) {
 		int parent = getParent(passedGraph, passedIndex);
 		if (parent != NIL) {
 			getPath(passedList, passedGraph, parent);
@@ -127,7 +127,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  * "inserts a new directed edge from passedFirstIndex to passedSecondIndex"
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
-	if (validateIndex(passedGraph, passedFirstIndex) && validateIndex(passedGraph, passedSecondIndex)) {
+	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
 		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 }
@@ -136,7 +136,7 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  * "runs the BFS algorithm on the Graph G with source s, setting the color, distance, parent, and source fields of G accordingly."
  */
 void BFS(Graph passedGraph, int passedSourceIndex) {
-	if (validateIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
+	if (validateGraphIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
 		resetVertices(passedGraph);
 		passedGraph->SOURCE = passedSourceIndex;
 		List tempList = newList();
@@ -180,7 +180,7 @@ void resetVertices(Graph passedGraph) {
 }
 
 /* Internal Functions */
-int validateIndex(Graph passedGraph, int passedIndex) {
+int validateGraphIndex(Graph passedGraph, int passedIndex) {
 	if ((passedIndex > getSize(passedGraph)) || (passedIndex < 0)) {
 		return FALSE;
 	}
@@ -188,7 +188,7 @@ int validateIndex(Graph passedGraph, int passedIndex) {
 }
 
 enum VertexColor getColor(Graph passedGraph, int passedIndex) {
-	if (validateIndex(passedGraph, passedIndex)) {
+	if (validateGraphIndex(passedGraph, passedIndex)) {
 		return passedGraph->COLOR[passedIndex];
 	}
 	return WHITE;

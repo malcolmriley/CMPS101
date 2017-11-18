@@ -19,7 +19,7 @@ int insertNodeAfter(List passedList, Node passedNode, Node passedInsertedNode);
 int removeNode(List passedList, Node passedNode);
 int isNull(void* passedPointer, char* passedCharArray, int passedIsTerminal);
 int isListEmpty(List passedList, char* passedCharArray, int passedIsTerminal);
-int validateIndex(List passedList);
+int validateListIndex(List passedList);
 int isCursorValid(List passedList, char* passedCharArray, int passedIsTerminal);
 
 Node newNode(int passedValue) {
@@ -76,7 +76,6 @@ int length(List passedList) {
 
 int index(List passedList) {
 	if (!isNull(passedList, "Cannot retrieve the index of a null List.", TRUE)) {
-		validateIndex(passedList);
 		return passedList->cursorIndex;
 	}
 	return UNDEFINED;
@@ -448,7 +447,7 @@ int inline isListEmpty(List passedList, char* passedCharArray, int passedIsTermi
 /**
  * Validates whether the passedList's cursor is within a valid range (c > 0) && (c < length)
  */
-int inline validateIndex(List passedList) {
+int inline validateListIndex(List passedList) {
 	if ((passedList->cursorIndex < 0) || (passedList->cursorIndex >= passedList->length)) {
 		passedList->cursorIndex = UNDEFINED;
 	}
@@ -459,7 +458,7 @@ int inline validateIndex(List passedList) {
  * Checks whether the passed List's cursor is valid. Does not perform null check on the passed List.
  */
 int inline isCursorValid(List passedList, char* passedCharArray, int passedIsTerminal) {
-	if (!validateIndex(passedList)) {
+	if (!validateListIndex(passedList)) {
 		puts(passedCharArray);
 		if (passedIsTerminal == TRUE) {
 			exitBadWithMessage("Fatal Error: Cursor index is invalid.");
