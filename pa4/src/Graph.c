@@ -38,7 +38,7 @@ Graph newGraph(int passedOrder) {
 
 	// Initialize internal arrays
 	for (int ii = 0; ii < passedOrder; ii += 1) {
-		newGraph->ADJACENCIES[ii] = newList();
+		newGraph->ADJACENCIES[ii] = *newList();
 		newGraph->DISTANCE[ii] = INF;
 		newGraph->COLOR[ii] = WHITE;
 		newGraph->PARENTS[ii] = NIL;
@@ -48,7 +48,8 @@ Graph newGraph(int passedOrder) {
 
 void freeGraph(Graph* passedGraph) {
 	for (int ii = 0; ii < getOrder(*passedGraph); ii += 1) {
-		freeList(&((*passedGraph)->ADJACENCIES[ii]));
+		List iteratedList = &((*passedGraph)->ADJACENCIES[ii]);
+		freeList(&iteratedList);
 	}
 	free((*passedGraph)->ADJACENCIES);
 	free((*passedGraph)->COLOR);
@@ -108,7 +109,7 @@ void getPath(List passedList, Graph passedGraph, int passedIndex) {
 
 void makeNull(Graph passedGraph) {
 	for (int ii = 0; ii < getSize(passedGraph); ii += 1) {
-		clear(passedGraph->ADJACENCIES[ii]);
+		clear(&(passedGraph->ADJACENCIES[ii]));
 		passedGraph->DISTANCE[ii] = INF;
 		passedGraph->COLOR[ii] = WHITE;
 		passedGraph->PARENTS[ii] = NIL;
@@ -128,7 +129,7 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
-		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
+		insertSorted(&(passedGraph->ADJACENCIES[passedFirstIndex]), passedSecondIndex);
 	}
 }
 
@@ -143,7 +144,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 		int depth = 1;
 		for (int iteratedVertex = passedSourceIndex; length(tempList) > 0; iteratedVertex = pop(tempList)) {
-			List adjacencies = passedGraph->ADJACENCIES[iteratedVertex];
+			List adjacencies = &(passedGraph->ADJACENCIES[iteratedVertex]);
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
 				if (passedGraph->COLOR[neighbor] == WHITE) {
@@ -164,7 +165,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
 		fprintf(passedOutputFile, "%d: ", ii);
-		printList(passedOutputFile, passedGraph->ADJACENCIES[ii]);
+		printList(passedOutputFile, &(passedGraph->ADJACENCIES[ii]));
 		fputs("\n", passedOutputFile);
 	}
 }
