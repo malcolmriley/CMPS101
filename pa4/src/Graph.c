@@ -164,9 +164,12 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 /* Miscellaneous */
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
-		fprintf(passedOutputFile, "%d: ", ii);
-		printList(passedOutputFile, &(passedGraph->ADJACENCIES[ii]));
-		fputs("\n", passedOutputFile);
+		List iteratedList = &(passedGraph->ADJACENCIES[ii]);
+		if (length(iteratedList) > 0) {
+			fprintf(passedOutputFile, "%d: ", ii);
+			printList(passedOutputFile, iteratedList);
+			fputs("\n", passedOutputFile);
+		}
 	}
 }
 
