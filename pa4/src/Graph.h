@@ -24,10 +24,10 @@
 enum VertexColor{WHITE, BLACK, GRAY};
 
 typedef struct GraphObject {
-	List* ADJACENCIES;
-	enum VertexColor* COLOR;
-	int* PARENTS;
-	int* DISTANCE;
+	List ADJACENCIES[];
+	enum VertexColor COLOR[];
+	int PARENTS[];
+	int DISTANCE[];
 	int ORDER;
 	int SOURCE;
 	int SIZE;
