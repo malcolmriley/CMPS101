@@ -138,7 +138,6 @@ void moveFront(List passedList) {
 			passedList->cursorIndex = 0;
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void moveBack(List passedList) {
@@ -148,7 +147,6 @@ void moveBack(List passedList) {
 			passedList->cursorIndex = (length(passedList) - 1);
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void movePrev(List passedList) {
@@ -156,9 +154,9 @@ void movePrev(List passedList) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->previousNode;
 			passedList->cursorIndex -= 1;
+			validateListIndex(passedList);
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void moveNext(List passedList) {
@@ -166,9 +164,9 @@ void moveNext(List passedList) {
 		if (!isNull(passedList->nodeCursor, "Error with List's Cursor Node:", FALSE)) {
 			passedList->nodeCursor = passedList->nodeCursor->nextNode;
 			passedList->cursorIndex += 1;
+			validateListIndex(passedList);
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void prepend(List passedList, int passedValue) {
@@ -226,18 +224,18 @@ void deleteFront(List passedList) {
 		if (removeNode(passedList, passedList->nodeFront)) {
 			passedList->cursorIndex -= 1;
 			passedList->length -= 1;
+			validateListIndex(passedList);
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void deleteBack(List passedList) {
 	if (length(passedList) > 0) {
 		if (removeNode(passedList, passedList->nodeBack)) {
 			passedList->length -= 1;
+			validateListIndex(passedList);
 		}
 	}
-	validateListIndex(passedList);
 }
 
 void delete(List passedList) {
@@ -247,7 +245,6 @@ void delete(List passedList) {
 			passedList->cursorIndex = UNDEFINED;
 		}
 	}
-	validateListIndex(passedList);
 }
 
 List concatList(List passedFirstList, List passedSecondList) {
