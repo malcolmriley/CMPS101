@@ -138,6 +138,7 @@ void moveFront(List passedList) {
 			passedList->cursorIndex = 0;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void moveBack(List passedList) {
@@ -147,6 +148,7 @@ void moveBack(List passedList) {
 			passedList->cursorIndex = (length(passedList) - 1);
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void movePrev(List passedList) {
@@ -156,6 +158,7 @@ void movePrev(List passedList) {
 			passedList->cursorIndex -= 1;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void moveNext(List passedList) {
@@ -165,6 +168,7 @@ void moveNext(List passedList) {
 			passedList->cursorIndex += 1;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void prepend(List passedList, int passedValue) {
