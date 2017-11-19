@@ -14,6 +14,7 @@
 enum VertexColor getColor(Graph, int);
 int validateGraphIndex(Graph, int);
 int pop(List);
+void addArcInternal(Graph, int, int);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -121,17 +122,17 @@ void makeNull(Graph passedGraph) {
  * "inserts a new (undirected) edge joining passedFirstIndex to passedSecondIndex"
  */
 void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
-	addArc(passedGraph, passedFirstIndex, passedSecondIndex);
-	addArc(passedGraph, passedSecondIndex, passedFirstIndex);
+	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
+	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
+	passedGraph->SIZE += 1;
 }
 
 /**
  * "inserts a new directed edge from passedFirstIndex to passedSecondIndex"
  */
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
-	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
-		insertSorted(&(passedGraph->ADJACENCIES[passedFirstIndex]), passedSecondIndex);
-	}
+	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
+	passedGraph->SIZE += 1;
 }
 
 /*
@@ -190,6 +191,12 @@ void resetVertices(Graph passedGraph) {
 }
 
 /* Internal Functions */
+void addArcInternal(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
+	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
+		insertSorted(&(passedGraph->ADJACENCIES[passedFirstIndex]), passedSecondIndex);
+	}
+}
+
 int validateGraphIndex(Graph passedGraph, int passedIndex) {
 	if ((passedIndex > getOrder(passedGraph)) || (passedIndex < 0)) {
 		return FALSE;
