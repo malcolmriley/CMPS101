@@ -82,7 +82,7 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 		fclose(inputFile);
 		fclose(outputFile);
-		freeGraph(graph);
+		freeGraph(&graph);
 	}
 	exit(0);
 }
