@@ -27,15 +27,6 @@ Test newTest(char* passedName, int(*passedFunctionPointer)(void), int* passedTes
 	return newTest;
 }
 
-/* Method Tests */
-
-/* Tester Test*/
-int testFail(void) {
-	return 0;
-}
-
-/* Main */
-
 void executeTest(Test passedTest) {
 	int result = passedTest->test();
 	if (result) {
@@ -45,6 +36,15 @@ void executeTest(Test passedTest) {
 		printf("Test %d: %s\t\t\tFAILED!", passedTest->testNumber, passedTest->testName);
 	}
 }
+
+/* Method Tests */
+
+/* Tester Test*/
+int testFail(void) {
+	return 0;
+}
+
+/* Main */
 
 int main(void) {
 
