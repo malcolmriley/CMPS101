@@ -55,6 +55,8 @@ int main(void) {
 
 	for (int ii = 0; ii < numTests; ii += 1) {
 		executeTest(tests[ii]);
+		free(tests[ii]);
+		tests[ii] = NULL;
 	}
 
 	return EXIT_SUCCESS;
