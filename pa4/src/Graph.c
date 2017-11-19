@@ -36,11 +36,11 @@ Graph newGraph(int passedOrder) {
 	newGraph->PARENTS = malloc(sizeof(int) * order);
 	newGraph->DISTANCE = malloc(sizeof(int) * order);
 	newGraph->COLOR = malloc(sizeof(enum VertexColor) * order);
-	newGraph->ADJACENCIES = malloc(sizeof(ListObject) * order);
+	newGraph->ADJACENCIES = malloc(sizeof(List) * order);
 
 	// Initialize internal arrays
 	for (int ii = 0; ii < order; ii += 1) {
-		newGraph->ADJACENCIES[ii] = *newList();
+		newGraph->ADJACENCIES[ii] = newList();
 		newGraph->DISTANCE[ii] = INF;
 		newGraph->COLOR[ii] = WHITE;
 		newGraph->PARENTS[ii] = NIL;
@@ -50,7 +50,7 @@ Graph newGraph(int passedOrder) {
 
 void freeGraph(Graph* passedGraph) {
 	for (int ii = 0; ii < getOrder(*passedGraph); ii += 1) {
-		List iteratedList = &((*passedGraph)->ADJACENCIES[ii]);
+		List iteratedList = (*passedGraph)->ADJACENCIES[ii];
 		freeList(&iteratedList);
 	}
 	free((*passedGraph)->ADJACENCIES);
@@ -111,7 +111,7 @@ void getPath(List passedList, Graph passedGraph, int passedIndex) {
 
 void makeNull(Graph passedGraph) {
 	for (int ii = 0; ii < getSize(passedGraph); ii += 1) {
-		clear(&(passedGraph->ADJACENCIES[ii]));
+		clear(passedGraph->ADJACENCIES[ii]);
 		passedGraph->DISTANCE[ii] = INF;
 		passedGraph->COLOR[ii] = WHITE;
 		passedGraph->PARENTS[ii] = NIL;
@@ -151,7 +151,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 		append(tempList, passedSourceIndex);
 
 		for (int iteratedVertex = passedSourceIndex; length(tempList) > 0; iteratedVertex = pop(tempList)) {
-			List adjacencies = &(passedGraph->ADJACENCIES[iteratedVertex]);
+			List adjacencies = passedGraph->ADJACENCIES[iteratedVertex];
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
 				if (passedGraph->COLOR[neighbor] != BLACK) {
@@ -172,7 +172,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 /* Miscellaneous */
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	for (int ii = 1; ii < getOrder(passedGraph); ii += 1) {
-		List iteratedList = &(passedGraph->ADJACENCIES[ii]);
+		List iteratedList = passedGraph->ADJACENCIES[ii];
 		fprintf(passedOutputFile, "%d: ", ii);
 		printList(passedOutputFile, iteratedList);
 		fputs("\n", passedOutputFile);
@@ -193,7 +193,7 @@ void resetVertices(Graph passedGraph) {
 /* Internal Functions */
 void addArcInternal(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
-		insertSorted(&(passedGraph->ADJACENCIES[passedFirstIndex]), passedSecondIndex);
+		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
 	}
 }
 
