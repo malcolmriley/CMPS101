@@ -154,10 +154,12 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
 				if (passedGraph->COLOR[neighbor] != BLACK) {
-					passedGraph->PARENTS[neighbor] = iteratedVertex;
-					passedGraph->COLOR[neighbor] = GRAY;
-					passedGraph->DISTANCE[neighbor] = (passedGraph->DISTANCE[iteratedVertex]) + 1;
 					prepend(tempList, neighbor);
+				}
+				if (passedGraph->COLOR[neighbor] == WHITE) {
+					passedGraph->PARENTS[neighbor] = iteratedVertex;
+					passedGraph->DISTANCE[neighbor] = (passedGraph->DISTANCE[iteratedVertex]) + 1;
+					passedGraph->COLOR[neighbor] = GRAY;
 				}
 			}
 			passedGraph->COLOR[iteratedVertex] = BLACK;
@@ -168,13 +170,11 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 /* Miscellaneous */
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
-	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
+	for (int ii = 1; ii < getOrder(passedGraph); ii += 1) {
 		List iteratedList = &(passedGraph->ADJACENCIES[ii]);
-		if (length(iteratedList) > 0) {
-			fprintf(passedOutputFile, "%d: ", ii);
-			printList(passedOutputFile, iteratedList);
-			fputs("\n", passedOutputFile);
-		}
+		fprintf(passedOutputFile, "%d: ", ii);
+		printList(passedOutputFile, iteratedList);
+		fputs("\n", passedOutputFile);
 	}
 }
 
