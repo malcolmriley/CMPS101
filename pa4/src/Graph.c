@@ -123,7 +123,7 @@ void makeNull(Graph passedGraph) {
  */
 void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
-	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
+	addArcInternal(passedGraph, passedSecondIndex, passedFirstIndex);
 	passedGraph->SIZE += 1;
 }
 
