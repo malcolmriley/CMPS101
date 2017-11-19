@@ -126,8 +126,10 @@ int equals(List passedFirstList, List passedSecondList) {
 }
 
 void clear(List passedList) {
-	while (passedList->length > 0) {
-		deleteBack(passedList);
+	if (passedList != NULL) {
+		while (passedList->length > 0) {
+			deleteBack(passedList);
+		}
 	}
 }
 
