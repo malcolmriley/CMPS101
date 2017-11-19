@@ -140,8 +140,11 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 void BFS(Graph passedGraph, int passedSourceIndex) {
 	if (validateGraphIndex(passedGraph, passedSourceIndex) && (getSource(passedGraph) != passedSourceIndex)) {
 		resetVertices(passedGraph);
+
+		// Initialize starting index
 		passedGraph->SOURCE = passedSourceIndex;
 		passedGraph->DISTANCE[passedSourceIndex] = 0;
+		passedGraph->COLOR[passedSourceIndex] = GRAY;
 
 		List tempList = newList();
 		append(tempList, passedSourceIndex);
@@ -150,7 +153,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 			List adjacencies = &(passedGraph->ADJACENCIES[iteratedVertex]);
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
-				if (passedGraph->COLOR[neighbor] == WHITE) {
+				if (passedGraph->COLOR[neighbor] != BLACK) {
 					passedGraph->PARENTS[neighbor] = iteratedVertex;
 					passedGraph->COLOR[neighbor] = GRAY;
 					passedGraph->DISTANCE[neighbor] = (passedGraph->DISTANCE[iteratedVertex]) + 1;
