@@ -228,6 +228,7 @@ void deleteFront(List passedList) {
 			passedList->length -= 1;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void deleteBack(List passedList) {
@@ -236,6 +237,7 @@ void deleteBack(List passedList) {
 			passedList->length -= 1;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 void delete(List passedList) {
@@ -245,6 +247,7 @@ void delete(List passedList) {
 			passedList->cursorIndex = UNDEFINED;
 		}
 	}
+	validateListIndex(passedList);
 }
 
 List concatList(List passedFirstList, List passedSecondList) {
