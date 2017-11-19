@@ -146,7 +146,6 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 		List tempList = newList();
 		append(tempList, passedSourceIndex);
 
-		int depth = 1;
 		for (int iteratedVertex = passedSourceIndex; length(tempList) > 0; iteratedVertex = pop(tempList)) {
 			List adjacencies = &(passedGraph->ADJACENCIES[iteratedVertex]);
 			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
@@ -154,12 +153,11 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 				if (passedGraph->COLOR[neighbor] == WHITE) {
 					passedGraph->PARENTS[neighbor] = iteratedVertex;
 					passedGraph->COLOR[neighbor] = GRAY;
-					passedGraph->DISTANCE[neighbor] = depth;
+					passedGraph->DISTANCE[neighbor] = (passedGraph->DISTANCE[iteratedVertex]) + 1;
 					prepend(tempList, neighbor);
 				}
 			}
 			passedGraph->COLOR[iteratedVertex] = BLACK;
-			depth += 1;
 		}
 		freeList(&tempList);
 	}
