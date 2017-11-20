@@ -15,7 +15,7 @@ enum VertexColor getColor(Graph, int);
 int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
-void getOrderInternal(Graph);
+int getOrderInternal(Graph);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
