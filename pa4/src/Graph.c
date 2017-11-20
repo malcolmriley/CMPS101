@@ -111,7 +111,7 @@ void getPath(List passedList, Graph passedGraph, int passedIndex) {
 /* Manipulatiors */
 
 void makeNull(Graph passedGraph) {
-	for (int ii = 0; ii < getSize(passedGraph); ii += 1) {
+	for (int ii = 0; ii < getOrderInternal(passedGraph); ii += 1) {
 		clear(passedGraph->ADJACENCIES[ii]);
 		passedGraph->DISTANCE[ii] = INF;
 		passedGraph->COLOR[ii] = WHITE;
