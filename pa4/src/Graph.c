@@ -154,7 +154,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 		for (int iteratedVertex = passedSourceIndex; length(tempList) > 0; iteratedVertex = pop(tempList)) {
 			List adjacencies = passedGraph->ADJACENCIES[iteratedVertex];
-			for (moveFront(adjacencies); get(adjacencies) >= 0; moveNext(adjacencies)) {
+			for (moveFront(adjacencies); index(adjacencies) >= 0; moveNext(adjacencies)) {
 				int neighbor = get(adjacencies);
 				if (passedGraph->COLOR[neighbor] != BLACK) {
 					prepend(tempList, neighbor);
