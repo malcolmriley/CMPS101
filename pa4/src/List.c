@@ -316,7 +316,7 @@ List copyList(List passedList) {
 void insertSorted(List passedList, int passedValue) {
 	if (!isNull(passedList, "Cannot insert into a null List!", TRUE)) {
 		int value = -1;
-		for (moveFront(passedList); get(passedList) >= 0; moveNext(passedList)) {
+		for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
 			value = get(passedList);
 			if (passedValue < value) {
 				insertBefore(passedList, passedValue);
