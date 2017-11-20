@@ -15,6 +15,7 @@ enum VertexColor getColor(Graph, int);
 int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
+void getOrderInternal(Graph);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -49,7 +50,7 @@ Graph newGraph(int passedOrder) {
 }
 
 void freeGraph(Graph* passedGraph) {
-	for (int ii = 0; ii < getOrder(*passedGraph); ii += 1) {
+	for (int ii = 0; ii < getOrderInternal(*passedGraph); ii += 1) {
 		List iteratedList = (*passedGraph)->ADJACENCIES[ii];
 		freeList(&iteratedList);
 	}
@@ -62,7 +63,7 @@ void freeGraph(Graph* passedGraph) {
 
 /* Accessors */
 int getOrder(Graph passedGraph) {
-	return passedGraph->ORDER;
+	return (getOrderInternal(passedGraph) - 1);
 }
 
 int getSize(Graph passedGraph) {
@@ -171,7 +172,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 /* Miscellaneous */
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
-	for (int ii = 1; ii < getOrder(passedGraph); ii += 1) {
+	for (int ii = 1; ii < getOrderInternal(passedGraph); ii += 1) {
 		List iteratedList = passedGraph->ADJACENCIES[ii];
 		fprintf(passedOutputFile, "%d: ", ii);
 		printList(passedOutputFile, iteratedList);
@@ -183,7 +184,7 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
  * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
  */
 void resetVertices(Graph passedGraph) {
-	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
+	for (int ii = 0; ii < getOrderInternal(passedGraph); ii += 1) {
 		passedGraph->DISTANCE[ii] = INF;
 		passedGraph->COLOR[ii] = WHITE;
 		passedGraph->PARENTS[ii] = NIL;
@@ -191,6 +192,10 @@ void resetVertices(Graph passedGraph) {
 }
 
 /* Internal Functions */
+int getOrderInternal(Graph passedGraph) {
+	return passedGraph->ORDER;
+}
+
 void addArcInternal(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	if (validateGraphIndex(passedGraph, passedFirstIndex) && validateGraphIndex(passedGraph, passedSecondIndex)) {
 		insertSorted(passedGraph->ADJACENCIES[passedFirstIndex], passedSecondIndex);
@@ -198,7 +203,7 @@ void addArcInternal(Graph passedGraph, int passedFirstIndex, int passedSecondInd
 }
 
 int validateGraphIndex(Graph passedGraph, int passedIndex) {
-	if ((passedIndex > getOrder(passedGraph)) || (passedIndex < 0)) {
+	if ((passedIndex > getOrderInternal(passedGraph)) || (passedIndex < 0)) {
 		return FALSE;
 	}
 	return TRUE;
