@@ -50,7 +50,7 @@ int main(void) {
 
 	int numTests = 0;
 	Test tests[] = {
-		newTest("This Test Fails Deliberately", &testFail, &numTests),
+		newTest("\"This Test Fails Deliberately\"", &testFail, &numTests),
 	};
 
 	for (int ii = 0; ii < numTests; ii += 1) {
@@ -59,5 +59,5 @@ int main(void) {
 		tests[ii] = NULL;
 	}
 
-	return EXIT_SUCCESS;
+	exit(0);
 }
