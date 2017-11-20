@@ -117,6 +117,7 @@ void makeNull(Graph passedGraph) {
 		passedGraph->COLOR[ii] = WHITE;
 		passedGraph->PARENTS[ii] = NIL;
 	}
+	passedGraph->SIZE = 0;
 }
 
 /**
