@@ -2,7 +2,7 @@
  * Malcolm Riley
  *
  * CruzID: masriley
- * Assignment: pa5
+ * Assignment: pa5, modified from pa4
  *
  * 11-2017
  *********************************************************************/
