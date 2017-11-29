@@ -11,6 +11,7 @@
 #include <limits.h>
 #define NIL INT_MIN
 #define INF INT_MAX
+#define UNDEF (INT_MIN + 1)
 
 #endif
 
@@ -28,6 +29,8 @@ typedef struct GraphObject {
 	enum VertexColor* COLOR;
 	int* PARENTS;
 	int* DISTANCE;
+	int* DISCOVER;
+	int* FINISH;
 	int ORDER;
 	int SOURCE;
 	int SIZE;
@@ -45,14 +48,19 @@ int getSource(Graph);
 int getParent(Graph, int);
 int getDist(Graph, int);
 void getPath(List, Graph, int);
+int getFinish(Graph, int);
+int getDiscover(Graph G, int);
 
 /* Manipulatiors */
 void makeNull(Graph);
 void addEdge(Graph, int, int);
 void addArc(Graph, int, int);
 void BFS(Graph, int);
+void DFS(Graph, List);
 
 /* Miscellaneous */
+Graph transpose(Graph);
+Graph copyGraph(Graph);
 void printGraph(FILE*, Graph);
 void resetVertices(Graph);
 

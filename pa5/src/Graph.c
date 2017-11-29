@@ -16,6 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
+void visit(); // TODO:
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -36,6 +37,8 @@ Graph newGraph(int passedOrder) {
 	// Malloc internal arrays
 	newGraph->PARENTS = malloc(sizeof(int) * order);
 	newGraph->DISTANCE = malloc(sizeof(int) * order);
+	newGraph->DISCOVER = malloc(sizeof(int) * order);
+	newGraph->FINISH = malloc(sizeof(int) * order);
 	newGraph->COLOR = malloc(sizeof(enum VertexColor) * order);
 	newGraph->ADJACENCIES = malloc(sizeof(List) * order);
 
@@ -45,6 +48,8 @@ Graph newGraph(int passedOrder) {
 		newGraph->DISTANCE[ii] = INF;
 		newGraph->COLOR[ii] = WHITE;
 		newGraph->PARENTS[ii] = NIL;
+		newGraph->DISCOVER[ii] = UNDEF;
+		newGraph->FINISH[ii] = UNDEF;
 	}
 	return newGraph;
 }
@@ -58,6 +63,8 @@ void freeGraph(Graph* passedGraph) {
 	free((*passedGraph)->COLOR);
 	free((*passedGraph)->DISTANCE);
 	free((*passedGraph)->PARENTS);
+	free((*passedGraph)->DISCOVER);
+	free((*passedGraph)->FINISH);
 	free(*passedGraph);
 }
 
@@ -88,6 +95,20 @@ int getDist(Graph passedGraph, int passedIndex) {
 		return passedGraph->DISTANCE[passedIndex];
 	}
 	return INF;
+}
+
+int getFinish(Graph passedGraph, int passedIndex) {
+	if (validateGraphIndex(passedGraph, passedIndex)) {
+		return passedGraph->FINISH[passedIndex];
+	}
+	return UNDEF;
+}
+
+int getDiscover(Graph passedGraph, int passedIndex) {
+	if (validateGraphIndex(passedGraph, passedIndex)) {
+		return passedGraph->DISCOVER[passedIndex];
+	}
+	return UNDEF;
 }
 
 /**
@@ -135,6 +156,10 @@ void addEdge(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 	addArcInternal(passedGraph, passedFirstIndex, passedSecondIndex);
 	passedGraph->SIZE += 1;
+}
+
+void DFS(Graph passedGraph, List passedList) {
+	// TODO:
 }
 
 /*
