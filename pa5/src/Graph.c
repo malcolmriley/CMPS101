@@ -197,6 +197,14 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 }
 
 /* Miscellaneous */
+Graph transpose(Graph passedGraph) {
+	// TODO:
+}
+
+Graph copyGraph(Graph passedGraph) {
+	// TODO:
+}
+
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	for (int ii = 1; ii < getOrderInternal(passedGraph); ii += 1) {
 		List iteratedList = passedGraph->ADJACENCIES[ii];
