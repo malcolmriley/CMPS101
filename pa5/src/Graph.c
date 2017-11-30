@@ -231,6 +231,9 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	}
 }
 
+/**
+ * Checks precondition 2 as specified in assignment sheet
+ */
 static int verifyList(List passedList) {
 	// Build sorted List
 	List list = newList();
@@ -249,6 +252,9 @@ static int verifyList(List passedList) {
 	return TRUE;
 }
 
+/**
+ * Recursive VISIT method for DFS
+ */
 static void visit(Graph passedGraph, int passedVertex, int* passedTime) {
 	passedGraph->COLOR[passedVertex] = GRAY;
 	(*passedTime) += 1;
