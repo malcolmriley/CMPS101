@@ -4,10 +4,10 @@ Written by Malcolm Riley, for CMPS101 pa5 Fall 2017
 CruzID: masriley
 
 FindComponents.c		Implementation of Main for pa5: File IO, etc.
-Graph.c				Implementation of Graph C ADT
-Graph.h				Header file for Graph.c
+Graph.c				Implementation of Graph C ADT, modified from pa4
+Graph.h				Header file for Graph.c, modified from pa4
 GraphTest.c			Test client for Graph functionality
-List.c				Implementation file for List ADT
-List.h				Header file for List.h
+List.c				Implementation file for List ADT, modified from pa4
+List.h				Header file for List.h, modified from pa4
 makefile				Makefile for pa5, sourced from class website
 README				This file
