@@ -16,7 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
-void visit(); // TODO:
+static void visit(); // TODO:
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
