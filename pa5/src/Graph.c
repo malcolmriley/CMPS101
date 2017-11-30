@@ -217,6 +217,10 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 /**
  * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
  */
+static void visit() {
+	// TODO:
+}
+
 void resetVertices(Graph passedGraph) {
 	for (int ii = 0; ii < getOrderInternal(passedGraph); ii += 1) {
 		passedGraph->DISTANCE[ii] = INF;
