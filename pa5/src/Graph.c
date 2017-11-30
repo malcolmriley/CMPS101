@@ -17,6 +17,7 @@ int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
 static void visit(Graph, int, int*);
+static int verifyList(List);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -159,7 +160,9 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 }
 
 void DFS(Graph passedGraph, List passedList) {
-	// TODO:
+	if ((getOrder(passedGraph) == length(passedList)) && (verifyList(passedList))) {
+
+	}
 }
 
 /*
@@ -226,6 +229,24 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 		printList(passedOutputFile, iteratedList);
 		fputs("\n", passedOutputFile);
 	}
+}
+
+static int verifyList(List passedList) {
+	// Build sorted List
+	List list = newList();
+	for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
+		insertSorted(list, get(passedList));
+	}
+
+	// Verify each sorted List index
+	int index = 0;
+	for (moveFront(list); index(list) >= 0; moveNext(list)) {
+		if (get(list) != index) {
+			return FALSE;
+		}
+		index += 1;
+	}
+	return TRUE;
 }
 
 static void visit(Graph passedGraph, int passedVertex, int* passedTime) {
