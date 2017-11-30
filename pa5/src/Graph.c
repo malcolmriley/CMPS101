@@ -16,7 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
-static void visit(Graph, int*); // TODO:
+static void visit(Graph, int, int*);
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -228,8 +228,21 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	}
 }
 
-static void visit(Graph passedGraph, int* passedTime) {
-	// TODO:
+static void visit(Graph passedGraph, int passedVertex, int* passedTime) {
+	passedGraph->COLOR[passedVertex] = GRAY;
+	(*passedTime) += 1;
+	passedGraph->DISCOVER[passedVertex] = (*passedTime);
+	List adjacent = passedGraph->ADJACENCIES[passedVertex];
+	for (moveFront(adjacent); index(adjacent) >= 0; moveNext(adjacent)) {
+		int iteratedVertex = get(adjacent);
+		if (passedGraph->COLOR[iteratedVertex] == WHITE) {
+			passedGraph->PARENTS[iteratedVertex] = passedVertex;
+			visit(passedGraph, iteratedVertex, passedTime);
+		}
+	}
+	passedGraph->COLOR[passedVertex] = BLACK;
+	(*passedTime) += 1;
+	passedGraph->FINISH[passedVertex] = (*passedTime);
 }
 
 
