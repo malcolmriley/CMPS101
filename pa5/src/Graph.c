@@ -202,7 +202,7 @@ Graph transpose(Graph passedGraph) {
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
 		int from = ii;
 		List iteratedList = passedGraph->ADJACENCIES[ii];
-		for (moveFront(iteratedList); index(iteratedList) > 0; moveNext(iteratedList)) {
+		for (moveFront(iteratedList); index(iteratedList) >= 0; moveNext(iteratedList)) {
 			int to = get(iteratedList);
 			addArc(newGraph, to, from);
 		}
