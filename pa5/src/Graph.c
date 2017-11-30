@@ -16,7 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
-static void visit(Graph, int, int*);
+static void visit(Graph, int, int*); // TODO: Add List parameter, so as to add to Stack in "decreasing discovery order"
 static int verifyList(List);
 
 /* Constructors-Destructors */
