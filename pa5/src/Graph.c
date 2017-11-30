@@ -161,7 +161,20 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 
 void DFS(Graph passedGraph, List passedList) {
 	if ((getOrder(passedGraph) == length(passedList)) && (verifyList(passedList))) {
+		// Initialize Graph
+		for (int iteratedVertex = 0; iteratedVertex < getOrder(passedGraph); iteratedVertex += 1) {
+			passedGraph->COLOR[iteratedVertex] = WHITE;
+			passedGraph->PARENTS[iteratedVertex] = NIL;
+		}
+		int time = 0;
 
+		// DFS Algorithm, ordered by passedList
+		for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
+			int iteratedVertex = get(passedList);
+			if (passedGraph->COLOR[iteratedVertex] == WHITE) {
+				visit(passedGraph, iteratedVertex, &time);
+			}
+		}
 	}
 }
 
