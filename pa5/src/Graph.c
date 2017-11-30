@@ -16,7 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
-static void visit(); // TODO:
+static void visit(Graph, int*); // TODO:
 
 /* Constructors-Destructors */
 Graph newGraph(int passedOrder) {
@@ -202,7 +202,12 @@ Graph transpose(Graph passedGraph) {
 }
 
 Graph copyGraph(Graph passedGraph) {
-	// TODO:
+	Graph newGraph = newGraph(getOrder(passedGraph));
+	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
+		newGraph->ADJACENCIES[ii] = copyList(passedGraph->ADJACENCIES[ii]);
+		newGraph->SIZE = passedGraph->SIZE;
+	}
+	return newGraph;
 }
 
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
@@ -214,13 +219,14 @@ void printGraph(FILE* passedOutputFile, Graph passedGraph) {
 	}
 }
 
-/**
- * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
- */
-static void visit() {
+static void visit(Graph passedGraph, int* passedTime) {
 	// TODO:
 }
 
+
+/**
+ * Resets the vertices of the graph to the untraversed state (distance = inf, color = white, parent = nil) without removing any edges.
+ */
 void resetVertices(Graph passedGraph) {
 	for (int ii = 0; ii < getOrderInternal(passedGraph); ii += 1) {
 		passedGraph->DISTANCE[ii] = INF;
