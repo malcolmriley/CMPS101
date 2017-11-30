@@ -214,25 +214,25 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 
 /* Miscellaneous */
 Graph transpose(Graph passedGraph) {
-	Graph newGraph = newGraph(getOrder(passedGraph));
+	Graph allocatedGraph = newGraph(getOrder(passedGraph));
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
 		int from = ii;
 		List iteratedList = passedGraph->ADJACENCIES[ii];
 		for (moveFront(iteratedList); index(iteratedList) >= 0; moveNext(iteratedList)) {
 			int to = get(iteratedList);
-			addArc(newGraph, to, from);
+			addArc(allocatedGraph, to, from);
 		}
 	}
-	return newGraph;
+	return allocatedGraph;
 }
 
 Graph copyGraph(Graph passedGraph) {
-	Graph newGraph = newGraph(getOrder(passedGraph));
+	Graph allocatedGraph = newGraph(getOrder(passedGraph));
 	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
-		newGraph->ADJACENCIES[ii] = copyList(passedGraph->ADJACENCIES[ii]);
-		newGraph->SIZE = passedGraph->SIZE;
+		allocatedGraph->ADJACENCIES[ii] = copyList(passedGraph->ADJACENCIES[ii]);
+		allocatedGraph->SIZE = passedGraph->SIZE;
 	}
-	return newGraph;
+	return allocatedGraph;
 }
 
 void printGraph(FILE* passedOutputFile, Graph passedGraph) {
@@ -255,12 +255,12 @@ static int verifyList(List passedList) {
 	}
 
 	// Verify each sorted List index
-	int index = 0;
+	int iteratedIndex = 0;
 	for (moveFront(list); index(list) >= 0; moveNext(list)) {
-		if (get(list) != index) {
+		if (get(list) != iteratedIndex) {
 			return FALSE;
 		}
-		index += 1;
+		iteratedIndex += 1;
 	}
 	return TRUE;
 }
