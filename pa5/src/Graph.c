@@ -16,7 +16,7 @@ int validateGraphIndex(Graph, int);
 int pop(List);
 void addArcInternal(Graph, int, int);
 int getOrderInternal(Graph);
-static void visit(Graph, int, int*); // TODO: Add List parameter, so as to add to Stack in "decreasing discovery order"
+static void visit(Graph, List passedList, int, int*);
 static int verifyList(List);
 
 /* Constructors-Destructors */
@@ -169,11 +169,18 @@ void DFS(Graph passedGraph, List passedList) {
 		int time = 0;
 
 		// DFS Algorithm, ordered by passedList
+		List finishedList = newList();
 		for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
 			int iteratedVertex = get(passedList);
 			if (passedGraph->COLOR[iteratedVertex] == WHITE) {
-				visit(passedGraph, iteratedVertex, &time);
+				visit(passedGraph, finishedList, iteratedVertex, &time);
 			}
+		}
+
+		// Output discovery-ordered list into passedList
+		clear(passedList);
+		for (moveFront(finishedList); index(finishedList) >= 0; moveNext(finishedList)) {
+			append(passedList, get(finishedList));
 		}
 	}
 }
@@ -268,7 +275,7 @@ static int verifyList(List passedList) {
 /**
  * Recursive VISIT method for DFS
  */
-static void visit(Graph passedGraph, int passedVertex, int* passedTime) {
+static void visit(Graph passedGraph, List passedList, int passedVertex, int* passedTime) {
 	passedGraph->COLOR[passedVertex] = GRAY;
 	(*passedTime) += 1;
 	passedGraph->DISCOVER[passedVertex] = (*passedTime);
@@ -277,12 +284,13 @@ static void visit(Graph passedGraph, int passedVertex, int* passedTime) {
 		int iteratedVertex = get(adjacent);
 		if (passedGraph->COLOR[iteratedVertex] == WHITE) {
 			passedGraph->PARENTS[iteratedVertex] = passedVertex;
-			visit(passedGraph, iteratedVertex, passedTime);
+			visit(passedGraph, passedList, iteratedVertex, passedTime);
 		}
 	}
 	passedGraph->COLOR[passedVertex] = BLACK;
 	(*passedTime) += 1;
 	passedGraph->FINISH[passedVertex] = (*passedTime);
+	prepend(passedList, passedVertex);
 }
 
 
