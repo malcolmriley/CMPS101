@@ -100,15 +100,23 @@ int getDist(Graph passedGraph, int passedIndex) {
 
 int getFinish(Graph passedGraph, int passedIndex) {
 	if (validateGraphIndex(passedGraph, passedIndex)) {
+		if (passedGraph->FINISH[passedIndex] >= 0) {
+			printf("getFinish of index %d is: %d\n", passedIndex, passedGraph->FINISH[passedIndex]);
+		}
 		return passedGraph->FINISH[passedIndex];
 	}
+	puts("getFinish returned UNDEF.");
 	return UNDEF;
 }
 
 int getDiscover(Graph passedGraph, int passedIndex) {
 	if (validateGraphIndex(passedGraph, passedIndex)) {
+		if (passedGraph->DISCOVER[passedIndex] >= 0) {
+			printf("getDiscover of index %d is: %d\n", passedIndex, passedGraph->DISCOVER[passedIndex]);
+		}
 		return passedGraph->DISCOVER[passedIndex];
 	}
+	puts("getDiscover returned UNDEF.");
 	return UNDEF;
 }
 
@@ -161,11 +169,8 @@ void addArc(Graph passedGraph, int passedFirstIndex, int passedSecondIndex) {
 
 void DFS(Graph passedGraph, List passedList) {
 	if ((getOrder(passedGraph) == length(passedList)) && (verifyList(passedList))) {
-		// Initialize Graph
-		for (int iteratedVertex = 0; iteratedVertex < getOrder(passedGraph); iteratedVertex += 1) {
-			passedGraph->COLOR[iteratedVertex] = WHITE;
-			passedGraph->PARENTS[iteratedVertex] = NIL;
-		}
+		// Initialize
+		resetVertices(passedGraph);
 		int time = 0;
 
 		// DFS Algorithm, ordered by passedList
@@ -309,6 +314,8 @@ void resetVertices(Graph passedGraph) {
 		passedGraph->DISTANCE[ii] = INF;
 		passedGraph->COLOR[ii] = WHITE;
 		passedGraph->PARENTS[ii] = NIL;
+		passedGraph->DISCOVER[ii] = UNDEF;
+		passedGraph->FINISH[ii] = UNDEF;
 	}
 }
 
