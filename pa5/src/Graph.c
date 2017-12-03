@@ -170,7 +170,7 @@ void DFS(Graph passedGraph, List passedList) {
 
 		// DFS Algorithm, ordered by passedList
 		List finishedList = newList();
-		for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
+		for(moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
 			int iteratedVertex = get(passedList);
 			if (passedGraph->COLOR[iteratedVertex] == WHITE) {
 				visit(passedGraph, finishedList, iteratedVertex, &time);
@@ -182,6 +182,7 @@ void DFS(Graph passedGraph, List passedList) {
 		for (moveFront(finishedList); index(finishedList) >= 0; moveNext(finishedList)) {
 			append(passedList, get(finishedList));
 		}
+		freeList(&finishedList);
 	}
 }
 
@@ -269,6 +270,7 @@ static int verifyList(List passedList) {
 		}
 		iteratedIndex += 1;
 	}
+	freeList(&list);
 	return TRUE;
 }
 
@@ -276,9 +278,12 @@ static int verifyList(List passedList) {
  * Recursive VISIT method for DFS
  */
 static void visit(Graph passedGraph, List passedList, int passedVertex, int* passedTime) {
-	passedGraph->COLOR[passedVertex] = GRAY;
+	// Mark vertex discovered
 	(*passedTime) += 1;
+	passedGraph->COLOR[passedVertex] = GRAY;
 	passedGraph->DISCOVER[passedVertex] = (*passedTime);
+
+	// Find adjacent vertices
 	List adjacent = passedGraph->ADJACENCIES[passedVertex];
 	for (moveFront(adjacent); index(adjacent) >= 0; moveNext(adjacent)) {
 		int iteratedVertex = get(adjacent);
@@ -287,8 +292,10 @@ static void visit(Graph passedGraph, List passedList, int passedVertex, int* pas
 			visit(passedGraph, passedList, iteratedVertex, passedTime);
 		}
 	}
-	passedGraph->COLOR[passedVertex] = BLACK;
+
+	// Mark vertex finished
 	(*passedTime) += 1;
+	passedGraph->COLOR[passedVertex] = BLACK;
 	passedGraph->FINISH[passedVertex] = (*passedTime);
 	prepend(passedList, passedVertex);
 }
