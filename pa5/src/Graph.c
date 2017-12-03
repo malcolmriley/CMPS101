@@ -262,7 +262,7 @@ static int verifyList(List passedList) {
 	}
 
 	// Verify each sorted List index
-	int iteratedIndex = 0;
+	int iteratedIndex = 1;
 	for (moveFront(list); index(list) >= 0; moveNext(list)) {
 		if (get(list) != iteratedIndex) {
 			return FALSE;
