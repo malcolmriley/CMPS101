@@ -14,6 +14,7 @@
 
 FILE* openAndVerify(char[], char[], char*);
 int readPair(FILE*, int*, int*);
+void fillList(List, int);
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
@@ -49,6 +50,14 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 			fputs("\n", outputFile);
 
 			// TODO: Everything else
+			List list = newList();
+			fillList(list, getOrder(graph));
+
+			DFS(graph, list);
+			Graph transposeGraph = transpose(graph);
+			DFS(transposeGraph, list);
+
+			printList(outputFile, list);
 
 		}
 		else {
@@ -78,6 +87,12 @@ int readPair(FILE* passedFile, int* passedFirstValue, int* passedSecondValue) {
 		}
 	}
 	return FALSE;
+}
+
+void fillList(List passedList, int passedMaxValue) {
+	for (int ii = 1; ii <= passedMaxValue; ii += 1) {
+		append(passedList, ii);
+	}
 }
 
 /**
