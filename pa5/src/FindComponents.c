@@ -15,6 +15,8 @@
 FILE* openAndVerify(char[], char[], char*);
 int readPair(FILE*, int*, int*);
 void fillList(List, int);
+int getAscendant(Graph, int);
+void getTrees(List, List[]);
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
@@ -42,23 +44,55 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 			int firstValue = 0;
 			int secondValue = 0;
 
+			// Read Graph from File
 			while (readPair(inputFile, &firstValue, &secondValue)) {
 				addArc(graph, firstValue, secondValue);
 			}
+
+			// Print Adjacency List
 			fputs("Adjacency list representation of G:\n", outputFile);
 			printGraph(outputFile, graph);
 			fputs("\n", outputFile);
 
-			// TODO: Everything else
+			// Run DFS on graph
 			List list = newList();
 			fillList(list, getOrder(graph));
-
 			DFS(graph, list);
+
+			// Run DFS on transpose of graph
 			Graph transposeGraph = transpose(graph);
 			DFS(transposeGraph, list);
 
-			printList(outputFile, list);
+			// Count roots of DFS forest
+			List roots = newList();
+			for (moveFront(list); index(list) >= 0; moveNext(list)) {
+				int iteratedVertex = get(list);
+				if (getParent(transposeGraph, iteratedVertex) < 0) {
+					insertSorted(roots, iteratedVertex);
+				}
+			}
+			int rootCount = length(roots);
+			fprintf(outputFile, "G contains %d strongly connected components:\n", rootCount);
 
+			// Determine components of trees
+			List trees[rootCount];
+			getTrees(roots, trees);
+			for (moveFront(list); index(list) >= 0; moveNext(list)) {
+				int iteratedVertex = get(list);
+				int ascendant = getAscendant(transposeGraph, iteratedVertex);
+				for (int ii = 0; ii < rootCount; ii += 1) {
+					if ((front(trees[ii]) == ascendant) && (front(trees[ii]) != iteratedVertex)) {
+						append(trees[ii], iteratedVertex);
+					}
+				}
+			}
+
+			// Print Components
+			for (int ii = 0; ii < rootCount; ii += 1) {
+				fprintf(outputFile, "Component %d: ", (ii + 1));
+				printList(outputFile, trees[ii]);
+				fprintf(outputFile, "\n");
+			}
 		}
 		else {
 			puts("Error: Could not initialize graph from file.");
@@ -93,6 +127,21 @@ void fillList(List passedList, int passedMaxValue) {
 	for (int ii = 1; ii <= passedMaxValue; ii += 1) {
 		append(passedList, ii);
 	}
+}
+
+void getTrees(List passedList, List passedArray[]) {
+	for (moveFront(passedList); index(passedList) >= 0; moveNext(passedList)) {
+		passedArray[index(passedList)] = newList();
+		append(passedArray[index(passedList)], get(passedList));
+	}
+}
+
+int getAscendant(Graph passedGraph, int passedVertex) {
+	int parent = passedVertex;
+	while (getParent(passedGraph, parent) >= 0) {
+		parent = getParent(passedGraph, parent);
+	}
+	return parent;
 }
 
 /**
