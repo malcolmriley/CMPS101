@@ -17,7 +17,6 @@ int readPair(FILE*, int*, int*);
 void fillList(List, int);
 int getAscendant(Graph, int);
 void getTrees(List, List[]);
-void insertSortedBy(List, Graph, int, int(*)(Graph, int));
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
