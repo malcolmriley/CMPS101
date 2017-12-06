@@ -100,23 +100,15 @@ int getDist(Graph passedGraph, int passedIndex) {
 
 int getFinish(Graph passedGraph, int passedIndex) {
 	if (validateGraphIndex(passedGraph, passedIndex)) {
-		if (passedGraph->FINISH[passedIndex] >= 0) {
-			printf("getFinish of index %d is: %d\n", passedIndex, passedGraph->FINISH[passedIndex]);
-		}
 		return passedGraph->FINISH[passedIndex];
 	}
-	puts("getFinish returned UNDEF.");
 	return UNDEF;
 }
 
 int getDiscover(Graph passedGraph, int passedIndex) {
 	if (validateGraphIndex(passedGraph, passedIndex)) {
-		if (passedGraph->DISCOVER[passedIndex] >= 0) {
-			printf("getDiscover of index %d is: %d\n", passedIndex, passedGraph->DISCOVER[passedIndex]);
-		}
 		return passedGraph->DISCOVER[passedIndex];
 	}
-	puts("getDiscover returned UNDEF.");
 	return UNDEF;
 }
 
@@ -185,7 +177,7 @@ void DFS(Graph passedGraph, List passedList) {
 		// Output discovery-ordered list into passedList
 		clear(passedList);
 		for (moveFront(finishedList); index(finishedList) >= 0; moveNext(finishedList)) {
-			append(passedList, get(finishedList));
+			prepend(passedList, get(finishedList));
 		}
 		freeList(&finishedList);
 	}
@@ -228,7 +220,7 @@ void BFS(Graph passedGraph, int passedSourceIndex) {
 /* Miscellaneous */
 Graph transpose(Graph passedGraph) {
 	Graph allocatedGraph = newGraph(getOrder(passedGraph));
-	for (int ii = 0; ii < getOrder(passedGraph); ii += 1) {
+	for (int ii = 0; ii < getOrderInternal(passedGraph); ii += 1) {
 		int from = ii;
 		List iteratedList = passedGraph->ADJACENCIES[ii];
 		for (moveFront(iteratedList); index(iteratedList) >= 0; moveNext(iteratedList)) {
@@ -302,7 +294,7 @@ static void visit(Graph passedGraph, List passedList, int passedVertex, int* pas
 	(*passedTime) += 1;
 	passedGraph->COLOR[passedVertex] = BLACK;
 	passedGraph->FINISH[passedVertex] = (*passedTime);
-	prepend(passedList, passedVertex);
+	append(passedList, passedVertex);
 }
 
 
