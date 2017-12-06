@@ -17,6 +17,7 @@ int readPair(FILE*, int*, int*);
 void fillList(List, int);
 int getAscendant(Graph, int);
 void getTrees(List, List[]);
+void insertSortedBy(List, Graph, int, int(*)(Graph, int));
 
 int main(int passedArgumentCount, char* passedArguments[]) {
 
@@ -65,10 +66,10 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 
 			// Count roots of DFS forest
 			List roots = newList();
-			for (moveFront(list); index(list) >= 0; moveNext(list)) {
+			for (moveBack(list); index(list) >= 0; movePrev(list)) {
 				int iteratedVertex = get(list);
 				if (getParent(transposeGraph, iteratedVertex) < 0) {
-					insertSorted(roots, iteratedVertex);
+					append(roots, iteratedVertex);
 				}
 			}
 			int rootCount = length(roots);
@@ -93,6 +94,14 @@ int main(int passedArgumentCount, char* passedArguments[]) {
 				printList(outputFile, trees[ii]);
 				fprintf(outputFile, "\n");
 			}
+
+			// Cleanup
+			for (int ii = 0; ii < rootCount; ii += 1) {
+				freeList(&trees[ii]);
+			}
+			freeList(&roots);
+			freeGraph(&graph);
+			freeGraph(&transposeGraph);
 		}
 		else {
 			puts("Error: Could not initialize graph from file.");
