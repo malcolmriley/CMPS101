@@ -13,6 +13,9 @@
  */
 public class apint {
 	
+	// Local Objects
+	private long[] VALUE;
+	
 	/* Constructors */
 	
 	/**
