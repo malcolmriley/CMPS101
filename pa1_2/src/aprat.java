@@ -65,7 +65,7 @@ public class aprat {
 	 * @param passedDenominator - The denominator for the new {@link aprat}
 	 */
 	public aprat(long passedNumerator, long passedDenominator) {
-		
+		// TODO
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class aprat {
 	 * @param passedPrecision - The desired precision
 	 */
 	public aprat(double passedValue, int passedPrecision) {
-		
+		// TODO
 	}
 	
 	/**
@@ -101,6 +101,7 @@ public class aprat {
 	 */
 	@Override
 	public String toString() {
+		// TODO
 		return "";
 	}
 	
@@ -121,7 +122,7 @@ public class aprat {
 	 * @param passedValue - The value to add to {@code this}.
 	 */
 	public void add(aprat passedValue) {
-		
+		// TODO
 	}
 	
 	/**
@@ -132,7 +133,7 @@ public class aprat {
 	 * @param passedValue - The value to subtract from {@code this}.
 	 */
 	public void subtract(aprat passedValue) {
-		
+		// TODO
 	}
 	
 	/**
@@ -143,7 +144,7 @@ public class aprat {
 	 * @param passedValue - The value to subtract from {@code this}.
 	 */
 	public void multiply(aprat passedValue) {
-		
+		// TODO
 	}
 	
 	/**
@@ -154,7 +155,7 @@ public class aprat {
 	 * @param passedValue - The value to divide {@code this} by.
 	 */
 	public void divide(aprat passedValue) {
-		
+		// TODO
 	}
 	
 	/**
@@ -163,7 +164,7 @@ public class aprat {
 	 * Fulfills requirement #7.
 	 */
 	public void normalize() {
-		
+		// TODO
 	}
 	
 	/* Internal Methods */
