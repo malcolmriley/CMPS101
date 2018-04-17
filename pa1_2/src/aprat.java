@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * Arbitrary-precision rational type. Named as per requirements of the assignment.
  * <p>
@@ -14,6 +16,10 @@
  */
 public class aprat {
 	
+	// Local Objects
+	private apint NUMERATOR;
+	private apint DENOMINATOR;
+	
 	/* Constructors */
 	
 	/**
@@ -22,7 +28,7 @@ public class aprat {
 	 * This constructor fulfills requirement #1.
 	 */
 	public aprat() {
-		
+		this(0L, 1L);
 	}
 	
 	/**
@@ -34,7 +40,8 @@ public class aprat {
 	 * @param passedDenominator - The denominator for the new {@link aprat}
 	 */
 	public aprat(apint passedNumerator, apint passedDenominator) {
-		
+		this.NUMERATOR = Objects.requireNonNull(passedNumerator);
+		this.DENOMINATOR = Objects.requireNonNull(passedDenominator);
 	}
 	
 	/**
@@ -46,7 +53,7 @@ public class aprat {
 	 * @param passedDenominator - The denominator for the new {@link aprat}
 	 */
 	public aprat(int passedNumerator, int passedDenominator) {
-		
+		this((long)passedNumerator, (long)passedDenominator);
 	}
 	
 	/**
@@ -82,7 +89,7 @@ public class aprat {
 	 * @param passedPrecision - The desired precision
 	 */
 	public aprat(float passedValue, int passedPrecision) {
-		
+		this((double)passedValue, passedPrecision);
 	}
 	
 	/* Public Methods */
