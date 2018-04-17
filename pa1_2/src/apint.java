@@ -21,7 +21,7 @@ public class apint {
 	 * This constructor fulfills requirement #1.
 	 */
 	public apint() {
-		
+		this(0L);
 	}
 	
 	/**
