@@ -140,8 +140,16 @@ public class apint {
 	 */
 	@Override
 	public String toString() {
-		String sign = (this.SIGNUM < 0) ? "-" : "+";
-		return String.format("%s%s", sign, this.toStringUnsigned());
+		return String.format("%s%s", getSign(this.SIGNUM), this.toStringUnsigned());
+	}
+	
+	/**
+	 * Returns the signum of this {@link apint} instance.
+	 * 
+	 * @return The signum.
+	 */
+	public int signum() {
+		return this.SIGNUM;
 	}
 	
 	/**
@@ -244,6 +252,58 @@ public class apint {
 	}
 	
 	/**
+	 * Comparison method. Returns {@code true} if {@code this} > {@code passedValue}.
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against
+	 * @return Whether or not {@code this} > {@code passedValue}.
+	 */
+	public boolean isGreaterThan(apint passedValue) {
+		return (this.compare(passedValue) == 1);
+	}
+	
+	/**
+	 * Comparison method. Returns {@code true} if {@code this} < {@code passedValue}.
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against
+	 * @return Whether or not {@code this} < {@code passedValue}.
+	 */
+	public boolean isLessThan(apint passedValue) {
+		return (this.compare(passedValue) == -1);
+	}
+	
+	/**
+	 * Comparison method. Returns {@code true} if {@code this} == {@code passedValue}.
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against
+	 * @return Whether or not {@code this} == {@code passedValue}.
+	 */
+	public boolean isEqualTo(apint passedValue) {
+		return (this.compare(passedValue) == 0);
+	}
+	
+	/**
+	 * Comparison method. Returns {@code true} if {@code this} ≤ {@code passedValue}.
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against
+	 * @return Whether or not {@code this} ≤ {@code passedValue}.
+	 */
+	public boolean isLessThanOrEqual(apint passedValue) {
+		int comparison = this.compare(passedValue);
+		return (comparison == -1) || (comparison == 0);
+	}
+	
+	/**
+	 * Comparison method. Returns {@code true} if {@code this} ≤ {@code passedValue}.
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against
+	 * @return Whether or not {@code this} ≤ {@code passedValue}.
+	 */
+	public boolean isGreaterThanOrEqual(apint passedValue) {
+		int comparison = this.compare(passedValue);
+		return (comparison == 1) || (comparison == 0);
+	}
+	
+	/**
 	 * This method performs a comparison function on {@code this} and the passed {@link apint} instance. It returns:
 	 * <li> 1 if {@code this} > {@code passedValue} </li>
 	 * <li> -1 if {@code this} < {@code passedValue} </li>
@@ -278,7 +338,7 @@ public class apint {
 	
 	/* Internal Methods */
 	
-	private void addInternal(apint passedValue, int passedSign) {
+	protected void addInternal(apint passedValue, int passedSign) {
 		// TODO:
 	}
 	
@@ -298,6 +358,10 @@ public class apint {
 	}
 	
 	/* Logic Methods */
+	
+	protected static final String getSign(int passedSignum) {
+		return (passedSignum < 0) ? "-" : "+";
+	}
 	
 	private static final int signum(long passedValue) {
 		if (passedValue == 0) {
