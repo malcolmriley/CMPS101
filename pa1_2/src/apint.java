@@ -136,7 +136,8 @@ public class apint {
 	 */
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(this.getSign());
+		String sign = (this.SIGNUM < 0) ? "-" : "+";
+		StringBuilder builder = new StringBuilder(sign);
 		for (long iteratedLong : this.VALUE) {
 			builder.append(String.valueOf(iteratedLong));
 		}
@@ -153,7 +154,7 @@ public class apint {
 	}
 	
 	/**
-	 * Adds the value of the passed {@link apint} to {@code this}, returning the result as a new {@link apint} instance.
+	 * Adds the value of the passed {@link apint} to {@code this}. This will modify the value of this {@link apint} instance.
 	 * <p>
 	 * Along with {@link #subtract(apint)}, {@link #multiply(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
@@ -164,7 +165,7 @@ public class apint {
 	}
 	
 	/**
-	 * Subtracts the value of the passed {@link apint} from {@code this}, returning the result as a new {@link apint} instance.
+	 * Subtracts the value of the passed {@link apint} from {@code this}. This will modify the value of this {@link apint} instance.
 	 * <p>
 	 * Along with {@link #add(apint)}, {@link #multiply(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
@@ -175,7 +176,7 @@ public class apint {
 	}
 	
 	/**
-	 * Multiplies the value of the passed {@link apint} with {@code this}, returning the result as a new {@link apint} instance.
+	 * Multiplies the value of the passed {@link apint} with {@code this}. This will modify the value of this {@link apint} instance.
 	 * <p>
 	 * Along with {@link #add(apint)}, {@link #subtract(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
@@ -186,7 +187,7 @@ public class apint {
 	}
 	
 	/**
-	 * Divides {@code this} by value of the passed {@link apint}, returning the result as a new {@link apint} instance.
+	 * Divides {@code this} by value of the passed {@link apint}. This will modify the value of this {@link apint} instance.
 	 * <p>
 	 * Along with {@link #add(apint)}, {@link #multiply(apint)}, and {@link #subtract(apint)}, fulfills requirement #6.
 	 * 
@@ -197,7 +198,7 @@ public class apint {
 	}
 	
 	/**
-	 * Returns the factorial of this {@link apint}.
+	 * Performs the factorial operation on this {@link apint}.
 	 * <p>
 	 * Fulfills the extra credit component of the assignment.
 	 */
@@ -219,10 +220,6 @@ public class apint {
 	}
 	
 	/* Internal Methods */
-	
-	private String getSign() {
-		return (this.SIGNUM < 0) ? "-" : "+";
-	}
 	
 	private long getCarry(long passedValue) {
 		return (passedValue > CARRY_THRESHOLD) ? (passedValue / (CARRY_THRESHOLD + 1)) : 0;
