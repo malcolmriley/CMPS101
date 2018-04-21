@@ -141,7 +141,16 @@ public class apint {
 	@Override
 	public String toString() {
 		String sign = (this.SIGNUM < 0) ? "-" : "+";
-		StringBuilder builder = new StringBuilder(sign);
+		return String.format("%s%s", sign, this.toStringUnsigned());
+	}
+	
+	/**
+	 * Returns the {@code String} representation of this {@link apint} instance, without a sign character.
+	 * 
+	 * @return A {@code String } representation of this {@link apint} instance.
+	 */
+	public String toStringUnsigned() {
+		StringBuilder builder = new StringBuilder(this.VALUE.length * DIGITS_PER_BLOCK);
 		for (long iteratedLong : this.VALUE) {
 			builder.append(String.valueOf(iteratedLong));
 		}
