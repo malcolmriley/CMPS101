@@ -119,9 +119,12 @@ public class aprat {
 	 * Along with {@link #subtract(aprat)}, {@link #multiply(aprat)}, and {@link #divide(aprat)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to add to {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void add(aprat passedValue) {
+	public aprat add(aprat passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
@@ -130,9 +133,12 @@ public class aprat {
 	 * Along with {@link #add(aprat)}, {@link #multiply(aprat)}, and {@link #divide(aprat)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to subtract from {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void subtract(aprat passedValue) {
+	public aprat subtract(aprat passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
@@ -141,9 +147,12 @@ public class aprat {
 	 * Along with {@link #add(aprat)}, {@link #subtract(aprat)}, and {@link #divide(aprat)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to subtract from {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void multiply(aprat passedValue) {
-		// TODO
+	public aprat multiply(aprat passedValue) {
+		this.NUMERATOR.multiply(passedValue.NUMERATOR);
+		this.DENOMINATOR.multiply(passedValue.DENOMINATOR);
+		return this;
 	}
 	
 	/**
@@ -152,18 +161,25 @@ public class aprat {
 	 * Along with {@link #add(aprat)}, {@link #multiply(aprat)}, and {@link #subtract(aprat)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to divide {@code this} by.
+	 * @return {@code this}, for method chaining
 	 */
-	public void divide(aprat passedValue) {
-		// TODO
+	public aprat divide(aprat passedValue) {
+		this.NUMERATOR.multiply(passedValue.DENOMINATOR);
+		this.DENOMINATOR.multiply(passedValue.NUMERATOR);
+		return this;
 	}
 	
 	/**
 	 * Normalizes the value of this {@link aprat}; that is, it reduces the numerator and denominator to lowest terms.
 	 * <p>
 	 * Fulfills requirement #7.
+	 * 
+	 * @return {@code this}, for method chaining
 	 */
-	public void normalize() {
+	public aprat normalize() {
 		// TODO
+		
+		return this;
 	}
 	
 	/* Internal Methods */
