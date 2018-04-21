@@ -101,8 +101,7 @@ public class aprat {
 	 */
 	@Override
 	public String toString() {
-		// TODO
-		return "";
+		return String.format("%s / %s", this.NUMERATOR.toStringUnsigned(), this.DENOMINATOR.toStringUnsigned());
 	}
 	
 	/**
