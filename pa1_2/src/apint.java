@@ -13,6 +13,10 @@
  */
 public class apint {
 	
+	// Static Objects
+	public static final apint ZERO = new apint(0);
+	public static final apint ONE = new apint(1);
+	
 	// Local Objects
 	private long[] VALUE;
 	private int SIGNUM;
@@ -159,9 +163,12 @@ public class apint {
 	 * Along with {@link #subtract(apint)}, {@link #multiply(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to add to {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void add(apint passedValue) {
+	public apint add(apint passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
@@ -170,9 +177,12 @@ public class apint {
 	 * Along with {@link #add(apint)}, {@link #multiply(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to subtract from {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void subtract(apint passedValue) {
+	public apint subtract(apint passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
@@ -181,9 +191,12 @@ public class apint {
 	 * Along with {@link #add(apint)}, {@link #subtract(apint)}, and {@link #divide(apint)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to subtract from {@code this}.
+	 * @return {@code this}, for method chaining
 	 */
-	public void multiply(apint passedValue) {
+	public apint multiply(apint passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
@@ -192,18 +205,46 @@ public class apint {
 	 * Along with {@link #add(apint)}, {@link #multiply(apint)}, and {@link #subtract(apint)}, fulfills requirement #6.
 	 * 
 	 * @param passedValue - The value to divide {@code this} by.
+	 * @return {@code this}, for method chaining
 	 */
-	public void divide(apint passedValue) {
+	public apint divide(apint passedValue) {
 		// TODO
+		
+		return this;
 	}
 	
 	/**
 	 * Performs the factorial operation on this {@link apint}.
 	 * <p>
 	 * Fulfills the extra credit component of the assignment.
+	 * @return {@code this}, for method chaining
 	 */
-	public void factorial() {
-		// TODO
+	public apint factorial() {
+		apint value = this.copy().subtract(apint.ONE);
+		while(value.compare(apint.ZERO) > 0) {
+			this.multiply(value);
+		}
+		return this;
+	}
+	
+	/**
+	 * This method performs a comparison function on {@code this} and the passed {@link apint} instance. It returns:
+	 * <li> 1 if {@code this} > {@code passedValue} </li>
+	 * <li> -1 if {@code this} < {@code passedValue} </li>
+	 * <li> -0 if {@code this} == {@code passedValue} </li>
+	 * 
+	 * @param passedValue - The {@link apint} instance to compare against.
+	 */
+	public int compare(apint passedValue) {
+		for (int index = 0; index < Math.min(this.VALUE.length, passedValue.VALUE.length); index += 1) {
+			if (this.VALUE[index] > passedValue.VALUE[index]) {
+				return 1;
+			}
+			else if (this.VALUE[index] < passedValue.VALUE[index]) {
+				return -1;
+			}
+		}
+		return 0;
 	}
 	
 	/**
