@@ -15,6 +15,15 @@ public class apint {
 	
 	// Local Objects
 	private long[] VALUE;
+	private int SIGNUM;
+	
+	// Constants
+	/**
+	 * This is the largest nine digit integer.
+	 * <p>
+	 * Ten digit integers do not fully fit within 32 bits; 9,999,999,999 requires 34.
+	 */
+	private static final long CARRY_THRESHOLD = 999999999L;
 	
 	/* Constructors */
 	
@@ -40,6 +49,7 @@ public class apint {
 	 * @param passedString - The {@code String} to use for conversion.
 	 */
 	public apint(String passedString) {
+		
 		// TODO
 	}
 	
@@ -62,7 +72,10 @@ public class apint {
 	 * @param passedValue - The {@code long} to use for conversion.
 	 */
 	public apint(long passedValue) {
-		// TODO
+		this.SIGNUM = signum(passedValue);
+		long value = Math.abs(passedValue);
+		long carry = getCarry(value);
+		this.VALUE = new long[] {carry, (value - carry)};
 	}
 	
 	/**
@@ -100,8 +113,11 @@ public class apint {
 	 */
 	@Override
 	public String toString() {
-		// TODO
-		return "";
+		StringBuilder builder = new StringBuilder(this.getSign());
+		for (long iteratedLong : this.VALUE) {
+			builder.append(String.valueOf(iteratedLong));
+		}
+		return builder.toString();
 	}
 	
 	/**
@@ -166,5 +182,46 @@ public class apint {
 		// TODO
 	}
 	
+	/**
+	 * Returns a new {@link apint} instance that is a value-copy of this instance.
+	 * 
+	 * @return A new {@link apint} instance with the same value as this one.
+	 */
+	public apint copy() {
+		apint newInstance = new apint();
+		newInstance.SIGNUM = this.SIGNUM;
+		newInstance.VALUE = new long[this.VALUE.length];
+		System.arraycopy(this.VALUE, 0, newInstance.VALUE, 0, this.VALUE.length);
+		return newInstance;
+	}
+	
 	/* Internal Methods */
+	
+	private String getSign() {
+		return (this.SIGNUM < 0) ? "-" : "+";
+	}
+	
+	private long getCarry(long passedValue) {
+		return (passedValue > CARRY_THRESHOLD) ? (passedValue / (CARRY_THRESHOLD + 1)) : 0;
+	}
+	
+	private void ensureCapacity(int passedCapacity) {
+		if (passedCapacity > this.VALUE.length) {
+			long newArray[] = new long[passedCapacity];
+			if (this.VALUE != null) {
+				long oldArray[] = this.VALUE;
+				System.arraycopy(oldArray, 0, newArray, 0, oldArray.length);
+			}
+			this.VALUE = newArray;
+		}
+	}
+	
+	/* Logic Methods */
+	
+	private static final int signum(long passedValue) {
+		if (passedValue == 0) {
+			return 0;
+		}
+		return (passedValue > 0) ? 1 : -1;
+	}
  }
