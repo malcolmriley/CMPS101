@@ -222,7 +222,7 @@ public class apint {
 	/* Internal Methods */
 	
 	private long getCarry(long passedValue) {
-		return (passedValue > CARRY_THRESHOLD) ? (passedValue / (CARRY_THRESHOLD + 1)) : 0;
+		return (Math.abs(passedValue) > CARRY_THRESHOLD) ? (passedValue / (CARRY_THRESHOLD + 1)) : 0;
 	}
 	
 	private void ensureCapacity(int passedCapacity) {
