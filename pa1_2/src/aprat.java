@@ -65,7 +65,7 @@ public class aprat {
 	 * @param passedDenominator - The denominator for the new {@link aprat}
 	 */
 	public aprat(long passedNumerator, long passedDenominator) {
-		// TODO
+		this(new apint(passedNumerator), new apint(passedDenominator));
 	}
 	
 	/**
