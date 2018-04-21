@@ -101,7 +101,7 @@ public class aprat {
 	 */
 	@Override
 	public String toString() {
-		return String.format("%s / %s", this.NUMERATOR.toStringUnsigned(), this.DENOMINATOR.toStringUnsigned());
+		return String.format("%s %s / %s", this.getSign(), this.NUMERATOR.toStringUnsigned(), this.DENOMINATOR.toStringUnsigned());
 	}
 	
 	/**
@@ -167,5 +167,13 @@ public class aprat {
 	}
 	
 	/* Internal Methods */
+	
+	private String getSign() {
+		return apint.getSign(this.NUMERATOR.signum() * this.DENOMINATOR.signum());
+	}
+	
+	protected void addInternal(aprat passedValue, int passedSignum) {
+		// TODO
+	}
 
 }
