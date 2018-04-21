@@ -166,8 +166,7 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint add(apint passedValue) {
-		// TODO
-		
+		this.addInternal(passedValue, passedValue.SIGNUM);
 		return this;
 	}
 	
@@ -180,8 +179,7 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint subtract(apint passedValue) {
-		// TODO
-		
+		this.addInternal(passedValue, -1 * passedValue.SIGNUM);
 		return this;
 	}
 	
@@ -223,6 +221,7 @@ public class apint {
 		apint value = this.copy().subtract(apint.ONE);
 		while(value.compare(apint.ZERO) > 0) {
 			this.multiply(value);
+			value.subtract(apint.ONE);
 		}
 		return this;
 	}
@@ -261,6 +260,10 @@ public class apint {
 	}
 	
 	/* Internal Methods */
+	
+	private void addInternal(apint passedValue, int passedSign) {
+		// TODO:
+	}
 	
 	private long getCarry(long passedValue) {
 		return (Math.abs(passedValue) > CARRY_THRESHOLD) ? (Math.abs(passedValue) / (CARRY_THRESHOLD + 1)) : 0;
