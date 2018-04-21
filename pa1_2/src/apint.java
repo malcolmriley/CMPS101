@@ -192,7 +192,11 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint multiply(apint passedValue) {
+		// Calculate digit result
 		// TODO
+		
+		// Calculate signum result
+		this.SIGNUM = (this.SIGNUM * passedValue.SIGNUM);
 		
 		return this;
 	}
@@ -206,7 +210,11 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint divide(apint passedValue) {
+		// Calculate digit result
 		// TODO
+		
+		// Calculate signum result
+		this.SIGNUM = (this.SIGNUM * passedValue.SIGNUM);
 		
 		return this;
 	}
