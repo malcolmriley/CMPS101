@@ -24,6 +24,7 @@ public class apint {
 	 * Ten digit integers do not fully fit within 32 bits; 9,999,999,999 requires 34.
 	 */
 	private static final long CARRY_THRESHOLD = 999999999L;
+	private static final int DIGITS_PER_BLOCK = 9;
 	
 	/* Constructors */
 	
@@ -49,8 +50,30 @@ public class apint {
 	 * @param passedString - The {@code String} to use for conversion.
 	 */
 	public apint(String passedString) {
+		// Check for sign character
+		int signum = 0;
+		String digits = passedString;
+		if (passedString.startsWith("-")) {
+			signum = -1;
+			digits = passedString.substring(1);
+		}
+		else if (passedString.startsWith("+")) {
+			signum = 1;
+			digits = passedString.substring(1);
+		}
 		
-		// TODO
+		// Initialize Digits
+		boolean nonzero = false;
+		this.ensureCapacity((digits.length() / DIGITS_PER_BLOCK) + 1);
+		for (int index = 0; (index * DIGITS_PER_BLOCK) < digits.length(); index += 1) {
+			String subString = digits.substring(index * DIGITS_PER_BLOCK, Math.min((index * DIGITS_PER_BLOCK), digits.length()));
+			long value = Long.parseLong(subString);
+			this.VALUE[index] = value;
+			nonzero |= (value != 0);
+		}
+		
+		// Set signum if actually nonzero
+		this.SIGNUM = (nonzero) ? signum : 0;
 	}
 	
 	/**
@@ -190,7 +213,7 @@ public class apint {
 	public apint copy() {
 		apint newInstance = new apint();
 		newInstance.SIGNUM = this.SIGNUM;
-		newInstance.VALUE = new long[this.VALUE.length];
+		newInstance.VALUE = new long[this.VALUE.length]; // Avoid unnecessary array copies
 		System.arraycopy(this.VALUE, 0, newInstance.VALUE, 0, this.VALUE.length);
 		return newInstance;
 	}
