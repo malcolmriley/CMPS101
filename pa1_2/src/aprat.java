@@ -122,8 +122,7 @@ public class aprat {
 	 * @return {@code this}, for method chaining
 	 */
 	public aprat add(aprat passedValue) {
-		// TODO
-		
+		this.addInternal(passedValue, passedValue.signum());
 		return this;
 	}
 	
@@ -136,8 +135,7 @@ public class aprat {
 	 * @return {@code this}, for method chaining
 	 */
 	public aprat subtract(aprat passedValue) {
-		// TODO
-		
+		this.addInternal(passedValue, -1 * passedValue.signum());
 		return this;
 	}
 	
@@ -169,6 +167,10 @@ public class aprat {
 		return this;
 	}
 	
+	public int signum() {
+		return (this.NUMERATOR.signum() * this.DENOMINATOR.signum());
+	}
+	
 	/**
 	 * Normalizes the value of this {@link aprat}; that is, it reduces the numerator and denominator to lowest terms.
 	 * <p>
@@ -185,7 +187,7 @@ public class aprat {
 	/* Internal Methods */
 	
 	private String getSign() {
-		return apint.getSign(this.NUMERATOR.signum() * this.DENOMINATOR.signum());
+		return apint.getSign(this.signum());
 	}
 	
 	protected void addInternal(aprat passedValue, int passedSignum) {
