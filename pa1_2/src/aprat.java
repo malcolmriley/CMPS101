@@ -77,7 +77,16 @@ public class aprat {
 	 * @param passedPrecision - The desired precision
 	 */
 	public aprat(double passedValue, int passedPrecision) {
-		// TODO
+		double integerPart = Math.floor(passedValue);
+		double fractionalPart = (passedValue - integerPart);
+		
+		long factor = (long)(passedPrecision * fractionalPart * 10);
+		
+		long numerator = (long)integerPart * factor;
+		long denominator = (passedPrecision + 1) * 10;
+		
+		this.NUMERATOR = new apint(numerator);
+		this.DENOMINATOR = new apint(denominator);
 	}
 	
 	/**
