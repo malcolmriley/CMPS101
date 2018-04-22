@@ -209,6 +209,16 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint multiply(apint passedValue) {
+		// Check for easy multiplications
+		if (passedValue.isEqualTo(apint.ONE)) {
+			return this;
+		}
+		if (passedValue.isEqualTo(apint.ZERO)) {
+			this.SIGNUM = 0;
+			this.VALUE = new long[] {0, 0};
+			return this;
+		}
+		
 		// Calculate digit result
 		// TODO
 		
@@ -227,6 +237,14 @@ public class apint {
 	 * @return {@code this}, for method chaining
 	 */
 	public apint divide(apint passedValue) {
+		// Check division validity
+		if (passedValue.isEqualTo(apint.ZERO)) {
+			throw new IllegalArgumentException("May not divide by zero.");
+		}
+		else if (passedValue.isEqualTo(apint.ONE)) {
+			return this;
+		}
+		
 		// Calculate digit result
 		// TODO
 		
@@ -312,6 +330,10 @@ public class apint {
 	 * @param passedValue - The {@link apint} instance to compare against.
 	 */
 	public int compare(apint passedValue) {
+		/* TODO:
+		 * 
+		 * Need to fix this algorithm; only works if value indices are "aligned" - what happens if arrays are differently sized?
+		 */
 		for (int index = 0; index < Math.min(this.VALUE.length, passedValue.VALUE.length); index += 1) {
 			if (this.VALUE[index] > passedValue.VALUE[index]) {
 				return 1;
