@@ -159,9 +159,12 @@ public class apint {
 	 */
 	public String toStringUnsigned() {
 		StringBuilder builder = new StringBuilder(this.VALUE.length * DIGITS_PER_BLOCK);
-		for (long iteratedLong : this.VALUE) {
-			builder.append(String.valueOf(iteratedLong));
+		for(int index = 0; index < (this.VALUE.length - 1); index += 1) {
+			if (this.VALUE[index] > 0) {
+				builder.append(String.valueOf(this.VALUE[index]));
+			}
 		}
+		builder.append(String.valueOf(this.VALUE[this.VALUE.length - 1]));
 		return builder.toString();
 	}
 	
@@ -330,18 +333,7 @@ public class apint {
 	 * @param passedValue - The {@link apint} instance to compare against.
 	 */
 	public int compare(apint passedValue) {
-		/* TODO:
-		 * 
-		 * Need to fix this algorithm; only works if value indices are "aligned" - what happens if arrays are differently sized?
-		 */
-		for (int index = 0; index < Math.min(this.VALUE.length, passedValue.VALUE.length); index += 1) {
-			if (this.VALUE[index] > passedValue.VALUE[index]) {
-				return 1;
-			}
-			else if (this.VALUE[index] < passedValue.VALUE[index]) {
-				return -1;
-			}
-		}
+		// TODO
 		return 0;
 	}
 	
