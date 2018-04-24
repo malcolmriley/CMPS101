@@ -29,6 +29,7 @@ public class apint {
 	 */
 	private static final long CARRY_THRESHOLD = 999999999L;
 	private static final int DIGITS_PER_BLOCK = 9;
+	private static final String DIGIT_PADDING = String.format("%%0%dd", DIGITS_PER_BLOCK);
 	
 	/* Constructors */
 	
@@ -68,7 +69,7 @@ public class apint {
 		
 		// Initialize Digits
 		boolean nonzero = false;
-		this.VALUE = new long[((digits.length() / DIGITS_PER_BLOCK) + 1)];
+		this.VALUE = new long[(digits.length() / DIGITS_PER_BLOCK) + 1];
 		for (int index = 0; (index * DIGITS_PER_BLOCK) < digits.length(); index += 1) {
 			int beginIndex = (index * DIGITS_PER_BLOCK);
 			int endIndex = Math.min(digits.length(), (index + 1) * DIGITS_PER_BLOCK);
@@ -76,6 +77,10 @@ public class apint {
 			long value = Long.parseLong(subString);
 			this.VALUE[index] = value;
 			nonzero |= (value != 0);
+		}
+		
+		for (long iteratedLong : this.VALUE) {
+			System.out.println(iteratedLong);
 		}
 		
 		// Set signum if actually nonzero
@@ -161,13 +166,10 @@ public class apint {
 	 */
 	public String toStringUnsigned() {
 		StringBuilder builder = new StringBuilder(this.VALUE.length * DIGITS_PER_BLOCK);
-		for(int index = 0; index < (this.VALUE.length - 1); index += 1) {
-			if (this.VALUE[index] > 0) {
-				builder.append(String.valueOf(this.VALUE[index]));
-			}
+		for (long iteratedValue : this.VALUE) {
+			builder.append(String.format(DIGIT_PADDING, iteratedValue));
 		}
-		builder.append(String.valueOf(this.VALUE[this.VALUE.length - 1]));
-		return builder.toString();
+		return builder.toString().replaceFirst("^0+(?!$)", "");
 	}
 	
 	/**
