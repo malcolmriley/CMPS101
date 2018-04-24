@@ -68,7 +68,7 @@ public class apint {
 		
 		// Initialize Digits
 		boolean nonzero = false;
-		this.ensureCapacity((digits.length() / DIGITS_PER_BLOCK) + 1);
+		this.VALUE = new long[((digits.length() / DIGITS_PER_BLOCK) + 1)];
 		for (int index = 0; (index * DIGITS_PER_BLOCK) < digits.length(); index += 1) {
 			String subString = digits.substring(index * DIGITS_PER_BLOCK, Math.min((index * DIGITS_PER_BLOCK), digits.length()));
 			long value = Long.parseLong(subString);
