@@ -69,18 +69,14 @@ public class apint {
 		
 		// Initialize Digits
 		boolean nonzero = false;
-		this.VALUE = new long[(digits.length() / DIGITS_PER_BLOCK) + 1];
-		for (int index = 0; (index * DIGITS_PER_BLOCK) < digits.length(); index += 1) {
-			int beginIndex = (index * DIGITS_PER_BLOCK);
-			int endIndex = Math.min(digits.length(), (index + 1) * DIGITS_PER_BLOCK);
+		this.VALUE = new long[(digits.length() + DIGITS_PER_BLOCK) / DIGITS_PER_BLOCK];
+		for (int index = 0; index < this.VALUE.length; index += 1) {
+			int endIndex = digits.length() - ( index * DIGITS_PER_BLOCK );
+			int beginIndex = Math.max(0, endIndex - DIGITS_PER_BLOCK);
 			String subString = digits.substring(beginIndex, endIndex);
-			long value = Long.parseLong(subString);
+			long value = Long.valueOf(subString).longValue();
 			this.VALUE[index] = value;
 			nonzero |= (value != 0);
-		}
-		
-		for (long iteratedLong : this.VALUE) {
-			System.out.println(iteratedLong);
 		}
 		
 		// Set signum if actually nonzero
@@ -166,8 +162,12 @@ public class apint {
 	 */
 	public String toStringUnsigned() {
 		StringBuilder builder = new StringBuilder(this.VALUE.length * DIGITS_PER_BLOCK);
-		for (long iteratedValue : this.VALUE) {
-			builder.append(String.format(DIGIT_PADDING, iteratedValue));
+		for (int index = (this.VALUE.length - 1); index >= 0; index -= 1) {
+			long value = this.VALUE[index];
+			// Special handling so that a value of zero doesn't get truncated
+			if ((value > 0) || (index == (this.VALUE.length - 1))) {
+				builder.append(String.format(DIGIT_PADDING, value));
+			}
 		}
 		return builder.toString().replaceFirst("^0+(?!$)", "");
 	}
@@ -330,14 +330,47 @@ public class apint {
 	
 	/**
 	 * This method performs a comparison function on {@code this} and the passed {@link apint} instance. It returns:
-	 * <li> 1 if {@code this} > {@code passedValue} </li>
-	 * <li> -1 if {@code this} < {@code passedValue} </li>
-	 * <li> -0 if {@code this} == {@code passedValue} </li>
+	 * <li> {@code 1}, if {@code this > passedValue} </li>
+	 * <li> {@code -1}, if {@code this < passedValue} </li>
+	 * <li> {@code 0}, if {@code this == passedValue} </li>
 	 * 
 	 * @param passedValue - The {@link apint} instance to compare against.
 	 */
 	public int compare(apint passedValue) {
-		// TODO
+		int thisOffset = 0;
+		int passedOffset = 0;
+		int lesserLength = Math.min(this.VALUE.length, passedValue.VALUE.length);
+		int difference = Math.abs(this.VALUE.length - passedValue.VALUE.length);
+		if (this.SIGNUM == passedValue.SIGNUM) {
+			if (this.VALUE.length > passedValue.VALUE.length) {
+				if (!rangeIsZero(this.VALUE, difference)) {
+					return 1;
+				}
+				thisOffset = difference;
+			}
+			else if (this.VALUE.length < passedValue.VALUE.length) {
+				if (!rangeIsZero(passedValue.VALUE, difference)) {
+					return -1;
+				}
+				passedOffset = difference;
+			}
+			for (int index = 0; index < lesserLength; index += 1) {
+				if (this.VALUE[index + thisOffset] > passedValue.VALUE[index + passedOffset]) {
+					return 1;
+				}
+				if (this.VALUE[index + thisOffset] < passedValue.VALUE[index + passedOffset]) {
+					return -1;
+				}
+			}
+		}
+		else {
+			if (this.SIGNUM > passedValue.SIGNUM) {
+				return 1;
+			}
+			if (this.SIGNUM < passedValue.SIGNUM) {
+				return -1;
+			}
+		}
 		return 0;
 	}
 	
@@ -356,12 +389,22 @@ public class apint {
 	
 	/* Internal Methods */
 	
+	/**
+	 * Adds {@code passedValue} to {@code this}, using {@code passedSign} as the signum for the operation.
+	 * 
+	 * @param passedValue - The value to add to {@code this}
+	 * @param passedSign - The sign to use for the operation
+	 */
 	protected void addInternal(apint passedValue, int passedSign) {
-		// TODO:
-	}
-	
-	private long getCarry(long passedValue) {
-		return (Math.abs(passedValue) > CARRY_THRESHOLD) ? (Math.abs(passedValue) / (CARRY_THRESHOLD + 1)) : 0;
+		if (this.SIGNUM == passedSign) {
+			long[] carryArray = new long[Math.max(this.VALUE.length, passedValue.VALUE.length) + 1];
+			for (int index = 0; index < Math.min(this.VALUE.length, passedValue.VALUE.length); index += 1) {
+				
+			}
+		}
+		else {
+			this.SIGNUM = Math.min(this.SIGNUM, passedSign);
+		}
 	}
 	
 	private void ensureCapacity(int passedCapacity) {
@@ -377,11 +420,24 @@ public class apint {
 	
 	/* Logic Methods */
 	
-	protected static final String getSign(int passedSignum) {
+	protected static String getSign(int passedSignum) {
 		return (passedSignum < 0) ? "-" : "+";
 	}
+
+	private static long getCarry(long passedValue) {
+		return (Math.abs(passedValue) > CARRY_THRESHOLD) ? (Math.abs(passedValue) / (CARRY_THRESHOLD + 1)) : 0;
+	}
 	
-	private static final int signum(long passedValue) {
+	private static boolean rangeIsZero(long[] passedArray, int passedTo) {
+		for (int index = 0; index < passedTo; index += 1 ) {
+			if (passedArray[index] != 0) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private static int signum(long passedValue) {
 		if (passedValue == 0) {
 			return 0;
 		}
