@@ -70,7 +70,9 @@ public class apint {
 		boolean nonzero = false;
 		this.VALUE = new long[((digits.length() / DIGITS_PER_BLOCK) + 1)];
 		for (int index = 0; (index * DIGITS_PER_BLOCK) < digits.length(); index += 1) {
-			String subString = digits.substring(index * DIGITS_PER_BLOCK, Math.min((index * DIGITS_PER_BLOCK), digits.length()));
+			int beginIndex = (index * DIGITS_PER_BLOCK);
+			int endIndex = Math.min(digits.length(), (index + 1) * DIGITS_PER_BLOCK);
+			String subString = digits.substring(beginIndex, endIndex);
 			long value = Long.parseLong(subString);
 			this.VALUE[index] = value;
 			nonzero |= (value != 0);
