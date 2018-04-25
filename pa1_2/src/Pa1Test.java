@@ -38,11 +38,6 @@ public class Pa1Test {
 		return first.add(second);
 	};
 	public static final Supplier<apint> add_big = () -> {
-		apint first = new apint(999999999);
-		apint second = new apint(999999999);
-		return first.add(second);
-	};
-	public static final Supplier<apint> add_very_big = () -> {
 		apint first = new apint("5849285478957894275894729857489275897489275894729");
 		apint second = new apint("4785784927598472895748927598748927589749827598482");
 		return first.add(second);
@@ -51,6 +46,14 @@ public class Pa1Test {
 		apint first = new apint("4327483978973857498174893718943");
 		apint second = new apint("-548275425439542758947258947298574892");
 		return first.add(second);
+	};
+	public static final Supplier<apint> add_positive_to_negative = () -> {
+		
+		return null;
+	};
+	public static final Supplier<apint> add_negative_to_negative = () -> {
+		
+		return null;
 	};
 	
 	public enum AssignmentTest {
@@ -65,9 +68,16 @@ public class Pa1Test {
 		// Addition Tests
 		ADD_ZERO(add_zero, "+0"),
 		ADD_SMALL(add_small, "+5"),
-		ADD_BIG(add_big, "+1999999998"),
-		ADD_VERY_BIG(add_very_big, "+10635070406556367171643657456238203487239103493211"),
+		ADD_VERY_BIG(add_big, "+10635070406556367171643657456238203487239103493211"),
 		ADD_NEGATIVE_TO_POSITIVE(add_negative_to_positive, "-548271097955563785089760772404855949"),
+		ADD_POSITIVE_TO_NEGATIVE(add_positive_to_negative, ""),
+		ADD_NEGATIVE_TO_NEGATIVE(add_negative_to_negative, ""),
+		
+		// Subtraction Tests
+		
+		// Multiplication Tests
+		
+		// Division Tests
 		;
 		
 		private final Supplier<apint> TEST;

@@ -1,6 +1,10 @@
 Programming Assignment 1
 Written by Malcolm Riley for UCSC CMPS101, Spring Quarter. April 2018.
 
-Notes on "apint" type
+Originally, I was hoping to complete this project before turning it in. After some discussion with Professor Bailey, he recommended that I simply turn it in as-is and move on. My impression was that my reason for not completing the project was not sufficient to excuse it or to request an extension.
 
-Notes on "aprat" type
+The reason I couldn't finish is simple. I just didn't understand how to do it. I spent the last two weeks modifying, testing, implementing, restarting, refactoring, reconsidering, and restarting again. My git commits reflect that. 
+
+I chose a backend implementation that introduced complexities that I was not prepared for. After discussing with other students, it seems that a far easier solution would have been to store one digit per index in the array, or to back the class with a String representation of the number and do a bunch of character conversions and carries. Stupidly, I opted for a solution that I thought would have increased efficiency.
+
+So here it is. I'll just take my zero, I suppose. Hopefully this is the easiest project you grade all day.
