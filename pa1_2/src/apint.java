@@ -73,10 +73,11 @@ public class apint {
 		for (int index = 0; index < this.VALUE.length; index += 1) {
 			int endIndex = digits.length() - ( index * DIGITS_PER_BLOCK );
 			int beginIndex = Math.max(0, endIndex - DIGITS_PER_BLOCK);
-			String subString = digits.substring(beginIndex, endIndex);
-			long value = Long.valueOf(subString).longValue();
-			this.VALUE[index] = value;
-			nonzero |= (value != 0);
+			if (beginIndex != endIndex) {
+				long value = Long.valueOf(digits.substring(beginIndex, endIndex)).longValue();
+				this.set(index, value);
+				nonzero |= (value != 0);
+			}
 		}
 		
 		// Set signum if actually nonzero
@@ -163,7 +164,7 @@ public class apint {
 	public String toStringUnsigned() {
 		StringBuilder builder = new StringBuilder(this.VALUE.length * DIGITS_PER_BLOCK);
 		for (int index = (this.VALUE.length - 1); index >= 0; index -= 1) {
-			long value = this.VALUE[index];
+			long value = this.get(index);
 			// Special handling so that a value of zero doesn't get truncated
 			if ((value > 0) || (index == (this.VALUE.length - 1))) {
 				builder.append(String.format(DIGIT_PADDING, value));
@@ -283,7 +284,7 @@ public class apint {
 	 * @return Whether or not {@code this} > {@code passedValue}.
 	 */
 	public boolean isGreaterThan(apint passedValue) {
-		return (this.compare(passedValue) == 1);
+		return (this.compare(passedValue) > 0);
 	}
 	
 	/**
@@ -293,7 +294,7 @@ public class apint {
 	 * @return Whether or not {@code this} < {@code passedValue}.
 	 */
 	public boolean isLessThan(apint passedValue) {
-		return (this.compare(passedValue) == -1);
+		return (this.compare(passedValue) < 0);
 	}
 	
 	/**
@@ -314,7 +315,7 @@ public class apint {
 	 */
 	public boolean isLessThanOrEqual(apint passedValue) {
 		int comparison = this.compare(passedValue);
-		return (comparison == -1) || (comparison == 0);
+		return (comparison <= 0);
 	}
 	
 	/**
@@ -325,7 +326,7 @@ public class apint {
 	 */
 	public boolean isGreaterThanOrEqual(apint passedValue) {
 		int comparison = this.compare(passedValue);
-		return (comparison == 1) || (comparison == 0);
+		return (comparison >= 0);
 	}
 	
 	/**
@@ -355,10 +356,10 @@ public class apint {
 				passedOffset = difference;
 			}
 			for (int index = 0; index < lesserLength; index += 1) {
-				if (this.VALUE[index + thisOffset] > passedValue.VALUE[index + passedOffset]) {
+				if (this.get(index + thisOffset) > passedValue.get(index + passedOffset)) {
 					return 1;
 				}
-				if (this.VALUE[index + thisOffset] < passedValue.VALUE[index + passedOffset]) {
+				if (this.get(index + thisOffset) < passedValue.get(index + passedOffset)) {
 					return -1;
 				}
 			}
@@ -396,15 +397,48 @@ public class apint {
 	 * @param passedSign - The sign to use for the operation
 	 */
 	protected void addInternal(apint passedValue, int passedSign) {
-		if (this.SIGNUM == passedSign) {
-			long[] carryArray = new long[Math.max(this.VALUE.length, passedValue.VALUE.length) + 1];
-			for (int index = 0; index < Math.min(this.VALUE.length, passedValue.VALUE.length); index += 1) {
-				
+		int requiredCapacity = Math.max(this.VALUE.length, passedValue.VALUE.length);
+		long[] workingArray = new long[requiredCapacity + 2];
+		if (this.SIGNUM == passedSign) { // Addition Algorithm
+			this.ensureCapacity(requiredCapacity);
+			for (int index = 0; index < (requiredCapacity + 1); index += 1) {
+				long sum = this.get(index) + passedValue.get(index) + workingArray[index];
+				long carry = getCarry(sum);
+				workingArray[index + 1] = carry;
+				this.set(index, sum - (carry * (CARRY_THRESHOLD + 1)));
 			}
 		}
-		else {
-			this.SIGNUM = Math.min(this.SIGNUM, passedSign);
+		else { // Subtraction Algorithm
+			this.ensureCapacity(requiredCapacity + 1);
+			// Subtract all values
+			for (int index = 0; index < workingArray.length; index += 1) {
+				workingArray[index] = this.get(index) - passedValue.get(index);
+			}
+			// Propagate borrows
+			int maxIndex = workingArray.length - 1;
+			for (int index = 0; index < maxIndex; index += 1) {
+				if (workingArray[index] < 0) {
+					workingArray[index] += (1 + CARRY_THRESHOLD);
+					workingArray[index + 1] -= 1;
+				}
+			}
+			// If most significant digits are negative, set signum to negative
+			if (workingArray[maxIndex] < 0) {
+				workingArray[maxIndex] = Math.abs(workingArray[maxIndex]);
+				this.SIGNUM = -1;
+			}
+			// Copy result to this array
+			System.arraycopy(workingArray, 0, this.VALUE, 0, this.VALUE.length);
 		}
+	}
+	
+	protected void set(int passedIndex, long passedValue) {
+		this.ensureCapacity(passedIndex + 1);
+		this.VALUE[passedIndex] = passedValue;
+	}
+	
+	protected long get(int passedIndex) {
+		return getSafely(this.VALUE, passedIndex);
 	}
 	
 	private void ensureCapacity(int passedCapacity) {
@@ -426,6 +460,10 @@ public class apint {
 
 	private static long getCarry(long passedValue) {
 		return (Math.abs(passedValue) > CARRY_THRESHOLD) ? (Math.abs(passedValue) / (CARRY_THRESHOLD + 1)) : 0;
+	}
+	
+	private static long getSafely(long[] passedArray, int passedIndex) {
+		return (passedIndex < passedArray.length)? passedArray[passedIndex] : 0;
 	}
 	
 	private static boolean rangeIsZero(long[] passedArray, int passedTo) {
