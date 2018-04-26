@@ -1,0 +1,13 @@
+README
+
+Written by Malcolm Riley, for CMPS101 pa4 Fall 2017
+CruzID: masriley
+
+FindPath.c		Implementation of Main for pa4: File IO, etc.
+Graph.c			Implementation of Graph C ADT
+Graph.h			Header file for Graph.c
+GraphTest.c		Test client for Graph functionality
+List.c			Implementation file for List ADT
+List.h			Header file for List.h
+makefile		Makefile for pa4, sourced from class website
+README			This file
