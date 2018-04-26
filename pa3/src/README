@@ -1,9 +1,0 @@
-List.java		Doubly-linked list created for purpose of assignment, altered from pa1.
-Matrix.java		Matrix implementation, backed by array of List instances.
-
-ListTest.java		Test suite for testing List operations
-MatrixTest.java		Test suite for testing Matrix operations
-
-Sparse.java		Main executable program, interprets input file and performs operations as per assignment spec.
-
-Makefile		Makefile for building executable jar from Sparse.java

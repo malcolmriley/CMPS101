@@ -1,6 +1,0 @@
-FILE			DESCRIPTION
-apint.java		Arbitrary Precision Integer implementation class.
-aprat.java		Arbitrary Precision Rational implementation class.
-Pa1Test.java	Testing class for ensuring assignment compliance.
-NoteToGrader	File describing approach, as per assignment requirements.
-README			This file.
