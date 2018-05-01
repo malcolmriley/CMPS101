@@ -208,5 +208,5 @@ int max(int passedFirst, int passedSecond) {
  * Returns number of entries required in an array to contain the passed value.
  */
 int getBlocks(int passedValue) {
-	return (passedValue < MAX_PER_BLOCK) ? 2 : (log10((double)passedValue) / log10((double)(MAX_PER_BLOCK + 1)));
+	return ((passedValue < MAX_PER_BLOCK) ? 1 : (log10((double)passedValue) / log10((double)(MAX_PER_BLOCK + 1)))) + 1;
 }
