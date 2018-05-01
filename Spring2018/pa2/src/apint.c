@@ -157,7 +157,7 @@ int get(apint passedApint, int passedIndex) {
 }
 
 /**
- * Expands passedApint to accomodate passedSize.
+ * Expands passedApint to accommodate passedSize.
  */
 void expand(apint passedApint, int passedSize) {
 	// TODO:
