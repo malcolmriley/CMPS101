@@ -18,6 +18,7 @@ void expand(apint, int);
 void zero(apint);
 
 int max(int, int);
+int getBlocks(int);
 
 /* Header-Defined Functions */
 
@@ -52,7 +53,7 @@ apint newApint(int passedValue) {
 	}
 
 	// Begin Construction
-	int size = (passedValue < MAX_PER_BLOCK) ? 2 : log10((double)passedValue) + 1;
+	int size = getBlocks(passedValue);
 	apint instance = newApintWithSize(size);
 	for (int index = 0; index < size; index += 1) {
 		int digit = (passedValue % (1 + MAX_PER_BLOCK));
@@ -201,4 +202,11 @@ void zero(apint passedApint) {
  */
 int max(int passedFirst, int passedSecond) {
 	return (passedFirst > passedSecond) ? passedFirst : passedSecond;
+}
+
+/**
+ * Returns number of entries required in an array to contain the passed value.
+ */
+int getBlocks(int passedValue) {
+	return (passedValue < MAX_PER_BLOCK) ? 2 : (log10((double)passedValue) / log10((double)(MAX_PER_BLOCK + 1)));
 }
