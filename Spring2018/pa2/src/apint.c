@@ -20,14 +20,18 @@ int max(int, int);
 
 /* Header-Defined Functions */
 
+apint newApintWithSize(int passedSize) {
+	apint instance = malloc(sizeof(apint_object));
+	expand(instance, passedSize);
+	zero(instance);
+	return instance;
+}
+
 /**
  * Default Constructor.
  */
 apint newApint(void) {
-	apint instance = malloc(sizeof(apint_object));
-	expand(instance, 2);
-	zero(instance);
-	return instance;
+	return newApintWithSize(2);
 }
 
 /**
@@ -42,8 +46,12 @@ apint newApint(int passedValue) {
 /**
  * Constructor for conversion of a char array (string) to an apint.
  */
-apint newApint(char* passedArray) {
-
+apint newApint(char* passedArray, int passedLength) {
+	apint instance = newApint();
+	int size = (passedLength / CARRY_DIGITS) + 1;
+	expand(instance, size);
+	// TODO:
+	return instance;
 }
 
 /* Frees the passed apint */
