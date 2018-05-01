@@ -16,6 +16,8 @@ void set(apint, int);
 void expand(apint, int);
 void zero(apint);
 
+int max(int, int);
+
 /* Header-Defined Functions */
 
 /**
@@ -66,7 +68,25 @@ int equals(apint passedFirst, apint passedSecond) {
  * Returns 0 if they are equal, 1 if passedFirst > passedSecond, and -1 if passedFirst < passedSecond.
  */
 int compare(apint passedFirst, apint passedSecond) {
-	// TODO:
+	if (passedFirst->SIGN > passedSecond->SIGN) {
+		return 1;
+	}
+	else if (passedFirst->SIGN < passedSecond->SIGN) {
+		return -1;
+	}
+	else {
+		for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
+			int first = get(passedFirst, index);
+			int second = get(passedSecond, index);
+			if (first > second) {
+				return 1;
+			}
+			else if (first < second) {
+				return -1;
+			}
+		}
+	}
+	return 0;
 }
 
 /**
@@ -142,4 +162,11 @@ void zero(apint passedApint) {
 		passedApint->VALUE[index] = 0;
 		passedApint->CARRY[index] = 0;
 	}
+}
+
+/**
+ * Returns the greater of the two passed integers
+ */
+int max(int passedFirst, int passedSecond) {
+	return (passedFirst > passedSecond) ? passedFirst : passedSecond;
 }
