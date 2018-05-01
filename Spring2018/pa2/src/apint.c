@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "apint.h"
 
 /* Internal Function Declarations */
@@ -38,8 +39,28 @@ apint newApint(void) {
  * Constructor for conversion of an int to an apint.
  */
 apint newApint(int passedValue) {
-	apint instance = newApint();
-	set(instance, 0, passedValue);
+	// If the passed value is zero, just use default constructor
+	if (passedValue == 0) {
+		return newApint();
+	}
+
+	// Configure sign
+	int sign = 1;
+	if (passedValue < 0) {
+		sign = -1;
+		passedValue *= -1;
+	}
+
+	// Begin Construction
+	int size = (passedValue < MAX_PER_BLOCK) ? 2 : log10((double)passedValue) + 1;
+	apint instance = newApintWithSize(size);
+	for (int index = 0; index < size; index += 1) {
+		int digit = (passedValue % 10);
+		set(instance, index, digit);
+		passedValue /= 10;
+	}
+
+	instance->SIGN = sign;
 	return instance;
 }
 
