@@ -67,7 +67,7 @@ void freeApint(apint* passedApint) {
  * Returns 0 if passedFirst = passedSecond, 1 otherwise.
  */
 int equals(apint passedFirst, apint passedSecond) {
-	return (compare(passedFirst, passedSecond)) == 0;
+	return (compare(passedFirst, passedSecond) == 0);
 }
 
 /**
