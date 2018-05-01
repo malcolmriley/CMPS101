@@ -55,9 +55,9 @@ apint newApint(int passedValue) {
 	int size = (passedValue < MAX_PER_BLOCK) ? 2 : log10((double)passedValue) + 1;
 	apint instance = newApintWithSize(size);
 	for (int index = 0; index < size; index += 1) {
-		int digit = (passedValue % 10);
+		int digit = (passedValue % (1 + MAX_PER_BLOCK));
 		set(instance, index, digit);
-		passedValue /= 10;
+		passedValue /= (1 + MAX_PER_BLOCK);
 	}
 
 	instance->SIGN = sign;
