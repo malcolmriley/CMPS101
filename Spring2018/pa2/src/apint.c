@@ -76,12 +76,15 @@ int equals(apint passedFirst, apint passedSecond) {
  * Returns 0 if they are equal, 1 if passedFirst > passedSecond, and -1 if passedFirst < passedSecond.
  */
 int compare(apint passedFirst, apint passedSecond) {
+	// Simple sign comparison
 	if (passedFirst->SIGN > passedSecond->SIGN) {
 		return 1;
 	}
 	else if (passedFirst->SIGN < passedSecond->SIGN) {
 		return -1;
 	}
+
+	// Compare values
 	else {
 		for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
 			int first = get(passedFirst, index);
