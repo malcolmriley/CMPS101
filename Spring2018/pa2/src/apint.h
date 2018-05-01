@@ -8,6 +8,9 @@
 #ifndef APINT_H
 #define APINT_H
 
+#define CARRY_DIGITS 1
+#define MAX_PER_BLOCK 9
+
 typedef struct apint_object {
 	int SIZE;
 	int SIGN;
