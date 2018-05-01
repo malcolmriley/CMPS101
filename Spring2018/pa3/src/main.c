@@ -1,5 +1,5 @@
 /*******************************************************************************
- * PA3: Arbitrary Precision Integer, in C.
+ * PA2: Arbitrary Precision Integer, in C.
  *
  * Malcolm Riley
  * CMPS 101 Spring 2018
