@@ -17,6 +17,8 @@ void set(apint, int);
 void expand(apint, int);
 void zero(apint);
 
+apint addInternal(apint, apint);
+apint subtractInternal(apint, apint);
 int getCarry(int);
 int max(int, int);
 int getBlocks(int);
@@ -133,9 +135,15 @@ apint add(apint passedFirst, apint passedSecond) {
 	else {
 		// Case: -a + b -> Result: b - a
 		// sign of a < b
+		if (passedFirst->SIGN < passedSecond->SIGN) {
+
+		}
 
 		// Case: a + -b -> Result: a - b
 		// sign of b < a
+		else if (passedFirst->SIGN > passedSecond->SIGN) {
+
+		}
 	}
 }
 
@@ -153,9 +161,15 @@ apint subtract(apint passedFirst, apint passedSecond) {
 	else {
 		// Case: -a - b -> result: -a + -b
 		// Sign of a < b
+		if (passedFirst->SIGN < passedSecond->SIGN) {
+
+		}
 
 		// Case: a - - b -> result: a + b
 		// Sign of a > b
+		else if (passedFirst->SIGN > passedSecond->SIGN) {
+
+		}
 	}
 }
 
@@ -190,6 +204,14 @@ void print(apint passedValue) {
 }
 
 /* Internal Methods */
+
+apint addInternal(apint passedFirst, apint passedSecond) {
+
+}
+
+apint subtractInternal(apint passedFirst, apint passedSecond) {
+
+}
 
 int compareMagnitude(apint passedFirst, apint passedSecond) {
 	for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
