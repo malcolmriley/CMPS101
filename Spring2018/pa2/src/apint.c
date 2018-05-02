@@ -129,10 +129,7 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
-	// If the second is greater than the first, swap parameters and try again
-	if (compare(passedFirst, passedSecond) == -1) {
-		return add(passedSecond, passedFirst);
-	}
+
 	// TODO:
 }
 
@@ -140,10 +137,7 @@ apint add(apint passedFirst, apint passedSecond) {
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
-	// If the second is greater than the first, swap parameters and try again
-	if (compare(passedFirst, passedSecond) == -1) {
-		return subtract(passedSecond, passedFirst);
-	}
+
 	// TODO:
 }
 
@@ -151,10 +145,16 @@ apint subtract(apint passedFirst, apint passedSecond) {
  * Multiplies (passedFirst * passedSecond), returning the result as a new apint.
  */
 apint multiply(apint passedFirst, apint passedSecond) {
-	apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
+	// If signum of number is zero, return zero
 	int signum = (passedFirst->SIGN * passedSecond->SIGN);
-	// TODO:
-	return result;
+	if (signum == 0) {
+		return newApint();
+	}
+	else {
+		apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
+		// TODO:
+		return result;
+	}
 }
 
 /**
@@ -268,7 +268,7 @@ int getCarry(int passedValue) {
 }
 
 int add_ints(int passedFirst, int passedSecond) {
-	return passedFirst + passedSecond;
+	return (passedFirst + passedSecond);
 }
 
 int subtract_ints(int passedFirst, int passedSecond) {
