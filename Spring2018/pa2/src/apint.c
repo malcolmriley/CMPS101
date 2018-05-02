@@ -243,6 +243,22 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 		(*passedSign) *= -1;
 		return subtractInternal(passedSecond, passedFirst, passedSign);
 	}
+
+	int size = max(passedFirst->SIZE, passedSecond->SIZE);
+	apint result = newApintWithSize(size);
+	for (int index = 0; index < size; index += 1) {
+		// Use carry as borrow
+		int resultValue = (get(passedFirst, index) - get(passedSecond, index)) - result->CARRY[index];
+		if (resultValue < 0) {
+			result->CARRY[index + 1] += 1;
+			resultValue += (1 + MAX_PER_BLOCK);
+		}
+		// No validation needed here as the result should never have more than one digit
+		result->VALUE[index] = resultValue;
+	}
+
+	zeroCarry(result);
+	return result;
 }
 
 int compareMagnitude(apint passedFirst, apint passedSecond) {
@@ -289,8 +305,25 @@ int get(apint passedApint, int passedIndex) {
  * Expands passedApint to accommodate passedSize.
  */
 void expand(apint passedApint, int passedSize) {
-	// TODO:
+	// Copy old values
+	int oldSize = passedApint->SIZE;
+	int* oldCarry = passedApint->CARRY;
+	int* oldValue = passedApint->VALUE;
+
+	// Set new values
 	passedApint->SIZE = passedSize;
+	passedApint->CARRY = malloc(sizeof(int) * passedSize);
+	passedApint->VALUE = malloc(sizeof(int) * passedSize);
+
+	// Copy old values into new arrays
+	for (int index = 0; index < oldSize; index += 1) {
+		passedApint->CARRY[index] = 0;
+		passedApint->VALUE[index] = oldValue[index];
+	}
+
+	// Free old arrays
+	free(*oldCarry);
+	free(*oldValue);
 }
 
 /**
