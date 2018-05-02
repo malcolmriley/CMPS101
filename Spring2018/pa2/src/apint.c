@@ -21,6 +21,7 @@ int max(int, int);
 int getBlocks(int);
 char intToChar(int);
 int getSign(char);
+apint addInternal(apint, apint);
 
 /* Header-Defined Functions */
 
@@ -131,19 +132,14 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
-	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
-
 	// TODO:
-	return result;
 }
 
 /**
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
-	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
-	// TODO;
-	return result;
+	// TODO:
 }
 
 /**
@@ -170,6 +166,12 @@ void print(apint passedValue) {
 }
 
 /* Internal Methods */
+
+apint addInternal(apint passedFirst, apint passedSecond) {
+	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
+	// TODO:
+	return result;
+}
 
 int checkSize(apint passedApint, int passedSize) {
 	return (passedSize > 0) || (passedSize < passedApint->SIZE);
