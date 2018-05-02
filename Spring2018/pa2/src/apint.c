@@ -17,10 +17,6 @@ void set(apint, int);
 void expand(apint, int);
 void zero(apint);
 
-int add_ints(int, int);
-int compare_ints(int, int);
-int subtract_ints(int, int);
-int multiply_ints(int, int);
 int getCarry(int);
 int max(int, int);
 int getBlocks(int);
@@ -130,16 +126,37 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
+	if (passedFirst->SIGN == passedSecond->SIGN) {
+		// TODO
+		// Case: a + b OR -a + -b
+	}
+	else {
+		// Case: -a + b -> Result: b - a
+		// sign of a < b
 
-	// TODO:
+		// Case: a + -b -> Result: a - b
+		// sign of b < a
+	}
 }
 
 /**
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
+	if (passedFirst->SIGN == passedSecond->SIGN) {
+		// TODO
+		// Case: a - b
 
-	// TODO:
+		// Case: -a - - b -> result: -a + b
+
+	}
+	else {
+		// Case: -a - b -> result: -a + -b
+		// Sign of a < b
+
+		// Case: a - - b -> result: a + b
+		// Sign of a > b
+	}
 }
 
 /**
@@ -269,23 +286,4 @@ int getSign(char passedValue) {
 
 int getCarry(int passedValue) {
 	return (passedValue / (1 + MAX_PER_BLOCK));
-}
-
-int compare_ints(int passedFirst, int passedSecond) {
-	if (passedFirst == passedSecond) {
-		return 0;
-	}
-	return (passedFirst > passedSecond) ? 1 : -1;
-}
-
-int add_ints(int passedFirst, int passedSecond) {
-	return (passedFirst + passedSecond);
-}
-
-int subtract_ints(int passedFirst, int passedSecond) {
-	return (passedFirst - passedSecond);
-}
-
-int multiply_ints(int passedFirst, int passedSecond) {
-	return (passedFirst * passedSecond);
 }
