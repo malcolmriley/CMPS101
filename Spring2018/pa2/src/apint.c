@@ -56,7 +56,7 @@ apint newApint(int passedValue) {
 	int size = getBlocks(passedValue);
 	apint instance = newApintWithSize(size);
 	for (int index = 0; index < size; index += 1) {
-		int digit = (passedValue % (1 + MAX_PER_BLOCK));
+		int digit = abs((passedValue % (1 + MAX_PER_BLOCK)));
 		set(instance, index, digit);
 		passedValue /= (1 + MAX_PER_BLOCK);
 	}
@@ -70,7 +70,7 @@ apint newApint(int passedValue) {
  */
 apint newApint(char* passedArray, int passedLength) {
 	apint instance = newApint();
-	int size = (passedLength / CARRY_DIGITS) + 1;
+	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
 	expand(instance, size);
 	// TODO:
 	return instance;
@@ -154,6 +154,13 @@ apint multiply(apint passedFirst, apint passedSecond) {
  * Prints the passed apint to the passed FILE.
  */
 void print(apint passedValue) {
+	char sign = (passedValue->SIGN < 0) ? '-' : '+';
+	int length = (passedValue->SIZE * DIGITS_PER_BLOCK);
+	char output[length + 1];
+	output[length] = sign;
+	for (int index = (length - 1); index >= 0; index -= 1) {
+
+	}
 	// TODO:
 }
 
