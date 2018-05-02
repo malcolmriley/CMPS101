@@ -153,7 +153,7 @@ apint multiply(apint passedFirst, apint passedSecond) {
 /**
  * Prints the passed apint to the passed FILE.
  */
-void print(FILE* passedFile, apint passedValue) {
+void print(apint passedValue) {
 	// TODO:
 }
 

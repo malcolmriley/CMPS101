@@ -35,7 +35,7 @@ apint subtract(apint, apint);
 apint multiply(apint, apint);
 
 /* Miscellaneous */
-void print(FILE*, apint);
+void print(apint);
 apint copy(apint);
 
 #endif /* APINT_H */
