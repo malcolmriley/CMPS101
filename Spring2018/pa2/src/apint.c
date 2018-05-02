@@ -19,6 +19,7 @@ void zero(apint);
 
 int max(int, int);
 int getBlocks(int);
+char intToChar(int);
 
 /* Header-Defined Functions */
 
@@ -159,9 +160,9 @@ void print(apint passedValue) {
 	char output[length + 1];
 	output[length] = sign;
 	for (int index = (length - 1); index >= 0; index -= 1) {
-
+		output[index] = intToChar(passedValue->VALUE[index]);
 	}
-	// TODO:
+	printf("%s", output);
 }
 
 /* Internal Methods */
@@ -223,4 +224,11 @@ int max(int passedFirst, int passedSecond) {
  */
 int getBlocks(int passedValue) {
 	return ((passedValue < MAX_PER_BLOCK) ? 1 : (log10((double)passedValue) / log10((double)(MAX_PER_BLOCK + 1)))) + 1;
+}
+
+/**
+ * Converts the passedValue into its character equivalent.
+ */
+char intToChar(int passedValue) {
+	return (passedValue % 10) + '0';
 }
