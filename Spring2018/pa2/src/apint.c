@@ -126,21 +126,28 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
+	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
+
 	// TODO:
+	return result;
 }
 
 /**
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
-	// TODO:
+	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
+	// TODO;
+	return result;
 }
 
 /**
  * Multiplies (passedFirst * passedSecond), returning the result as a new apint.
  */
 apint multiply(apint passedFirst, apint passedSecond) {
+	apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
 	// TODO:
+	return result;
 }
 
 /**
