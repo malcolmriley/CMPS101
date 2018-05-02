@@ -18,7 +18,7 @@ void expand(apint, int);
 void zero(apint);
 
 apint addInternal(apint, apint);
-apint subtractInternal(apint, apint);
+apint subtractInternal(apint, apint, int*);
 int getCarry(int);
 int max(int, int);
 int getBlocks(int);
@@ -128,49 +128,59 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
+	apint instance;
+	int sign = 0;
+
+	// Case: a + b OR -a + -b
 	if (passedFirst->SIGN == passedSecond->SIGN) {
-		// TODO
-		// Case: a + b OR -a + -b
+		sign = passedFirst->SIGN;
+		instance = addInternal(passedFirst, passedSecond);
 	}
-	else {
-		// Case: -a + b -> Result: b - a
-		// sign of a < b
-		if (passedFirst->SIGN < passedSecond->SIGN) {
-
-		}
-
-		// Case: a + -b -> Result: a - b
-		// sign of b < a
-		else if (passedFirst->SIGN > passedSecond->SIGN) {
-
-		}
+	// Case: -a + b -> Result: b - a
+	else if (passedFirst->SIGN < passedSecond->SIGN) {
+		instance = subtractInternal(passedSecond, passedFirst, &sign);
 	}
+
+	// Case: a + -b -> Result: a - b
+	else if (passedFirst->SIGN > passedSecond->SIGN) {
+		instance = subtractInternal(passedSecond, passedFirst, &sign);
+	}
+
+	instance->SIGN = sign;
+	return instance;
 }
 
 /**
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
+	apint instance;
+	int sign = 0;
+
 	if (passedFirst->SIGN == passedSecond->SIGN) {
-		// TODO
 		// Case: a - b
-
-		// Case: -a - - b -> result: -a + b
-
-	}
-	else {
-		// Case: -a - b -> result: -a + -b
-		// Sign of a < b
-		if (passedFirst->SIGN < passedSecond->SIGN) {
-
+		if (passedFirst->SIGN >= 0) {
+			instance = subtractInternal(passedFirst, passedSecond, &sign);
 		}
-
-		// Case: a - - b -> result: a + b
-		// Sign of a > b
-		else if (passedFirst->SIGN > passedSecond->SIGN) {
-
+		// Case: -a - - b -> result: -a + b = b - a
+		if (passedFirst->SIGN <= 0) {
+			instance = subtractInternal(passedSecond, passedFirst, &sign);
 		}
 	}
+	// Case: -a - b -> result: -a + -b
+	else if (passedFirst->SIGN < passedSecond->SIGN) {
+		sign = -1;
+		instance = addInternal(passedFirst, passedSecond);
+	}
+
+	// Case: a - - b -> result: a + b
+	else if (passedFirst->SIGN > passedSecond->SIGN) {
+		sign = 1;
+		instance = addInternal(passedFirst, passedSecond);
+	}
+
+	instance->SIGN = sign;
+	return instance;
 }
 
 /**
@@ -182,9 +192,12 @@ apint multiply(apint passedFirst, apint passedSecond) {
 	if (signum == 0) {
 		return newApint();
 	}
+
 	else {
 		apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
 		// TODO:
+
+		result->SIGN = signum;
 		return result;
 	}
 }
@@ -205,10 +218,16 @@ void print(apint passedValue) {
 
 /* Internal Methods */
 
+/**
+ * Adds the first to the second without regard to sign.
+ */
 apint addInternal(apint passedFirst, apint passedSecond) {
 
 }
 
+/**
+ * Subtracts the second from the first without regard to sign.
+ */
 apint subtractInternal(apint passedFirst, apint passedSecond) {
 
 }
