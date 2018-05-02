@@ -217,12 +217,20 @@ void print(apint passedValue) {
 }
 
 /* Internal Methods */
-
 /**
  * Adds the first to the second without regard to sign.
  */
 apint addInternal(apint passedFirst, apint passedSecond) {
-
+	int size = max(passedFirst->SIZE, passedSecond->SIZE);
+	apint result = newApintWithSize(size + 1);
+	for (int index = 0; index < size; index += 1) {
+		int resultValue = get(passedFirst, index) + get(passedSecond, index) + result->CARRY[index];
+		int carryValue = getCarry(resultValue);
+		result->CARRY[index + 1] = carryValue;
+		result->VALUE[index] = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
+	}
+	zeroCarry(result);
+	return result;
 }
 
 /**
