@@ -25,6 +25,7 @@ int max(int, int);
 int getBlocks(int);
 char intToChar(int);
 int getSign(char);
+int compareMagnitude(apint, apint);
 apint addInternal(apint, apint, int);
 
 /* Header-Defined Functions */
@@ -119,16 +120,7 @@ int compare(apint passedFirst, apint passedSecond) {
 	// Compare values
 	else {
 		int sign = passedFirst->SIGN;
-		for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
-			int first = get(passedFirst, index);
-			int second = get(passedSecond, index);
-			if (first > second) {
-				return sign * 1;
-			}
-			else if (first < second) {
-				return sign * -1;
-			}
-		}
+		return sign * compareMagnitude(passedFirst, passedSecond);
 	}
 	return 0;
 }
@@ -180,6 +172,20 @@ void print(apint passedValue) {
 }
 
 /* Internal Methods */
+
+int compareMagnitude(apint passedFirst, apint passedSecond) {
+	for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
+		int first = get(passedFirst, index);
+		int second = get(passedSecond, index);
+		if (first > second) {
+			return 1;
+		}
+		else if (first < second) {
+			return -1;
+		}
+	}
+	return 0;
+}
 
 apint addInternal(apint passedFirst, apint passedSecond, int passedSignum) {
 	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
