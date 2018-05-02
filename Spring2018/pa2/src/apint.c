@@ -18,6 +18,7 @@ void expand(apint, int);
 void zero(apint);
 
 int add_ints(int, int);
+int compare_ints(int, int);
 int subtract_ints(int, int);
 int multiply_ints(int, int);
 int getCarry(int);
@@ -26,7 +27,7 @@ int getBlocks(int);
 char intToChar(int);
 int getSign(char);
 int compareMagnitude(apint, apint);
-apint addInternal(apint, apint, int);
+void zeroCarry(apint);
 
 /* Header-Defined Functions */
 
@@ -187,12 +188,6 @@ int compareMagnitude(apint passedFirst, apint passedSecond) {
 	return 0;
 }
 
-apint addInternal(apint passedFirst, apint passedSecond, int passedSignum) {
-	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
-	// TODO:
-	return result;
-}
-
 int checkSize(apint passedApint, int passedSize) {
 	return (passedSize > 0) || (passedSize < passedApint->SIZE);
 }
@@ -239,6 +234,15 @@ void zero(apint passedApint) {
 }
 
 /**
+ * Zeroes the carry array of the passed apint
+ */
+void zeroCarry(apint passedApint) {
+	for (int index = 0; index < passedApint->SIZE; index += 1) {
+		passedApint->CARRY[index] = 0;
+	}
+}
+
+/**
  * Returns the greater of the two passed integers
  */
 int max(int passedFirst, int passedSecond) {
@@ -265,6 +269,13 @@ int getSign(char passedValue) {
 
 int getCarry(int passedValue) {
 	return (passedValue / (1 + MAX_PER_BLOCK));
+}
+
+int compare_ints(int passedFirst, int passedSecond) {
+	if (passedFirst == passedSecond) {
+		return 0;
+	}
+	return (passedFirst > passedSecond) ? 1 : -1;
 }
 
 int add_ints(int passedFirst, int passedSecond) {
