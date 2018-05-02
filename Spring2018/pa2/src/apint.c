@@ -194,9 +194,30 @@ apint multiply(apint passedFirst, apint passedSecond) {
 	}
 
 	else {
-		apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
-		// TODO:
+		int size = passedFirst->SIZE + passedSecond->SIZE;
+		apint result = newApintWithSize(size + 1);
 
+		// Perform Multiplication
+		for (int indexOuter = 0; indexOuter < size; indexOuter += 1) {
+			for (int indexInner = 0; indexInner < size; indexInner += 1) {
+				int resultValue = get(passedFirst, indexOuter) * get(passedSecond, indexInner);
+				result->CARRY[indexOuter] += resultValue;
+			}
+		}
+
+		// Rectify Carry
+		for (int index = 0; index < size; index += 1) {
+			int value = result->CARRY[index];
+			result->VALUE[index] = value - (getCarry(value) * (1 + MAX_PER_BLOCK));
+			int offset = 0;
+			while (value > 0) {
+				result->CARRY[index + offset] += value;
+				value /= (1 + MAX_PER_BLOCK);
+				offset += 1;
+			}
+		}
+
+		zeroCarry(result);
 		result->SIGN = signum;
 		return result;
 	}
