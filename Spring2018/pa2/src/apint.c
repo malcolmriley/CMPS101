@@ -17,11 +17,15 @@ void set(apint, int);
 void expand(apint, int);
 void zero(apint);
 
+int add_ints(int, int);
+int subtract_ints(int, int);
+int multiply_ints(int, int);
+int getCarry(int);
 int max(int, int);
 int getBlocks(int);
 char intToChar(int);
 int getSign(char);
-apint addInternal(apint, apint);
+apint addInternal(apint, apint, int);
 
 /* Header-Defined Functions */
 
@@ -114,14 +118,15 @@ int compare(apint passedFirst, apint passedSecond) {
 
 	// Compare values
 	else {
+		int sign = passedFirst->SIGN;
 		for (int index = max(passedFirst->SIZE, passedSecond->SIZE); index >= 0; index -= 1) {
 			int first = get(passedFirst, index);
 			int second = get(passedSecond, index);
 			if (first > second) {
-				return 1;
+				return sign * 1;
 			}
 			else if (first < second) {
-				return -1;
+				return sign * -1;
 			}
 		}
 	}
@@ -132,6 +137,10 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
+	// If the second is greater than the first, swap parameters and try again
+	if (compare(passedFirst, passedSecond) == -1) {
+		return add(passedSecond, passedFirst);
+	}
 	// TODO:
 }
 
@@ -139,6 +148,10 @@ apint add(apint passedFirst, apint passedSecond) {
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
+	// If the second is greater than the first, swap parameters and try again
+	if (compare(passedFirst, passedSecond) == -1) {
+		return subtract(passedSecond, passedFirst);
+	}
 	// TODO:
 }
 
@@ -147,6 +160,7 @@ apint subtract(apint passedFirst, apint passedSecond) {
  */
 apint multiply(apint passedFirst, apint passedSecond) {
 	apint result = newApintWithSize(passedFirst->SIZE * passedSecond->SIZE);
+	int signum = (passedFirst->SIGN * passedSecond->SIGN);
 	// TODO:
 	return result;
 }
@@ -167,8 +181,8 @@ void print(apint passedValue) {
 
 /* Internal Methods */
 
-apint addInternal(apint passedFirst, apint passedSecond) {
-	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE) + 1);
+apint addInternal(apint passedFirst, apint passedSecond, int passedSignum) {
+	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
 	// TODO:
 	return result;
 }
@@ -241,4 +255,20 @@ char intToChar(int passedValue) {
 
 int getSign(char passedValue) {
 	return (passedValue == '-') ? -1 : 1;
+}
+
+int getCarry(int passedValue) {
+	return (passedValue / (1 + MAX_PER_BLOCK));
+}
+
+int add_ints(int passedFirst, int passedSecond) {
+	return passedFirst + passedSecond;
+}
+
+int subtract_ints(int passedFirst, int passedSecond) {
+	return (passedFirst - passedSecond);
+}
+
+int multiply_ints(int passedFirst, int passedSecond) {
+	return (passedFirst * passedSecond);
 }
