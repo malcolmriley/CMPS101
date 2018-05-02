@@ -20,6 +20,7 @@ void zero(apint);
 int max(int, int);
 int getBlocks(int);
 char intToChar(int);
+int getSign(char);
 
 /* Header-Defined Functions */
 
@@ -73,7 +74,10 @@ apint newApint(char* passedArray, int passedLength) {
 	apint instance = newApint();
 	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
 	expand(instance, size);
-	// TODO:
+	instance->SIGN = getSign(passedArray[0]);
+	for (int index = 0; index < (size - 1); index += 1) {
+		instance->VALUE[index] = atoi(passedArray[index]);
+	}
 	return instance;
 }
 
@@ -231,4 +235,8 @@ int getBlocks(int passedValue) {
  */
 char intToChar(int passedValue) {
 	return (passedValue % 10) + '0';
+}
+
+int getSign(char passedValue) {
+	return (passedValue == '-') ? -1 : 1;
 }
