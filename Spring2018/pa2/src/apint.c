@@ -119,7 +119,7 @@ int compare(apint passedFirst, apint passedSecond) {
 
 	// Compare values
 	else {
-		int sign = passedFirst->SIGN;
+		int sign = passedFirst->SIGN; // At this point, signs are the same
 		return sign * compareMagnitude(passedFirst, passedSecond);
 	}
 	return 0;
