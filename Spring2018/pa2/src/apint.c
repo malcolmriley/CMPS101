@@ -168,7 +168,7 @@ void print(apint passedValue) {
 /* Internal Methods */
 
 apint addInternal(apint passedFirst, apint passedSecond) {
-	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE));
+	apint result = newApintWithSize(max(passedFirst->SIZE, passedSecond->SIZE) + 1);
 	// TODO:
 	return result;
 }
