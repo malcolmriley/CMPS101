@@ -13,7 +13,7 @@
 /* Internal Function Declarations */
 int checkSize(apint, int);
 int get(apint, int);
-void set(apint, int);
+void set(apint, int, int);
 void expand(apint, int);
 void zero(apint);
 
@@ -46,7 +46,7 @@ apint newApint(void) {
 /**
  * Constructor for conversion of an int to an apint.
  */
-apint newApint(int passedValue) {
+apint fromInteger(int passedValue) {
 	// If the passed value is zero, just use default constructor
 	if (passedValue == 0) {
 		return newApint();
@@ -75,7 +75,7 @@ apint newApint(int passedValue) {
 /**
  * Constructor for conversion of a char array (string) to an apint.
  */
-apint newApint(char* passedArray, int passedLength) {
+apint fromString(char* passedArray, int passedLength) {
 	apint instance = newApint();
 	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
 	expand(instance, size);
@@ -88,8 +88,8 @@ apint newApint(char* passedArray, int passedLength) {
 
 /* Frees the passed apint */
 void freeApint(apint* passedApint) {
-	free(*(passedApint->CARRY));
-	free(*(passedApint->VALUE));
+	free((*passedApint)->CARRY);
+	free((*passedApint)->VALUE);
 	free(*passedApint);
 }
 

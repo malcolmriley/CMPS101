@@ -7,8 +7,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "apint.h"
 
 int main(void) {
-	puts("!!!Hello World!!!"); /* prints !!!Hello World!!! */
+	apint instance = fromInteger(5);
+
+	print(instance);
+
 	return EXIT_SUCCESS;
 }
