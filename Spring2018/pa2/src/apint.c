@@ -81,7 +81,7 @@ apint fromString(char* passedArray, int passedLength) {
 	expand(instance, size);
 	instance->SIGN = getSign(passedArray[0]);
 	for (int index = 0; index < (size - 1); index += 1) {
-		instance->VALUE[index] = atoi(passedArray[index]);
+		instance->VALUE[index] = atoi(&passedArray[index]);
 	}
 	return instance;
 }
@@ -146,6 +146,10 @@ apint add(apint passedFirst, apint passedSecond) {
 		instance = subtractInternal(passedSecond, passedFirst, &sign);
 	}
 
+	else {
+		instance = newApint();
+	}
+
 	instance->SIGN = sign;
 	return instance;
 }
@@ -177,6 +181,10 @@ apint subtract(apint passedFirst, apint passedSecond) {
 	else if (passedFirst->SIGN > passedSecond->SIGN) {
 		sign = 1;
 		instance = addInternal(passedFirst, passedSecond);
+	}
+
+	else {
+		instance = newApint();
 	}
 
 	instance->SIGN = sign;
@@ -337,8 +345,8 @@ int get(apint passedApint, int passedIndex) {
 void expand(apint passedApint, int passedSize) {
 	// Copy old values
 	int oldSize = passedApint->SIZE;
-	int* oldCarry = passedApint->CARRY;
-	int* oldValue = passedApint->VALUE;
+	int** oldCarry = &(passedApint->CARRY);
+	int** oldValue = &(passedApint->VALUE);
 
 	// Set new values
 	passedApint->SIZE = passedSize;
