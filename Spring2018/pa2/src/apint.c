@@ -228,13 +228,22 @@ apint multiply(apint passedFirst, apint passedSecond) {
  */
 void print(apint passedValue) {
 	char sign = (passedValue->SIGN < 0) ? '-' : '+';
-	int length = (passedValue->SIZE * DIGITS_PER_BLOCK);
-	char output[length + 1];
-	output[length] = sign;
-	for (int index = (length - 1); index >= 0; index -= 1) {
-		output[index] = intToChar(passedValue->VALUE[index]);
+	printf("%c", sign);
+	int leadingZeroes = 0;
+	for (int index = passedValue->SIZE; index >= 0; index -= 1) {
+		if (get(passedValue, index) != 0) {
+			break;
+		}
+		leadingZeroes += 1;
 	}
-	printf("%s", output);
+	if (leadingZeroes == passedValue->SIZE) {
+		printf("%d", 0);
+	}
+	else {
+		for (int index = leadingZeroes; index < passedValue->SIZE; index += 1) {
+			printf("%d", get(passedValue, index));
+		}
+	}
 }
 
 /* Internal Methods */
