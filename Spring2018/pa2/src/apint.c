@@ -211,7 +211,6 @@ apint subtract(apint passedFirst, apint passedSecond) {
 	}
 
 	instance->SIGN = sign;
-	printf("\nSubtract - SIGN: %d\n", sign);
 	return instance;
 }
 
@@ -310,12 +309,14 @@ apint addInternal(apint passedFirst, apint passedSecond) {
  * Subtracts the second from the first without regard to sign.
  */
 apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
-	// If the second is greater in magnitude than the first, swap signs and places
+	// If the second is greater in magnitude than the first, swap places and try again
 	// A < B -> A - B = -(B - A)
 	if (compareMagnitude(passedFirst, passedSecond) < 0) {
-		(*passedSign) *= -1;
 		return subtractInternal(passedSecond, passedFirst, passedSign);
 	}
+
+	// Sign is set to the apint with greater magnitude (guaranteed to be passedFirst at this point)
+	(*passedSign) = passedFirst->SIGN;
 
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size);
