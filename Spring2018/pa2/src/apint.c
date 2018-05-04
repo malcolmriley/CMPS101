@@ -33,6 +33,7 @@ apint subtractInternal(apint, apint, int*);
 apint newApintWithSize(int passedSize) {
 	apint instance = malloc(sizeof(apint_object) + (sizeof(int) * passedSize));
 	instance->SIZE = passedSize;
+	instance->SIGN = 0;
 	instance->VALUE = (int*)(instance + 1);
 	zero(instance);
 	return instance;
@@ -182,7 +183,7 @@ apint add(apint passedFirst, apint passedSecond) {
  */
 apint subtract(apint passedFirst, apint passedSecond) {
 	apint instance;
-	int sign = 0;
+	int sign = -1 * passedSecond->SIGN;
 
 	if (passedFirst->SIGN == passedSecond->SIGN) {
 		// Case: a - b
@@ -312,11 +313,12 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 	// If the second is greater in magnitude than the first, swap places and try again
 	// A < B -> A - B = -(B - A)
 	if (compareMagnitude(passedFirst, passedSecond) < 0) {
+		(*passedSign) *= -1;
 		return subtractInternal(passedSecond, passedFirst, passedSign);
 	}
 
 	// Sign is set to the apint with greater magnitude (guaranteed to be passedFirst at this point)
-	(*passedSign) = passedFirst->SIGN;
+	(*passedSign) = (passedFirst->SIGN) * (*passedSign);
 
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size);
