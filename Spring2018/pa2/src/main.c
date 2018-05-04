@@ -25,26 +25,42 @@ apint constructor_integer_negative() {
 	return fromInteger(-14984);
 }
 
-apint constructor_string_zero() {
-	return fromString("0");
+apint constructor_string_zero_positive() {
+	return fromString("+0");
 }
 
-void test(char* passedMessage, apint (*passedFunction)()) {
+apint constructor_string_zero_negative() {
+	return fromString("-0");
+}
+
+apint constructor_string_small() {
+	return fromString("-123");
+}
+
+apint constructor_string_big() {
+	return fromString("23154531011545132123958751547812157489398752123");
+}
+
+void test(char* passedMessage, char* passedExpectedValue, apint (*passedFunction)()) {
 	puts(passedMessage);
 	apint instance = passedFunction();
+	printf("Expecting: %s, Returned: ", passedExpectedValue);
 	print(instance);
+	puts("\n");
 	freeApint(instance);
-	puts("");
 }
 
 int main(void) {
 
 	// Constructor Tests
-	test("Testing default constructor:", constructor_default);
-	test("Testing integer constructor with zero as parameter:", constructor_zero);
-	test("Testing integer constructor with nonzero parameter:", constructor_integer);
-	test("Testing integer constructor with negative parameter:", constructor_integer_negative);
-	test("Testing string constructor with zero parameter:", constructor_string_zero);
+	test("Testing default constructor:", "+0", constructor_default);
+	test("Testing integer constructor with zero as parameter:", "+0", constructor_zero);
+	test("Testing integer constructor with nonzero parameter:", "+53423", constructor_integer);
+	test("Testing integer constructor with negative parameter:", "-14984", constructor_integer_negative);
+	test("Testing string constructor with \"positive\" zero parameter:", "+0", constructor_string_zero_positive);
+	test("Testing string constructor with \"negative\" zero parameter:", "+0", constructor_string_zero_negative);
+	test("Testing string constructor with small negative integer:", "-123", constructor_string_small);
+	test("Testing string constructor with large positive integer:", "23154531011545132123958751547812157489398752123", constructor_string_big);
 
 	return EXIT_SUCCESS;
 }
