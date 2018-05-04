@@ -290,6 +290,9 @@ void print(apint passedValue) {
 apint addInternal(apint passedFirst, apint passedSecond) {
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size + 1);
+	print(passedFirst);
+	puts("");
+	print(passedSecond);
 
 	// Initialize carry array
 	int carry[size + 1];
@@ -299,6 +302,10 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
 		int carryValue = getCarry(resultValue);
 		int storedValue = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
+		printf("\nINDEX: %d FIRST: %d \t SECOND: %d \t CARRY: %d\n", index, get(passedFirst, index), get(passedSecond, index), carry[index]);
+		printf("\nRESULT VALUE: %d", resultValue);
+		printf("\nCARRY VALUE: %d", carryValue);
+		printf("\nSTORED VALUE: %d\n", storedValue);
 		carry[index + 1] = carryValue;
 		set(result, index, storedValue);
 	}
@@ -352,7 +359,7 @@ int compareMagnitude(apint passedFirst, apint passedSecond) {
 }
 
 int checkIndex(apint passedApint, int passedIndex) {
-	return (passedIndex >= 0) || (passedIndex < passedApint->SIZE);
+	return (passedIndex >= 0) && (passedIndex < passedApint->SIZE);
 }
 
 /**
