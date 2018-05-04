@@ -38,7 +38,19 @@ apint constructor_string_small() {
 }
 
 apint constructor_string_big() {
-	return fromString("23154531011545132123958751547812157489398752123");
+	return fromString("+23154531011545132123958751547812157489398752123");
+}
+
+apint add_zero() {
+	apint first = newApint();
+	apint second = newApint();
+	return add(first, second);
+}
+
+apint add_small() {
+	apint first = fromString("12");
+	apint second = fromString("33");
+	return add(first, second);
 }
 
 void test(char* passedMessage, char* passedExpectedValue, apint (*passedFunction)()) {
@@ -47,20 +59,25 @@ void test(char* passedMessage, char* passedExpectedValue, apint (*passedFunction
 	printf("Expecting: %s, Returned: ", passedExpectedValue);
 	print(instance);
 	puts("\n");
-	freeApint(instance);
 }
 
 int main(void) {
 
 	// Constructor Tests
-	test("Testing default constructor:", "+0", constructor_default);
-	test("Testing integer constructor with zero as parameter:", "+0", constructor_zero);
-	test("Testing integer constructor with nonzero parameter:", "+53423", constructor_integer);
-	test("Testing integer constructor with negative parameter:", "-14984", constructor_integer_negative);
-	test("Testing string constructor with \"positive\" zero parameter:", "+0", constructor_string_zero_positive);
-	test("Testing string constructor with \"negative\" zero parameter:", "+0", constructor_string_zero_negative);
-	test("Testing string constructor with small negative integer:", "-123", constructor_string_small);
-	test("Testing string constructor with large positive integer:", "23154531011545132123958751547812157489398752123", constructor_string_big);
+	puts("********** CONSTRUCTOR TESTS **********");
+	test("Default constructor:", "+0", constructor_default);
+	test("Integer constructor with zero as parameter:", "+0", constructor_zero);
+	test("Integer constructor with nonzero parameter:", "+53423", constructor_integer);
+	test("Integer constructor with negative parameter:", "-14984", constructor_integer_negative);
+	test("String constructor with \"positive\" zero parameter:", "+0", constructor_string_zero_positive);
+	test("String constructor with \"negative\" zero parameter:", "+0", constructor_string_zero_negative);
+	test("String constructor with small negative integer:", "-123", constructor_string_small);
+	test("String constructor with large positive integer:", "23154531011545132123958751547812157489398752123", constructor_string_big);
+
+	// Addition Tests
+	puts("********** ADDITION TESTS **********");
+	test("Addition of two zero values:", "+0", add_zero);
+	test("Addition of two small values:", "+45", add_small);
 
 	return EXIT_SUCCESS;
 }
