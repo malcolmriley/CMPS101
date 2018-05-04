@@ -231,7 +231,12 @@ apint multiply(apint passedFirst, apint passedSecond) {
 
 		int size = passedFirst->SIZE + passedSecond->SIZE;
 		apint result = newApintWithSize(size + 1);
+
+		// Initialize carry array
 		int carry[size + 1];
+		for (int index = 0; index < (size + 1); index += 1) {
+			carry[index] = 0;
+		}
 
 		// Perform Multiplication
 		for (int indexOuter = 0; indexOuter < size; indexOuter += 1) {
@@ -288,7 +293,13 @@ void print(apint passedValue) {
 apint addInternal(apint passedFirst, apint passedSecond) {
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size + 1);
+
+	// Initialize carry array
 	int carry[size + 1];
+	for (int index = 0; index < (size + 1); index += 1) {
+		carry[index] = 0;
+	}
+
 	for (int index = 0; index < size; index += 1) {
 		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
 		int carryValue = getCarry(resultValue);
@@ -311,7 +322,12 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size);
+
+	// Initialize carry array
 	int carry[size + 1];
+	for (int index = 0; index < (size + 1); index += 1) {
+		carry[index] = 0;
+	}
 
 	for (int index = 0; index < size; index += 1) {
 		// Use carry as borrow
