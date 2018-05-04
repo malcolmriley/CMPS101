@@ -9,10 +9,23 @@
 #include <stdlib.h>
 #include "apint.h"
 
-int main(void) {
-	apint instance = fromInteger(5);
-
+void constructor_integer() {
+	apint instance = fromInteger(1235343);
 	print(instance);
+	freeApint(&instance);
+}
+
+void constructor_integer_negative() {
+	apint instance = fromInteger(-56454);
+	print(instance);
+	freeApint(&instance);
+}
+
+int main(void) {
+
+	// Constructor Tests
+	constructor_integer();
+	constructor_integer_negative();
 
 	return EXIT_SUCCESS;
 }

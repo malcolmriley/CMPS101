@@ -56,13 +56,12 @@ apint fromInteger(int passedValue) {
 	int sign = 1;
 	if (passedValue < 0) {
 		sign = -1;
-		passedValue *= -1;
 	}
 
 	// Begin Construction
-	int size = getBlocks(passedValue);
-	apint instance = newApintWithSize(size);
-	for (int index = 1; index < size; index += 1) {
+	int size = getBlocks(abs(passedValue));
+	apint instance = newApintWithSize(size + 1);
+	for (int index = size; index >= 0; index -= 1) {
 		int digit = abs((passedValue % (1 + MAX_PER_BLOCK)));
 		set(instance, index, digit);
 		passedValue /= (1 + MAX_PER_BLOCK);
@@ -345,8 +344,7 @@ int get(apint passedApint, int passedIndex) {
 void expand(apint passedApint, int passedSize) {
 	// Copy old values
 	int oldSize = passedApint->SIZE;
-	int** oldCarry = &(passedApint->CARRY);
-	int** oldValue = &(passedApint->VALUE);
+	int* oldValue = passedApint->VALUE;
 
 	// Set new values
 	passedApint->SIZE = passedSize;
@@ -356,12 +354,8 @@ void expand(apint passedApint, int passedSize) {
 	// Copy old values into new arrays
 	for (int index = 0; index < oldSize; index += 1) {
 		passedApint->CARRY[index] = 0;
-		passedApint->VALUE[index] = *(oldValue[index]);
+		passedApint->VALUE[index] = oldValue[index];
 	}
-
-	// Free old arrays
-	free(*oldCarry);
-	free(*oldValue);
 }
 
 /**
