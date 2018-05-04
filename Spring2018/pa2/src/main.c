@@ -48,8 +48,32 @@ apint add_zero() {
 }
 
 apint add_small() {
-	apint first = fromString("12");
-	apint second = fromString("33");
+	apint first = fromString("142");
+	apint second = fromString("363");
+	return add(first, second);
+}
+
+apint add_big() {
+	apint first = fromString("8390480938194831");
+	apint second = fromString("7189478937189578931");
+	return add(first, second);
+}
+
+apint add_negative() {
+	apint first = fromString("512");
+	apint second = fromString("-231");
+	return add(first, second);
+}
+
+apint add_two_negative() {
+	apint first = fromString("-123");
+	apint second = fromString("-293");
+	return add(first, second);
+}
+
+apint add_positive_to_negative() {
+	apint first = fromString("-472182");
+	apint second = fromString("231");
 	return add(first, second);
 }
 
@@ -77,7 +101,11 @@ int main(void) {
 	// Addition Tests
 	puts("********** ADDITION TESTS **********");
 	test("Addition of two zero values:", "+0", add_zero);
-	test("Addition of two small values:", "+45", add_small);
+	test("Addition of two small positive values:", "+505", add_small);
+	test("Addition of two large positive values:", "+7197869418127773762", add_big);
+	test("Addition of negative to positive:", "+281", add_negative);
+	test("Addition of negative to negative", "-416", add_two_negative);
+	test("Addition of positive to negative", "-471951", add_positive_to_negative);
 
 	return EXIT_SUCCESS;
 }
