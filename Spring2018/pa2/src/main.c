@@ -9,6 +9,33 @@
 #include <stdlib.h>
 #include "apint.h"
 
+apint test_function(char* passedFirst, char* passedSecond, char* passedOperation, apint(*passedFunction)(apint, apint)) {
+	printf("%s %s %s = ?\n", passedFirst, passedOperation, passedSecond);
+	apint first = fromString(passedFirst);
+	apint second = fromString(passedSecond);
+	return passedFunction(first, second);
+}
+
+apint test_add(char* passedFirst, char* passedSecond) {
+	return test_function(passedFirst, passedSecond, "+", add);
+}
+
+apint test_subtract(char* passedFirst, char* passedSecond) {
+	return test_function(passedFirst, passedSecond, "-", subtract);
+}
+
+apint test_multiply(char* passedFirst, char* passedSecond) {
+	return test_function(passedFirst, passedSecond, "x", multiply);
+}
+
+void test(char* passedMessage, char* passedExpectedValue, apint (*passedFunction)()) {
+	puts(passedMessage);
+	apint instance = passedFunction();
+	printf("Expecting: %s, Returned: ", passedExpectedValue);
+	print(instance);
+	puts("\n");
+}
+
 apint constructor_default() {
 	return newApint();
 }
@@ -42,70 +69,89 @@ apint constructor_string_big() {
 }
 
 apint add_zero() {
-	apint first = newApint();
-	apint second = newApint();
-	return add(first, second);
+	return test_add("0", "0");
 }
 
 apint add_small() {
-	apint first = fromString("142");
-	apint second = fromString("363");
-	return add(first, second);
+	return test_add("142", "363");
 }
 
 apint add_big() {
-	apint first = fromString("8390480938194831");
-	apint second = fromString("7189478937189578931");
-	return add(first, second);
+	return test_add("8390480938194831", "7189478937189578931");
 }
 
 apint add_negative() {
-	apint first = fromString("512");
-	apint second = fromString("-231");
-	return add(first, second);
+	return test_add("512", "-231");
 }
 
 apint add_two_negative() {
-	apint first = fromString("-123");
-	apint second = fromString("-293");
-	return add(first, second);
+	return test_add("-123", "-293");
 }
 
 apint add_positive_to_negative() {
-	apint first = fromString("-472182");
-	apint second = fromString("231");
-	return add(first, second);
+	return test_add("-472182", "231");
 }
 
-void test(char* passedMessage, char* passedExpectedValue, apint (*passedFunction)()) {
-	puts(passedMessage);
-	apint instance = passedFunction();
-	printf("Expecting: %s, Returned: ", passedExpectedValue);
-	print(instance);
-	puts("\n");
+apint subtract_small() {
+	return test_subtract("5", "3");
 }
+
+apint subtract_small_from_large() {
+	return test_subtract("45646544867864123187541534875645", "1545132123154");
+}
+
+apint subtract_large_from_small() {
+	return test_subtract("47398748937189473819", "5893081590381904839018490");
+}
+
+apint subtract_positive_from_negative() {
+	return test_subtract("-578427598427", "8549859048295");
+}
+
+apint subtract_negative_from_positive() {
+	return test_subtract("584935", "-78690584790864");
+}
+
+apint subtract_negative_from_negative() {
+	return test_subtract("-4875645648783", "-878975131784");
+}
+
+apint multiply_small() {
+	return test_multiply("521", "223");
+}
+
+
 
 int main(void) {
 
-	// Constructor Tests
 	puts("********** CONSTRUCTOR TESTS **********");
 	test("Default constructor:", "+0", constructor_default);
 	test("Integer constructor with zero as parameter:", "+0", constructor_zero);
-	test("Integer constructor with nonzero parameter:", "+53423", constructor_integer);
-	test("Integer constructor with negative parameter:", "-14984", constructor_integer_negative);
 	test("String constructor with \"positive\" zero parameter:", "+0", constructor_string_zero_positive);
 	test("String constructor with \"negative\" zero parameter:", "+0", constructor_string_zero_negative);
+	test("Integer constructor with nonzero parameter:", "+53423", constructor_integer);
+	test("Integer constructor with negative parameter:", "-14984", constructor_integer_negative);
 	test("String constructor with small negative integer:", "-123", constructor_string_small);
 	test("String constructor with large positive integer:", "+23154531011545132123958751547812157489398752123", constructor_string_big);
 
-	// Addition Tests
 	puts("********** ADDITION TESTS **********");
-	test("Addition of two zero values:", "+0", add_zero);
-	test("Addition of two small positive values:", "+505", add_small);
-	test("Addition of two large positive values:", "+7197869418127773762", add_big);
-	test("Addition of negative to positive:", "+281", add_negative);
-	test("Addition of negative to negative", "-416", add_two_negative);
-	test("Addition of positive to negative", "-471951", add_positive_to_negative);
+	test("A + B where A = B = 0", "+0", add_zero);
+	test("A + B where 0 < A < B", "+505", add_small);
+	test("A + B where 0 << A << B", "+7197869418127773762", add_big);
+	test("A + B where A > 0 > B", "+281", add_negative);
+	test("A + B where 0 > A > B", "-416", add_two_negative);
+	test("A + B where A < 0 < B", "-471951", add_positive_to_negative);
+
+	puts("********** SUBTRACTION TESTS **********");
+	test("A - B where A > B > 0", "+2", subtract_small);
+	test("A - B where A >> B > 0", "+45646544867864123185996402752491", subtract_small_from_large);
+	test("A - B where 0 < A < B", "-5893034191632967649544671", subtract_large_from_small);
+	test("A - B where A < 0 < B", "-9128286646722", subtract_positive_from_negative);
+	test("A - B where A > 0 > B", "+78690585375799", subtract_negative_from_positive);
+	test("A - B where 0 > A > B", "-3996670516999", subtract_negative_from_negative);
+
+	puts("********** MULTIPLICATION TESTS **********");
+	test("A * B where A > B > 0", "+116183", multiply_small);
 
 	return EXIT_SUCCESS;
 }
