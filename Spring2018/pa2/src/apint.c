@@ -14,7 +14,7 @@
 
 /* Internal Function Declarations */
 int checkSize(apint, int);
-unsigned int get(apint, int);
+int get(apint, int);
 void set(apint, int, int);
 void zero(apint);
 int getCarry(int);
@@ -32,7 +32,7 @@ apint subtractInternal(apint, apint, int*);
 apint newApintWithSize(int passedSize) {
 	apint instance = malloc(sizeof(apint_object) + (sizeof(int) * passedSize));
 	instance->SIZE = passedSize;
-	instance->VALUE = (unsigned int*)(instance + sizeof(int) + sizeof(int));
+	instance->VALUE = (int*)(instance + sizeof(int) + sizeof(int));
 	zero(instance);
 	return instance;
 }
@@ -346,7 +346,7 @@ int checkSize(apint passedApint, int passedSize) {
  */
 void set(apint passedApint, int passedIndex, int passedValue) {
 	if ((passedIndex < passedApint->SIZE) && (passedIndex >= 0)) {
-		passedApint->VALUE[passedIndex] = (unsigned int)passedValue;
+		passedApint->VALUE[passedIndex] = passedValue;
 	}
 }
 
@@ -355,7 +355,7 @@ void set(apint passedApint, int passedIndex, int passedValue) {
  *
  * Returns 0 if passedIndex is out of range, and the requested value otherwise.
  */
-unsigned int get(apint passedApint, int passedIndex) {
+int get(apint passedApint, int passedIndex) {
 	if (checkSize(passedApint, passedIndex)) {
 		return passedApint->VALUE[passedIndex];
 	}
