@@ -21,7 +21,7 @@ typedef apint_object* apint;
 /* Constructors - Destructor */
 apint newApint(void);
 apint fromInteger(int);
-apint fromString(char*, int);
+apint fromString(char*);
 void freeApint(apint);
 
 /* Accessors */

@@ -75,8 +75,8 @@ apint fromInteger(int passedValue) {
 /**
  * Constructor for conversion of a char array (string) to an apint.
  */
-apint fromString(char* passedArray, int passedLength) {
-	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
+apint fromString(char* passedArray) {
+	int size = (strlen(passedArray) / DIGITS_PER_BLOCK) + 1;
 	apint instance = newApintWithSize(size);
 	int beginIndex = 0;
 	if (!isdigit(passedArray[0])) {
