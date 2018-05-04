@@ -80,21 +80,13 @@ apint fromInteger(int passedValue) {
 apint fromString(char* passedArray) {
 	int digitLength = strlen(passedArray);
 	int beginIndex = 0;
-	int sign = 0;
+	int sign = 1;
 
-	if (!isdigit(passedArray[0])) {
-		beginIndex += 1;
-		digitLength -= 1;
-		sign = getSign(passedArray[0]);
-	}
-	else {
-		sign = 1;
-	}
-
-	for(int index = beginIndex; index < strlen(passedArray); index += 1) {
+	for(int index = 0; index < strlen(passedArray); index += 1) {
 		if (!isdigit(passedArray[index])) {
 			beginIndex += 1;
 			digitLength -= 1;
+			sign = getSign(passedArray[0]);
 		}
 	}
 
@@ -102,13 +94,17 @@ apint fromString(char* passedArray) {
 	apint instance = newApintWithSize(size);
 
 	int nonzero = 0;
-	for (int index = beginIndex; index < size; index += 1) {
-		int value = charToInt(passedArray[index]);
+	for (int index = 0; index < size; index += 1) {
+		int value = charToInt(passedArray[(strlen(passedArray) - 1) - index]);
 		nonzero |= (value != 0);
-		set(instance, (size - index - 1), value);
+		set(instance, index, value);
 	}
+
 	if (nonzero) {
 		instance->SIGN = sign;
+	}
+	else {
+		sign = 0;
 	}
 
 	return instance;
@@ -299,7 +295,7 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 	int carry[size + 1];
 	zeroArray(carry, size + 1);
 
-	for (int index = 0; index < size; index += 1) {
+	for (int index = 0; index < (size + 1); index += 1) {
 		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
 		int carryValue = getCarry(resultValue);
 		int storedValue = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
