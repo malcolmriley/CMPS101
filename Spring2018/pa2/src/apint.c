@@ -17,6 +17,7 @@ int checkIndex(apint, int);
 int get(apint, int);
 void set(apint, int, int);
 void zero(apint);
+void zeroArray(int*, int);
 int getCarry(int);
 int max(int, int);
 int getBlocks(int);
@@ -296,9 +297,7 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 
 	// Initialize carry array
 	int carry[size + 1];
-	for (int index = 0; index < (size + 1); index += 1) {
-		carry[index] = 0;
-	}
+	zeroArray(carry, size + 1);
 
 	for (int index = 0; index < size; index += 1) {
 		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
@@ -325,9 +324,7 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 
 	// Initialize carry array
 	int carry[size + 1];
-	for (int index = 0; index < (size + 1); index += 1) {
-		carry[index] = 0;
-	}
+	zeroArray(carry, size + 1);
 
 	for (int index = 0; index < size; index += 1) {
 		// Use carry as borrow
@@ -389,6 +386,12 @@ void zero(apint passedApint) {
 	passedApint->SIGN = 0;
 	for (int index = 0; index < passedApint->SIZE; index += 1) {
 		set(passedApint, index, 0);
+	}
+}
+
+void zeroArray(int* passedArray, int passedSize) {
+	for (int index = 0; index < passedSize; index += 1) {
+		passedArray[index] = 0;
 	}
 }
 
