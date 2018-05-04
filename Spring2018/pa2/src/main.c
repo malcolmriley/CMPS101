@@ -10,48 +10,47 @@
 #include "apint.h"
 
 void constructor_default() {
-	puts("Testing default constructor:");
 	apint instance = newApint();
 	print(instance);
 	freeApint(instance);
-	puts("");
 }
 
 void constructor_zero() {
-	puts("Testing integer constructor with zero as parameter:");
 	apint instance = fromInteger(0);
 	print(instance);
 	freeApint(instance);
-	puts("");
 }
 
 void constructor_integer() {
-	puts("Testing integer constructor with nonzero parameter:");
 	apint instance = fromInteger(53423);
 	print(instance);
 	freeApint(instance);
-	puts("");
 }
 
 void constructor_integer_negative() {
-	puts("Testing integer constructor with negative parameter:");
 	apint instance = fromInteger(-14984);
 	print(instance);
 	freeApint(instance);
-	puts("");
 }
 
 void constructor_string_zero() {
 
 }
 
+void test(char* passedMessage, void (*passedFunction)()) {
+	puts(passedMessage);
+	passedFunction();
+	puts("");
+}
+
 int main(void) {
 
 	// Constructor Tests
-	constructor_default();
-	constructor_zero();
-	constructor_integer();
-	constructor_integer_negative();
+	test("Testing default constructor:", constructor_default);
+	test("Testing integer constructor with zero as parameter:", constructor_zero);
+	test("Testing integer constructor with nonzero parameter:", constructor_integer);
+	test("Testing integer constructor with negative parameter:", constructor_integer_negative);
+	test("Testing string constructor with zero parameter:", constructor_string_zero);
 
 	return EXIT_SUCCESS;
 }
