@@ -120,6 +120,18 @@ apint multiply_small() {
 	return test_multiply("521", "223");
 }
 
+apint multiply_large() {
+	return test_multiply("57837489543831", "48789785415212");
+}
+
+apint multiply_negative() {
+	return test_multiply("-57489375892", "8781215645");
+}
+
+apint multiply_two_negative() {
+	return test_multiply("-45454512315", "-78971210254");
+}
+
 
 
 int main(void) {
@@ -152,6 +164,9 @@ int main(void) {
 
 	puts("********** MULTIPLICATION TESTS **********");
 	test("A * B where A > B > 0", "+116183", multiply_small);
+	test("A * B where A > B >> 0", "?", multiply_large); // TODO: Verify
+	test("A * B where A << 0 << B", "?", multiply_negative); // TODO: Verify
+	test("A * B where 0 >> A >> B", "?", multiply_two_negative); // TODO: Verify
 
 	return EXIT_SUCCESS;
 }
