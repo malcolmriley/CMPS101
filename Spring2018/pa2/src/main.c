@@ -25,8 +25,8 @@ apint constructor_integer_negative() {
 	return fromInteger(-14984);
 }
 
-void constructor_string_zero() {
-
+apint constructor_string_zero() {
+	return fromString("0");
 }
 
 void test(char* passedMessage, apint (*passedFunction)()) {
