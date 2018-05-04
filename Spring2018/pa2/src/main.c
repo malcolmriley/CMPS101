@@ -27,7 +27,7 @@ void constructor_zero() {
 
 void constructor_integer() {
 	puts("Testing integer constructor with nonzero parameter:");
-	apint instance = fromInteger(523);
+	apint instance = fromInteger(53423);
 	print(instance);
 	freeApint(instance);
 	puts("");
@@ -35,10 +35,14 @@ void constructor_integer() {
 
 void constructor_integer_negative() {
 	puts("Testing integer constructor with negative parameter:");
-	apint instance = fromInteger(-14);
+	apint instance = fromInteger(-14984);
 	print(instance);
 	freeApint(instance);
 	puts("");
+}
+
+void constructor_string_zero() {
+
 }
 
 int main(void) {

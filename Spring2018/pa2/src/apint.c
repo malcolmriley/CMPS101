@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 #include "apint.h"
 
 /* Internal Function Declarations */
@@ -15,15 +16,15 @@ int checkSize(apint, int);
 int get(apint, int);
 void set(apint, int, int);
 void zero(apint);
-
-apint addInternal(apint, apint);
-apint subtractInternal(apint, apint, int*);
 int getCarry(int);
 int max(int, int);
 int getBlocks(int);
 char intToChar(int);
+int charToInt(char);
 int getSign(char);
 int compareMagnitude(apint, apint);
+apint addInternal(apint, apint);
+apint subtractInternal(apint, apint, int*);
 
 /* Header-Defined Functions */
 
@@ -77,9 +78,19 @@ apint fromInteger(int passedValue) {
 apint fromString(char* passedArray, int passedLength) {
 	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
 	apint instance = newApintWithSize(size);
-	instance->SIGN = getSign(passedArray[0]);
-	for (int index = 0; index < (size - 1); index += 1) {
-		set(instance, index, atoi(&passedArray[index]));
+	int beginIndex = 0;
+	if (!isdigit(passedArray[0])) {
+		instance->SIGN = getSign(passedArray[0]);
+		beginIndex = 1;
+	}
+	int nonzero = 0;
+	for (int index = beginIndex; index < (size - 1); index += 1) {
+		int value = charToInt(passedArray[index]);
+		nonzero |= (value != 0);
+		set(instance, index, value);
+	}
+	if (!nonzero) {
+		instance->SIGN = 0;
 	}
 	return instance;
 }
@@ -365,6 +376,10 @@ int getBlocks(int passedValue) {
  */
 char intToChar(int passedValue) {
 	return (passedValue % 10) + '0';
+}
+
+int charToInt(char passedValue) {
+	return (isDigit(passedValue)) ? passedValue - '0' : 0;
 }
 
 int getSign(char passedValue) {
