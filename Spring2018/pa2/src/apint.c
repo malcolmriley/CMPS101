@@ -86,6 +86,9 @@ apint fromString(char* passedArray) {
 		digitLength -= 1;
 		sign = getSign(passedArray[0]);
 	}
+	else {
+		sign = 1;
+	}
 
 	for(int index = beginIndex; index < strlen(passedArray); index += 1) {
 		if (!isdigit(passedArray[index])) {
@@ -158,6 +161,7 @@ apint add(apint passedFirst, apint passedSecond) {
 		sign = passedFirst->SIGN;
 		instance = addInternal(passedFirst, passedSecond);
 	}
+
 	// Case: -a + b -> Result: b - a
 	else if (passedFirst->SIGN < passedSecond->SIGN) {
 		instance = subtractInternal(passedSecond, passedFirst, &sign);
