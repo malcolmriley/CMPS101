@@ -13,7 +13,7 @@
 #include "apint.h"
 
 /* Internal Function Declarations */
-int checkSize(apint, int);
+int checkIndex(apint, int);
 int get(apint, int);
 void set(apint, int, int);
 void zero(apint);
@@ -32,7 +32,7 @@ apint subtractInternal(apint, apint, int*);
 apint newApintWithSize(int passedSize) {
 	apint instance = malloc(sizeof(apint_object) + (sizeof(int) * passedSize));
 	instance->SIZE = passedSize;
-	instance->VALUE = (int*)(instance + sizeof(int) + sizeof(int));
+	instance->VALUE = (int*)(instance + 1);
 	zero(instance);
 	return instance;
 }
@@ -341,8 +341,8 @@ int compareMagnitude(apint passedFirst, apint passedSecond) {
 	return 0;
 }
 
-int checkSize(apint passedApint, int passedSize) {
-	return (passedSize > 0) || (passedSize < passedApint->SIZE);
+int checkIndex(apint passedApint, int passedIndex) {
+	return (passedIndex >= 0) || (passedIndex < passedApint->SIZE);
 }
 
 /**
@@ -360,7 +360,7 @@ void set(apint passedApint, int passedIndex, int passedValue) {
  * Returns 0 if passedIndex is out of range, and the requested value otherwise.
  */
 int get(apint passedApint, int passedIndex) {
-	if (checkSize(passedApint, passedIndex)) {
+	if (checkIndex(passedApint, passedIndex)) {
 		return passedApint->VALUE[passedIndex];
 	}
 	return 0;
