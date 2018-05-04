@@ -14,7 +14,6 @@
 int checkSize(apint, int);
 int get(apint, int);
 void set(apint, int, int);
-void expand(apint, int);
 void zero(apint);
 
 apint addInternal(apint, apint);
@@ -25,13 +24,13 @@ int getBlocks(int);
 char intToChar(int);
 int getSign(char);
 int compareMagnitude(apint, apint);
-void zeroCarry(apint);
 
 /* Header-Defined Functions */
 
 apint newApintWithSize(int passedSize) {
-	apint instance = malloc(sizeof(apint_object));
-	expand(instance, passedSize);
+	apint instance = malloc(sizeof(apint_object) + (sizeof(int) * passedSize));
+	instance->SIZE = passedSize;
+	instance->VALUE = (int*)(instance + sizeof(int) + sizeof(int));
 	zero(instance);
 	return instance;
 }
@@ -48,6 +47,7 @@ apint newApint(void) {
  */
 apint fromInteger(int passedValue) {
 	// If the passed value is zero, just use default constructor
+	int value = abs(passedValue);
 	if (passedValue == 0) {
 		return newApint();
 	}
@@ -59,12 +59,12 @@ apint fromInteger(int passedValue) {
 	}
 
 	// Begin Construction
-	int size = getBlocks(abs(passedValue));
+	int size = getBlocks(value);
 	apint instance = newApintWithSize(size + 1);
-	for (int index = size; index >= 0; index -= 1) {
-		int digit = abs((passedValue % (1 + MAX_PER_BLOCK)));
+	for (int index = 0; index < size; index += 1) {
+		int digit = value % (1 + MAX_PER_BLOCK);
 		set(instance, index, digit);
-		passedValue /= (1 + MAX_PER_BLOCK);
+		value /= (1 + MAX_PER_BLOCK);
 	}
 
 	instance->SIGN = sign;
@@ -75,21 +75,18 @@ apint fromInteger(int passedValue) {
  * Constructor for conversion of a char array (string) to an apint.
  */
 apint fromString(char* passedArray, int passedLength) {
-	apint instance = newApint();
 	int size = (passedLength / DIGITS_PER_BLOCK) + 1;
-	expand(instance, size);
+	apint instance = newApintWithSize(size);
 	instance->SIGN = getSign(passedArray[0]);
 	for (int index = 0; index < (size - 1); index += 1) {
-		*(instance->VALUE)[index] = atoi(&passedArray[index]);
+		set(instance, index, atoi(&passedArray[index]));
 	}
 	return instance;
 }
 
 /* Frees the passed apint */
-void freeApint(apint* passedApint) {
-	free((*passedApint)->CARRY);
-	free((*passedApint)->VALUE);
-	free(*passedApint);
+void freeApint(apint passedApint) {
+	free(passedApint);
 }
 
 /**
@@ -201,30 +198,31 @@ apint multiply(apint passedFirst, apint passedSecond) {
 	}
 
 	else {
+
 		int size = passedFirst->SIZE + passedSecond->SIZE;
 		apint result = newApintWithSize(size + 1);
+		int carry[size + 1];
 
 		// Perform Multiplication
 		for (int indexOuter = 0; indexOuter < size; indexOuter += 1) {
 			for (int indexInner = 0; indexInner < size; indexInner += 1) {
 				int resultValue = get(passedFirst, indexOuter) * get(passedSecond, indexInner);
-				result->CARRY[indexOuter] += resultValue;
+				carry[indexOuter] += resultValue;
 			}
 		}
 
 		// Rectify Carry
 		for (int index = 0; index < size; index += 1) {
-			int value = *(result->CARRY)[index];
-			*(result->VALUE)[index] = value - (getCarry(value) * (1 + MAX_PER_BLOCK));
+			int value = carry[index];
+			set(result, index, value - (getCarry(value) * (1 + MAX_PER_BLOCK)));
 			int offset = 0;
 			while (value > 0) {
-				result->CARRY[index + offset] += value;
+				carry[index + offset] += value;
 				value /= (1 + MAX_PER_BLOCK);
 				offset += 1;
 			}
 		}
 
-		zeroCarry(result);
 		result->SIGN = signum;
 		return result;
 	}
@@ -237,17 +235,17 @@ void print(apint passedValue) {
 	char sign = (passedValue->SIGN < 0) ? '-' : '+';
 	printf("%c", sign);
 	int leadingZeroes = 0;
-	for (int index = passedValue->SIZE; index >= 0; index -= 1) {
+	for (int index = (passedValue->SIZE - 1); index >= 0; index -= 1) {
 		if (get(passedValue, index) != 0) {
 			break;
 		}
 		leadingZeroes += 1;
 	}
-	if (leadingZeroes == passedValue->SIZE) {
+	if (leadingZeroes >= passedValue->SIZE) {
 		printf("%d", 0);
 	}
 	else {
-		for (int index = leadingZeroes; index < passedValue->SIZE; index += 1) {
+		for (int index = ((passedValue->SIZE - 1) - leadingZeroes); index >= 0; index -= 1) {
 			printf("%d", get(passedValue, index));
 		}
 	}
@@ -260,13 +258,13 @@ void print(apint passedValue) {
 apint addInternal(apint passedFirst, apint passedSecond) {
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size + 1);
+	int carry[size + 1];
 	for (int index = 0; index < size; index += 1) {
-		int resultValue = get(passedFirst, index) + get(passedSecond, index) + *(result->CARRY)[index];
+		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
 		int carryValue = getCarry(resultValue);
-		*(result->CARRY)[index + 1] = carryValue;
-		*(result->VALUE)[index] = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
+		carry[index + 1] = carryValue;
+		set(result, index, resultValue - (carryValue * (1 + MAX_PER_BLOCK)));
 	}
-	zeroCarry(result);
 	return result;
 }
 
@@ -283,18 +281,19 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size);
+	int carry[size + 1];
+
 	for (int index = 0; index < size; index += 1) {
 		// Use carry as borrow
-		int resultValue = (get(passedFirst, index) - get(passedSecond, index)) - *(result->CARRY)[index];
+		int resultValue = (get(passedFirst, index) - get(passedSecond, index)) - carry[index];
 		if (resultValue < 0) {
-			result->CARRY[index + 1] += 1;
+			carry[index + 1] += 1;
 			resultValue += (1 + MAX_PER_BLOCK);
 		}
 		// No validation needed here as the result should never have more than one digit
-		*(result->VALUE)[index] = resultValue;
+		set(result, index, resultValue);
 	}
 
-	zeroCarry(result);
 	return result;
 }
 
@@ -320,10 +319,9 @@ int checkSize(apint passedApint, int passedSize) {
  * Sets the value at passedIndex to passedValue, expanding passedApint if necessary.
  */
 void set(apint passedApint, int passedIndex, int passedValue) {
-	if(!checkSize(passedApint, passedIndex)) {
-		expand(passedApint, passedIndex);
+	if ((passedIndex < passedApint->SIZE) && (passedIndex >= 0)) {
+		passedApint->VALUE[passedIndex] = passedValue;
 	}
-	*(passedApint->VALUE)[passedIndex] = passedValue;
 }
 
 /**
@@ -333,33 +331,9 @@ void set(apint passedApint, int passedIndex, int passedValue) {
  */
 int get(apint passedApint, int passedIndex) {
 	if (checkSize(passedApint, passedIndex)) {
-		return *(passedApint->VALUE)[passedIndex];
+		return passedApint->VALUE[passedIndex];
 	}
 	return 0;
-}
-
-/**
- * Expands passedApint to accommodate passedSize.
- */
-void expand(apint passedApint, int passedSize) {
-	// Copy old values
-	int oldSize = passedApint->SIZE;
-	int** oldCarry = passedApint->CARRY;
-	int** oldValue = passedApint->VALUE;
-
-	// Set new values
-	passedApint->SIZE = passedSize;
-	passedApint->CARRY = malloc(sizeof(int) * passedSize);
-	passedApint->VALUE = malloc(sizeof(int) * passedSize);
-
-	// Copy old values into new arrays
-	for (int index = 0; index < oldSize; index += 1) {
-		passedApint->CARRY[index] = 0;
-		passedApint->VALUE[index] = oldValue[index];
-	}
-
-	free(oldCarry);
-	free(oldValue);
 }
 
 /**
@@ -368,17 +342,7 @@ void expand(apint passedApint, int passedSize) {
 void zero(apint passedApint) {
 	passedApint->SIGN = 0;
 	for (int index = 0; index < passedApint->SIZE; index += 1) {
-		passedApint->VALUE[index] = 0;
-		passedApint->CARRY[index] = 0;
-	}
-}
-
-/**
- * Zeroes the carry array of the passed apint
- */
-void zeroCarry(apint passedApint) {
-	for (int index = 0; index < passedApint->SIZE; index += 1) {
-		passedApint->CARRY[index] = 0;
+		set(passedApint, index, 0);
 	}
 }
 

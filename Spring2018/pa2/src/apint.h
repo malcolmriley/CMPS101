@@ -14,8 +14,7 @@
 typedef struct apint_object {
 	int SIZE;
 	int SIGN;
-	int** VALUE;
-	int** CARRY;
+	unsigned int** VALUE;
 } apint_object;
 typedef apint_object* apint;
 
@@ -23,7 +22,7 @@ typedef apint_object* apint;
 apint newApint(void);
 apint fromInteger(int);
 apint fromString(char*, int);
-void freeApint(apint*);
+void freeApint(apint);
 
 /* Accessors */
 int equals(apint, apint);

@@ -9,21 +9,43 @@
 #include <stdlib.h>
 #include "apint.h"
 
-void constructor_integer() {
-	apint instance = fromInteger(1235343);
+void constructor_default() {
+	puts("Testing default constructor:");
+	apint instance = newApint();
 	print(instance);
-	freeApint(&instance);
+	freeApint(instance);
+	puts("");
+}
+
+void constructor_zero() {
+	puts("Testing integer constructor with zero as parameter:");
+	apint instance = fromInteger(0);
+	print(instance);
+	freeApint(instance);
+	puts("");
+}
+
+void constructor_integer() {
+	puts("Testing integer constructor with nonzero parameter:");
+	apint instance = fromInteger(523);
+	print(instance);
+	freeApint(instance);
+	puts("");
 }
 
 void constructor_integer_negative() {
-	apint instance = fromInteger(-56454);
+	puts("Testing integer constructor with negative parameter:");
+	apint instance = fromInteger(-14);
 	print(instance);
-	freeApint(&instance);
+	freeApint(instance);
+	puts("");
 }
 
 int main(void) {
 
 	// Constructor Tests
+	constructor_default();
+	constructor_zero();
 	constructor_integer();
 	constructor_integer_negative();
 
