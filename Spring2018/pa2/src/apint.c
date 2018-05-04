@@ -80,7 +80,7 @@ apint fromString(char* passedArray, int passedLength) {
 	expand(instance, size);
 	instance->SIGN = getSign(passedArray[0]);
 	for (int index = 0; index < (size - 1); index += 1) {
-		instance->VALUE[index] = atoi(&passedArray[index]);
+		*(instance->VALUE)[index] = atoi(&passedArray[index]);
 	}
 	return instance;
 }
@@ -214,8 +214,8 @@ apint multiply(apint passedFirst, apint passedSecond) {
 
 		// Rectify Carry
 		for (int index = 0; index < size; index += 1) {
-			int value = result->CARRY[index];
-			result->VALUE[index] = value - (getCarry(value) * (1 + MAX_PER_BLOCK));
+			int value = *(result->CARRY)[index];
+			*(result->VALUE)[index] = value - (getCarry(value) * (1 + MAX_PER_BLOCK));
 			int offset = 0;
 			while (value > 0) {
 				result->CARRY[index + offset] += value;
@@ -261,10 +261,10 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size + 1);
 	for (int index = 0; index < size; index += 1) {
-		int resultValue = get(passedFirst, index) + get(passedSecond, index) + result->CARRY[index];
+		int resultValue = get(passedFirst, index) + get(passedSecond, index) + *(result->CARRY)[index];
 		int carryValue = getCarry(resultValue);
-		result->CARRY[index + 1] = carryValue;
-		result->VALUE[index] = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
+		*(result->CARRY)[index + 1] = carryValue;
+		*(result->VALUE)[index] = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
 	}
 	zeroCarry(result);
 	return result;
@@ -285,13 +285,13 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 	apint result = newApintWithSize(size);
 	for (int index = 0; index < size; index += 1) {
 		// Use carry as borrow
-		int resultValue = (get(passedFirst, index) - get(passedSecond, index)) - result->CARRY[index];
+		int resultValue = (get(passedFirst, index) - get(passedSecond, index)) - *(result->CARRY)[index];
 		if (resultValue < 0) {
 			result->CARRY[index + 1] += 1;
 			resultValue += (1 + MAX_PER_BLOCK);
 		}
 		// No validation needed here as the result should never have more than one digit
-		result->VALUE[index] = resultValue;
+		*(result->VALUE)[index] = resultValue;
 	}
 
 	zeroCarry(result);
@@ -323,7 +323,7 @@ void set(apint passedApint, int passedIndex, int passedValue) {
 	if(!checkSize(passedApint, passedIndex)) {
 		expand(passedApint, passedIndex);
 	}
-	passedApint->VALUE[passedIndex] = passedValue;
+	*(passedApint->VALUE)[passedIndex] = passedValue;
 }
 
 /**
@@ -333,7 +333,7 @@ void set(apint passedApint, int passedIndex, int passedValue) {
  */
 int get(apint passedApint, int passedIndex) {
 	if (checkSize(passedApint, passedIndex)) {
-		return passedApint->VALUE[passedIndex];
+		return *(passedApint->VALUE)[passedIndex];
 	}
 	return 0;
 }
@@ -344,7 +344,8 @@ int get(apint passedApint, int passedIndex) {
 void expand(apint passedApint, int passedSize) {
 	// Copy old values
 	int oldSize = passedApint->SIZE;
-	int* oldValue = passedApint->VALUE;
+	int** oldCarry = passedApint->CARRY;
+	int** oldValue = passedApint->VALUE;
 
 	// Set new values
 	passedApint->SIZE = passedSize;
@@ -356,6 +357,9 @@ void expand(apint passedApint, int passedSize) {
 		passedApint->CARRY[index] = 0;
 		passedApint->VALUE[index] = oldValue[index];
 	}
+
+	free(oldCarry);
+	free(oldValue);
 }
 
 /**

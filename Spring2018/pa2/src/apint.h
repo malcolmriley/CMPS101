@@ -14,8 +14,8 @@
 typedef struct apint_object {
 	int SIZE;
 	int SIGN;
-	int* VALUE;
-	int* CARRY;
+	int** VALUE;
+	int** CARRY;
 } apint_object;
 typedef apint_object* apint;
 
