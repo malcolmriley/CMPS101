@@ -72,7 +72,7 @@ int main(void) {
 	test("String constructor with \"positive\" zero parameter:", "+0", constructor_string_zero_positive);
 	test("String constructor with \"negative\" zero parameter:", "+0", constructor_string_zero_negative);
 	test("String constructor with small negative integer:", "-123", constructor_string_small);
-	test("String constructor with large positive integer:", "23154531011545132123958751547812157489398752123", constructor_string_big);
+	test("String constructor with large positive integer:", "+23154531011545132123958751547812157489398752123", constructor_string_big);
 
 	// Addition Tests
 	puts("********** ADDITION TESTS **********");
