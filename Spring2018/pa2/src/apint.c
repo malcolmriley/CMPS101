@@ -302,8 +302,9 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 	for (int index = 0; index < size; index += 1) {
 		int resultValue = get(passedFirst, index) + get(passedSecond, index) + carry[index];
 		int carryValue = getCarry(resultValue);
+		int storedValue = resultValue - (carryValue * (1 + MAX_PER_BLOCK));
 		carry[index + 1] = carryValue;
-		set(result, index, resultValue - (carryValue * (1 + MAX_PER_BLOCK)));
+		set(result, index, storedValue);
 	}
 	return result;
 }
