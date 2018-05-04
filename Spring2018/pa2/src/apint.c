@@ -166,7 +166,7 @@ apint add(apint passedFirst, apint passedSecond) {
 
 	// Case: a + -b -> Result: a - b
 	else if (passedFirst->SIGN > passedSecond->SIGN) {
-		instance = subtractInternal(passedSecond, passedFirst, &sign);
+		instance = subtractInternal(passedFirst, passedSecond, &sign);
 	}
 
 	else {
@@ -186,11 +186,11 @@ apint subtract(apint passedFirst, apint passedSecond) {
 
 	if (passedFirst->SIGN == passedSecond->SIGN) {
 		// Case: a - b
-		if (passedFirst->SIGN >= 0) {
+		if (passedFirst->SIGN > 0) {
 			instance = subtractInternal(passedFirst, passedSecond, &sign);
 		}
 		// Case: -a - - b -> result: -a + b = b - a
-		if (passedFirst->SIGN <= 0) {
+		if (passedFirst->SIGN < 0) {
 			instance = subtractInternal(passedSecond, passedFirst, &sign);
 		}
 	}
@@ -211,6 +211,7 @@ apint subtract(apint passedFirst, apint passedSecond) {
 	}
 
 	instance->SIGN = sign;
+	printf("\nSubtract - SIGN: %d\n", sign);
 	return instance;
 }
 
