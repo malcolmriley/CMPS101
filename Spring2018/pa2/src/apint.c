@@ -300,7 +300,7 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 	// If the second is greater in magnitude than the first, swap signs and places
 	// A < B -> A - B = -(B - A)
-	if (compare(passedFirst, passedSecond) < 0) {
+	if (compareMagnitude(passedFirst, passedSecond) < 0) {
 		(*passedSign) *= -1;
 		return subtractInternal(passedSecond, passedFirst, passedSign);
 	}
