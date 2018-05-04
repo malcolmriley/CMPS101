@@ -26,7 +26,8 @@ int charToInt(char);
 int getSign(char);
 int compareMagnitude(apint, apint);
 apint addInternal(apint, apint);
-apint subtractInternal(apint, apint, int*);
+apint subtractInternal(apint, apint);
+apint swapSign(apint);
 
 /* Header-Defined Functions */
 
@@ -151,68 +152,55 @@ int compare(apint passedFirst, apint passedSecond) {
  * Adds (passedFirst + passedSecond), returning the result as a new apint.
  */
 apint add(apint passedFirst, apint passedSecond) {
-	apint instance;
-	int sign = 0;
 
 	// Case: a + b OR -a + -b
 	if (passedFirst->SIGN == passedSecond->SIGN) {
-		sign = passedFirst->SIGN;
-		instance = addInternal(passedFirst, passedSecond);
+		return addInternal(passedFirst, passedSecond);
 	}
 
 	// Case: -a + b -> Result: b - a
 	else if (passedFirst->SIGN < passedSecond->SIGN) {
-		instance = subtractInternal(passedSecond, passedFirst, &sign);
+		// Swap Sign: (-a) + (+b) = (+b) - (+a)
+		return swapSign(subtractInternal(passedSecond, passedFirst));
 	}
 
 	// Case: a + -b -> Result: a - b
 	else if (passedFirst->SIGN > passedSecond->SIGN) {
-		instance = subtractInternal(passedFirst, passedSecond, &sign);
+		// Swap Sign: (+a) + (-b) = (+a) - (+b)
+		return swapSign(subtractInternal(passedFirst, passedSecond));
 	}
 
-	else {
-		instance = newApint();
-	}
-
-	instance->SIGN = sign;
-	return instance;
+	return newApint();
 }
 
 /**
  * Subtracts (passedFirst - passedSecond), returning the result as a new apint.
  */
 apint subtract(apint passedFirst, apint passedSecond) {
-	apint instance;
-	int sign = -1 * passedSecond->SIGN;
-
 	if (passedFirst->SIGN == passedSecond->SIGN) {
 		// Case: a - b
 		if (passedFirst->SIGN > 0) {
-			instance = subtractInternal(passedFirst, passedSecond, &sign);
+			return subtractInternal(passedFirst, passedSecond);
 		}
 		// Case: -a - - b -> result: -a + b = b - a
 		if (passedFirst->SIGN < 0) {
-			instance = subtractInternal(passedSecond, passedFirst, &sign);
+			// Swap Sign: (-a) - (-b) = (-a) + (b) = (+b) + (+a)
+			return swapSign(subtractInternal(passedSecond, passedFirst));
 		}
 	}
 	// Case: -a - b -> result: -a + -b
 	else if (passedFirst->SIGN < passedSecond->SIGN) {
-		sign = -1;
-		instance = addInternal(passedFirst, passedSecond);
+		// Swap Sign: (-a) - (+b) = (-a) + (-b)
+		return swapSign(addInternal(passedFirst, passedSecond));
 	}
 
 	// Case: a - - b -> result: a + b
 	else if (passedFirst->SIGN > passedSecond->SIGN) {
-		sign = 1;
-		instance = addInternal(passedFirst, passedSecond);
+		// Swap Sign: (+a) - (-b) = (+a) + (+b)
+		return swapSign(addInternal(passedFirst, passedSecond));
 	}
 
-	else {
-		instance = newApint();
-	}
-
-	instance->SIGN = sign;
-	return instance;
+	return newApint();
 }
 
 /**
@@ -227,6 +215,9 @@ apint multiply(apint passedFirst, apint passedSecond) {
 
 	else {
 
+		// TODO: Fix multiplication algorithm
+
+		// New size will be at most the sum total digits
 		int size = passedFirst->SIZE + passedSecond->SIZE;
 		apint result = newApintWithSize(size + 1);
 
@@ -292,6 +283,11 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size + 1);
 
+	// If the second is greater in magnitude than the first, swap places and try again
+	if (compareMagnitude(passedFirst, passedSecond) < 0) {
+		return addInternal(passedSecond, passedFirst);
+	}
+
 	// Initialize carry array
 	int carry[size + 1];
 	zeroArray(carry, size + 1);
@@ -303,22 +299,22 @@ apint addInternal(apint passedFirst, apint passedSecond) {
 		carry[index + 1] = carryValue;
 		set(result, index, storedValue);
 	}
+
+	// Sign is set to that of greater magnitude
+	result->SIGN = passedFirst->SIGN;
+
 	return result;
 }
 
 /**
  * Subtracts the second from the first without regard to sign.
  */
-apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
-	// If the second is greater in magnitude than the first, swap places and try again
+apint subtractInternal(apint passedFirst, apint passedSecond) {
+	// If the second is greater in magnitude than the first, swap signs and places
 	// A < B -> A - B = -(B - A)
 	if (compareMagnitude(passedFirst, passedSecond) < 0) {
-		(*passedSign) *= -1;
-		return subtractInternal(passedSecond, passedFirst, passedSign);
+		return swapSign(subtractInternal(passedSecond, passedFirst));
 	}
-
-	// Sign is set to the apint with greater magnitude (guaranteed to be passedFirst at this point)
-	(*passedSign) = (passedFirst->SIGN) * (*passedSign);
 
 	int size = max(passedFirst->SIZE, passedSecond->SIZE);
 	apint result = newApintWithSize(size);
@@ -338,7 +334,18 @@ apint subtractInternal(apint passedFirst, apint passedSecond, int* passedSign) {
 		set(result, index, resultValue);
 	}
 
+	// Sign is set to that of greater magnitude
+	result->SIGN = passedFirst->SIGN;
+
 	return result;
+}
+
+/**
+ * Swaps the sign on the passed apint.
+ */
+apint swapSign(apint passedApint) {
+	passedApint->SIGN *= -1;
+	return passedApint;
 }
 
 int compareMagnitude(apint passedFirst, apint passedSecond) {
