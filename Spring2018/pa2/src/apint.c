@@ -214,9 +214,6 @@ apint multiply(apint passedFirst, apint passedSecond) {
 	}
 
 	else {
-
-		// TODO: Fix multiplication algorithm
-
 		// New size will be at most the sum total digits
 		int size = passedFirst->SIZE + passedSecond->SIZE;
 		apint result = newApintWithSize(size + 1);
@@ -231,7 +228,7 @@ apint multiply(apint passedFirst, apint passedSecond) {
 		for (int indexOuter = 0; indexOuter < size; indexOuter += 1) {
 			for (int indexInner = 0; indexInner < size; indexInner += 1) {
 				int resultValue = get(passedFirst, indexOuter) * get(passedSecond, indexInner);
-				carry[indexOuter] += resultValue;
+				carry[indexOuter + indexInner] += resultValue;
 			}
 		}
 
