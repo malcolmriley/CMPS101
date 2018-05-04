@@ -9,37 +9,31 @@
 #include <stdlib.h>
 #include "apint.h"
 
-void constructor_default() {
-	apint instance = newApint();
-	print(instance);
-	freeApint(instance);
+apint constructor_default() {
+	return newApint();
 }
 
-void constructor_zero() {
-	apint instance = fromInteger(0);
-	print(instance);
-	freeApint(instance);
+apint constructor_zero() {
+	return fromInteger(0);
 }
 
-void constructor_integer() {
-	apint instance = fromInteger(53423);
-	print(instance);
-	freeApint(instance);
+apint constructor_integer() {
+	return fromInteger(53423);
 }
 
-void constructor_integer_negative() {
-	apint instance = fromInteger(-14984);
-	print(instance);
-	freeApint(instance);
+apint constructor_integer_negative() {
+	return fromInteger(-14984);
 }
 
 void constructor_string_zero() {
 
 }
 
-void test(char* passedMessage, void (*passedFunction)()) {
+void test(char* passedMessage, apint (*passedFunction)()) {
 	puts(passedMessage);
-	passedFunction();
+	apint instance = passedFunction();
+	print(instance);
+	freeApint(instance);
 	puts("");
 }
 
