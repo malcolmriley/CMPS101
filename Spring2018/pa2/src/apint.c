@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <ctype.h>
+#include <string.h>
 #include "apint.h"
 
 /* Internal Function Declarations */
@@ -76,22 +77,36 @@ apint fromInteger(int passedValue) {
  * Constructor for conversion of a char array (string) to an apint.
  */
 apint fromString(char* passedArray) {
-	int size = (strlen(passedArray) / DIGITS_PER_BLOCK) + 1;
-	apint instance = newApintWithSize(size);
+	int digitLength = strlen(passedArray);
 	int beginIndex = 0;
+	int sign = 0;
+
 	if (!isdigit(passedArray[0])) {
-		instance->SIGN = getSign(passedArray[0]);
-		beginIndex = 1;
+		beginIndex += 1;
+		digitLength -= 1;
+		sign = getSign(passedArray[0]);
 	}
+
+	for(int index = beginIndex; index < strlen(passedArray); index += 1) {
+		if (!isdigit(passedArray[index])) {
+			beginIndex += 1;
+			digitLength -= 1;
+		}
+	}
+
+	int size = (digitLength / DIGITS_PER_BLOCK) + 1;
+	apint instance = newApintWithSize(size);
+
 	int nonzero = 0;
-	for (int index = beginIndex; index < (size - 1); index += 1) {
+	for (int index = beginIndex; index < size; index += 1) {
 		int value = charToInt(passedArray[index]);
 		nonzero |= (value != 0);
-		set(instance, index, value);
+		set(instance, (size - index - 1), value);
 	}
-	if (!nonzero) {
-		instance->SIGN = 0;
+	if (nonzero) {
+		instance->SIGN = sign;
 	}
+
 	return instance;
 }
 
@@ -379,7 +394,7 @@ char intToChar(int passedValue) {
 }
 
 int charToInt(char passedValue) {
-	return (isdigit(passedValue)) ? passedValue - '0' : 0;
+	return (isdigit(passedValue)) ? (int)(passedValue - '0') : 0;
 }
 
 int getSign(char passedValue) {
