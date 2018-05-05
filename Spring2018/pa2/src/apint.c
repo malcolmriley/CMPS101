@@ -207,6 +207,7 @@ apint subtract(apint passedFirst, apint passedSecond) {
  * Multiplies (passedFirst * passedSecond), returning the result as a new apint.
  */
 apint multiply(apint passedFirst, apint passedSecond) {
+	// TODO: Fix bug
 	// If signum of number is zero, return zero
 	int signum = (passedFirst->SIGN * passedSecond->SIGN);
 	if (signum == 0) {

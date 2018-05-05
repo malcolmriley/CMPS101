@@ -164,9 +164,10 @@ int main(void) {
 
 	puts("********** MULTIPLICATION TESTS **********");
 	test("A * B where A > B > 0", "+116183", multiply_small);
-	test("A * B where A > B >> 0", "?", multiply_large); // TODO: Verify
-	test("A * B where A << 0 << B", "?", multiply_negative); // TODO: Verify
-	test("A * B where 0 >> A >> B", "?", multiply_two_negative); // TODO: Verify
+	// TODO: Fix multiplication algorithm
+	test("A * B where A > B >> 0", "+2821878703798082274808157172", multiply_large);
+	test("A * B where A << 0 << B", "-504826607004116230340", multiply_negative);
+	test("A * B where 0 >> A >> B", "3589597849020897278010", multiply_two_negative);
 
 	return EXIT_SUCCESS;
 }
