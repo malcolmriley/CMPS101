@@ -23,7 +23,7 @@ public class FindAnagram {
 				try(Scanner input = new Scanner(System.in)) {
 					do {
 						System.out.print(PROMPT);
-						String inputLine = input.nextLine();
+						String inputLine = input.nextLine().trim();
 						printAnagramsFor(dictionary, inputLine);
 					} while(!shouldExit(input));
 				}
@@ -42,7 +42,7 @@ public class FindAnagram {
 		boolean result = false;
 		while (!parsed) {
 			System.out.print(AGAIN);
-			String input = passedScanner.nextLine();
+			String input = passedScanner.nextLine().trim();
 			if (input.equalsIgnoreCase("y")) {
 				result = false;
 				break;
