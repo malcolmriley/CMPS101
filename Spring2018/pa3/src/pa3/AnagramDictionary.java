@@ -1,10 +1,14 @@
 package pa3;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -16,8 +20,40 @@ public class AnagramDictionary {
 	
 	private HashMap<BigInteger, Set<Anagram>> DICTIONARY;
 	
-	public AnagramDictionary(int passedEntryQuantity) {
+	private AnagramDictionary(int passedEntryQuantity) {
 		this.DICTIONARY = new HashMap<BigInteger, Set<Anagram>>(passedEntryQuantity);
+	}
+	
+	public AnagramDictionary() {
+		this(16);
+	}
+	
+	/**
+	 * Returns a new {@link AnagramDictionary} of words parsed from the passed {@link File}.
+	 * <p>
+	 * If the passed {@link File} fails to read, an empty {@link AnagramDictionary} will be returned instead.
+	 * 
+	 * @param passedFile - The file to use for the dictionary
+	 * @return A suitably-instantiated and ready-to-use {@link AnagramDictionary} instance
+	 */
+	public static AnagramDictionary fromFile(File passedFile) {
+		try(FileReader reader = new FileReader(passedFile)) {
+			try(Scanner lineReader = new Scanner(reader)) {
+				if (lineReader.hasNextLine()) {
+					// First line in file should be number of words to follow
+					int numWords = Integer.valueOf(lineReader.nextLine());
+					AnagramDictionary dictionary = new AnagramDictionary(numWords);
+					while (lineReader.hasNextLine()) {
+						dictionary.add(lineReader.nextLine());
+					}
+					return dictionary;
+				}
+			}
+		} catch (IOException passedException) {
+			System.out.format("Exception occurred attempting to read file: %s \n", passedFile);
+			passedException.printStackTrace();
+		}
+		return new AnagramDictionary();
 	}
 	
 	/**
