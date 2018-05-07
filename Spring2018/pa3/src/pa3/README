@@ -1,6 +1,7 @@
-FILE				DESCRIPTION
-Anagram.java		Anagram type implementation class.
-FindAnagram.java	Main class for the Find Anagram program.
-Pa3Test.java		Testing class for the Anagram type.
-NoteToGrader		File describing approach, as per assignment requirements.
-README				This file.
+FILE					DESCRIPTION
+Anagram.java			Anagram type implementation class.
+AnagramDictionary.java	Type for fast storage and retrieval of Anagrams.
+FindAnagram.java		Main class for the Find Anagram program.
+Pa3Test.java			Testing class for the Anagram type.
+NoteToGrader			File describing approach, as per assignment requirements.
+README					This file.
