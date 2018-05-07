@@ -1,0 +1,23 @@
+Programming Assignment 2
+Written by Malcolm Riley for UCSC CMPS101, Spring Quarter. May 2018.
+
+NOTES TO GRADER
+A working apint data type, implemented in C, incorporating the hard lessons I learned attempting this in PA1.
+
+Below is a list of the function names for those made in compliance with the assignment requirements.
+
+CONSTRUCTORS-DESTRUCTOR
+Default:				newApint(void)		Accepts no arguments, creates an apint with a value of 0.
+Integer-Conversion:	fromInteger(int)		Accepts 1 argument, the integer value to convert.
+String-Conversion:	fromString(char*)	Accepts 1 argument, the "string' to convert (as per assignment specifications).
+Destructor:			freeApint(apint)		Frees the passed apint. "apint" disguises the apint_object* type, so no reference operator is necessary when passing an apint.
+
+OPERATIONS
+Addition:			add(apint, apint)		Adds the first apint to the second (first + second), returning the result as a new apint instance.
+Subtraction:			subtract(apint, apint) 	Subtracts the second apint from the first (first - second), returning the result as a new apint instance.
+Multiplication:		multiply(apint, apint)	Multiplies the two apint arguments (first * second), returning the result as a new apint instance.
+
+TESTING
+All testing occurs in main.c. The test(char*, char*, apint*) function receives a message, the expected result, and a pointer to an apint instance (in practice, a function pointer). The test_function(char*, char*, char*, apint*) function receives two strings for constructing an apint, a string for the operator, and a pointer to an apint instance (again, in practice, a function pointer).
+
+Using these functions, all of the major required operations of the apint type are tested in every meaningful configuration I could think of (though I'm sure there's edge cases I didn't think of).
