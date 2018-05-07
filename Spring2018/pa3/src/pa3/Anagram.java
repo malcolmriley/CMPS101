@@ -1,5 +1,7 @@
 package pa3;
 
+import java.math.BigInteger;
+
 /**
  * Implementation for {@link Anagram} type as per assignment requirements: 
  * <li> 1) a constructor which uses a String, made up of alphabetic characters either upper or lower case as an input argument. </li>
@@ -9,9 +11,24 @@ package pa3;
  * <li> 5) a method that returns the word part of an Anagram variable. </li>
  * <li> 6) do not allow user to get the code part of an Anagram variable. </li>
  * 
+ * Chosen approach:
+ * Express a single word as a multiple of primes. Assign each letter in the alphabet a prime number, the hash code for each word is the product of these primes.
+ * Two words that have the same "product" will be anagrams.
+ * 
+ * Optimizations:
+ * The internal list of primes is not in ascending order, but in order according to statistical letter occurrence in the English language. E corresponds to 2, for instance.
+ * This should lead to an average reduction in the size of the "code" for each letter.
+ * 
  * @author Malcolm Riley 2018
  */
 public class Anagram {
+	
+	// Constants
+	private static final int[] PRIMES = { 5, 71, 37, 29, 2, 53, 59, 19, 11, 83, 79, 31, 43, 13, 7, 67, 97, 23, 17, 3, 41, 73, 47, 89, 61, 101 };
+	
+	// Local Fields
+	private final String WORD;
+	private final BigInteger CODE;
 	
 	/**
 	 * Constructor for a new {@link Anagram} instance.
@@ -32,7 +49,8 @@ public class Anagram {
 	 * @param passedArray - The {@code char} array to use for the {@link Anagram}.
 	 */
 	public Anagram(char[] passedArray) {
-		// TODO
+		this.WORD = String.valueOf(passedArray);
+		this.CODE = getCode(passedArray);
 	}
 	
 	/**
@@ -53,8 +71,7 @@ public class Anagram {
 	 * @return Whether or not the two {@link Anagram} instances' backing words are anagrams.
 	 */
 	public boolean areAnagrams(Anagram passedAnagram) {
-		// TODO
-		return false;
+		return this.CODE.equals(passedAnagram.CODE);
 	}
 	
 	/**
@@ -65,21 +82,34 @@ public class Anagram {
 	 * @return The {@code String} word backing this {@link Anagram}.
 	 */
 	public String getWord() {
-		// TODO
-		return null;
+		return this.WORD;
 	}
 	
 	/* Internal Methods */
 	
 	/**
-	 * Returns whether or not the two passed {@code String} instances are the same length.
+	 * Returns a composite number that is the product of the prime keys corresponding to each character in the array.
 	 * 
-	 * @param passedFirst - The first String
-	 * @param passedSecond - The second String
-	 * @return Whether or not {@link String#length()} is the same for both.
+	 * @param passedArray - The character array to convert
+	 * @return A composite number, the product of the character key primes.
 	 */
-	private static final boolean sameLength(String passedFirst, String passedSecond) {
-		return (passedFirst.length() == passedSecond.length());
+	private static final BigInteger getCode(char[] passedArray) {
+		BigInteger result = BigInteger.valueOf(1);
+		for (char iteratedCharacter : passedArray) {
+			BigInteger multiplicand = BigInteger.valueOf(toPrime(iteratedCharacter));
+			result = result.multiply(multiplicand);
+		}
+		return result;
+	}
+	
+	/**
+	 * Method returns the prime key corresponding to the passed character.
+	 * 
+	 * @param passedCharacter - The character to convert
+	 * @return The prime number corresponding to the passed character.
+	 */
+	private static final int toPrime(char passedCharacter) {
+		return PRIMES[toIndex(passedCharacter)];
 	}
 	
 	/**
