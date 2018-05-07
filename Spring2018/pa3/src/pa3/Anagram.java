@@ -11,14 +11,6 @@ import java.math.BigInteger;
  * <li> 5) a method that returns the word part of an Anagram variable. </li>
  * <li> 6) do not allow user to get the code part of an Anagram variable. </li>
  * 
- * Chosen approach:
- * Express a single word as a multiple of primes. Assign each letter in the alphabet a prime number, the hash code for each word is the product of these primes.
- * Two words that have the same "product" will be anagrams.
- * 
- * Optimizations:
- * The internal list of primes is not in ascending order, but in order according to statistical letter occurrence in the English language. E corresponds to 2, for instance.
- * This should lead to an average reduction in the size of the "code" for each letter.
- * 
  * @author Malcolm Riley 2018
  */
 public class Anagram {
