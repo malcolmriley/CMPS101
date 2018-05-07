@@ -221,13 +221,11 @@ apint multiply(apint passedFirst, apint passedSecond) {
 
 		// Initialize carry array
 		int carry[size + 1];
-		for (int index = 0; index < (size + 1); index += 1) {
-			carry[index] = 0;
-		}
+		zeroArray(carry, size + 1);
 
 		// Perform Multiplication
-		for (int indexOuter = 0; indexOuter < size; indexOuter += 1) {
-			for (int indexInner = 0; indexInner < size; indexInner += 1) {
+		for (int indexOuter = 0; indexOuter < passedFirst->SIZE; indexOuter += 1) {
+			for (int indexInner = 0; indexInner < passedSecond->SIZE; indexInner += 1) {
 				int resultValue = get(passedFirst, indexOuter) * get(passedSecond, indexInner);
 				carry[indexOuter + indexInner] += resultValue;
 			}
@@ -237,12 +235,7 @@ apint multiply(apint passedFirst, apint passedSecond) {
 		for (int index = 0; index < size; index += 1) {
 			int value = carry[index];
 			set(result, index, value - (getCarry(value) * (1 + MAX_PER_BLOCK)));
-			int offset = 0;
-			while (value > 0) {
-				carry[index + offset] += value;
-				value /= (1 + MAX_PER_BLOCK);
-				offset += 1;
-			}
+			carry[index + 1] += getCarry(value);
 		}
 
 		result->SIGN = signum;
