@@ -42,7 +42,7 @@ public class Anagram {
 	 */
 	public Anagram(char[] passedArray) {
 		this.WORD = String.valueOf(passedArray);
-		this.CODE = getCode(passedArray);
+		this.CODE = codeFrom(passedArray);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class Anagram {
 	 * @param passedArray - The character array to convert
 	 * @return A composite number, the product of the character key primes.
 	 */
-	private static final BigInteger getCode(char[] passedArray) {
+	private static final BigInteger codeFrom(char[] passedArray) {
 		BigInteger result = BigInteger.valueOf(1);
 		for (char iteratedCharacter : passedArray) {
 			BigInteger multiplicand = BigInteger.valueOf(toPrime(iteratedCharacter));
