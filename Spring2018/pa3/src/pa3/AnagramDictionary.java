@@ -85,7 +85,7 @@ public class AnagramDictionary {
 	private boolean add(Anagram passedAnagram) {
 		BigInteger code = passedAnagram.getCode();
 		if (!this.DICTIONARY.containsKey(code)) {
-			this.DICTIONARY.put(code, new HashSet<Anagram>(32));
+			this.DICTIONARY.put(code, new HashSet<Anagram>());
 		}
 		return this.DICTIONARY.get(code).add(passedAnagram);
 	}
