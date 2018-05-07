@@ -92,6 +92,16 @@ public class Anagram {
 		return this.CODE;
 	}
 	
+	/* Supertype Override Methods */
+	
+	@Override
+	public boolean equals(Object passedObject) {
+		if (passedObject instanceof Anagram) {
+			return ((Anagram)passedObject).getWord().equals(this.getWord());
+		}
+		return false;
+	}
+	
 	/* Internal Methods */
 	
 	/**
