@@ -14,7 +14,7 @@ package pa3;
 public class Anagram {
 	
 	public Anagram(String passedString) {
-		// TODO
+		this(passedString.toCharArray());
 	}
 	
 	public Anagram(char[] passedArray) {
