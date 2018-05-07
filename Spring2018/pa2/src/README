@@ -1,0 +1,6 @@
+FILE			DESCRIPTION
+apint.c			Arbitrary Precision Integer implementation.
+apint.h			Arbitrary Precision Integer header specification.
+main.c			Testing class for ensuring assignment compliance.
+NoteToGrader		File describing approach, as per assignment requirements.
+README			This file.
