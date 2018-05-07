@@ -20,27 +20,12 @@ public class FindAnagram {
 				AnagramDictionary dictionary = AnagramDictionary.fromFile(dictionaryFile);
 				System.out.println("Load Complete!\n");
 				
-				boolean exit = false;
-				boolean again = false;
-				
 				try(Scanner input = new Scanner(System.in)) {
-					while(!exit) {
-						again = false;
+					do {
 						System.out.print(PROMPT);
 						String inputLine = input.nextLine();
 						printAnagramsFor(dictionary, inputLine);
-						while(!again) {
-							System.out.print(AGAIN);
-							inputLine = input.nextLine();
-							if (inputLine.equalsIgnoreCase("n")) {
-								exit = true;
-								again = true;
-							}
-							else if (inputLine.equalsIgnoreCase("y")) {
-								again = true;
-							}
-						}
-					}
+					} while(!shouldExit(input));
 				}
 			}
 			else {
@@ -50,6 +35,24 @@ public class FindAnagram {
 		else {
 			System.out.println(USAGE);
 		}
+	}
+	
+	public static boolean shouldExit(Scanner passedScanner) {
+		boolean parsed = false;
+		boolean result = false;
+		while (!parsed) {
+			System.out.print(AGAIN);
+			String input = passedScanner.nextLine();
+			if (input.equalsIgnoreCase("y")) {
+				result = false;
+				break;
+			}
+			else if (input.equalsIgnoreCase("n")) {
+				result = true;
+				break;
+			}
+		}
+		return result;
 	}
 	
 	public static void printAnagramsFor(AnagramDictionary passedDictionary, String passedWord) {
