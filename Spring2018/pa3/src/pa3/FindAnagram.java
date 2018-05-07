@@ -5,12 +5,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FindAnagram {
-	
-	// Constants
-	private static final String PROMPT = "Enter a string of characters: ";
-	private static final String AGAIN = "Find more anagrams? (y/n): ";
-	private static final String USAGE = "Usage: \"FindAnagram <File>\", where <File> is the location of the dictionary to use.";
-	private static final String ERROR = "File \"%s\" not found!\n";
 
 	public static void main(String[] passedArguments) {
 		if (passedArguments.length > 0) {
@@ -22,18 +16,18 @@ public class FindAnagram {
 				
 				try(Scanner input = new Scanner(System.in)) {
 					do {
-						System.out.print(PROMPT);
+						System.out.print("Enter a string of characters: ");
 						String inputLine = input.nextLine().trim();
 						printAnagramsFor(dictionary, inputLine);
 					} while(!shouldExit(input));
 				}
 			}
 			else {
-				System.out.format(ERROR);
+				System.out.format("File \"%s\" not found!\n");
 			}
 		}
 		else {
-			System.out.println(USAGE);
+			System.out.println("Usage: \"FindAnagram <File>\", where <File> is the location of the dictionary to use.");
 		}
 	}
 	
@@ -43,7 +37,7 @@ public class FindAnagram {
 		boolean parsed = false;
 		boolean result = false;
 		while (!parsed) {
-			System.out.print(AGAIN);
+			System.out.print("Find more anagrams? (y/n): ");
 			String input = passedScanner.nextLine().trim();
 			if (input.equalsIgnoreCase("y")) {
 				result = false;
