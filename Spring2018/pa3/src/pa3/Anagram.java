@@ -77,6 +77,15 @@ public class Anagram {
 		return this.WORD;
 	}
 	
+	/**
+	 * Method that returns the backing {@link BigInteger} "code" for this {@link Anagram}.
+	 * 
+	 * @return - The backing "code".
+	 */
+	protected BigInteger getCode() {
+		return this.CODE;
+	}
+	
 	/* Internal Methods */
 	
 	/**
