@@ -1,0 +1,6 @@
+FILE				DESCRIPTION
+Anagram.java		Anagram type implementation class.
+FindAnagram.java	Main class for the Find Anagram program.
+Pa2Test.java		Testing class for the Anagram type.
+NoteToGrader		File describing approach, as per assignment requirements.
+README				This file.
