@@ -83,6 +83,12 @@ public class Anagram {
 	 * @return - The backing "code".
 	 */
 	protected BigInteger getCode() {
+		/*
+		 *  TODO: Determine whether this is permissible by assignment requirements.
+		 *  
+		 *  Clearly, the user can't access it, but this may be too close for comfort. If this is not permissible,
+		 *  simply move AnagramDictionary class to this one and remove this method.
+		 */
 		return this.CODE;
 	}
 	
