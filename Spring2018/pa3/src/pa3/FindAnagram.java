@@ -37,7 +37,9 @@ public class FindAnagram {
 		}
 	}
 	
-	public static boolean shouldExit(Scanner passedScanner) {
+	/* Internal Methods */
+	
+	private static boolean shouldExit(Scanner passedScanner) {
 		boolean parsed = false;
 		boolean result = false;
 		while (!parsed) {
@@ -55,7 +57,7 @@ public class FindAnagram {
 		return result;
 	}
 	
-	public static void printAnagramsFor(AnagramDictionary passedDictionary, String passedWord) {
+	private static void printAnagramsFor(AnagramDictionary passedDictionary, String passedWord) {
 		List<String> anagramList = passedDictionary.getAnagrams(passedWord);
 		if (!anagramList.isEmpty()) {
 			StringBuilder builder = new StringBuilder(String.format("Known anagrams for word \"%s\":\n\t", passedWord.toUpperCase()));
