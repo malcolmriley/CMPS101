@@ -13,7 +13,6 @@ package pa3;
  */
 public class Anagram {
 	
-	
 	public Anagram(String passedString) {
 		// TODO
 	}
@@ -34,6 +33,31 @@ public class Anagram {
 	public boolean areAnagrams(Anagram passedAnagram) {
 		// TODO
 		return false;
+	}
+	
+	/* Internal Methods */
+	
+	/**
+	 * Returns whether or not the two passed {@code String} instances are the same length.
+	 * 
+	 * @param passedFirst - The first String
+	 * @param passedSecond - The second String
+	 * @return Whether or not {@link String#length()} is the same for both.
+	 */
+	private static final boolean sameLength(String passedFirst, String passedSecond) {
+		return (passedFirst.length() == passedSecond.length());
+	}
+	
+	/**
+	 * Converts {@code passedCharacter} to its integer "index" value; that is, a = 0, b = 1, c = 2, etc.
+	 * <p>
+	 * This method ignores case: A = a = 0, B = b = 1, C = c = 2, etc.
+	 *
+	 * @param passedCharacter - The character to convert
+	 * @return The index of that character, minus 1.
+	 */
+	private static final int toIndex(char passedCharacter) {
+		return (Character.toLowerCase(passedCharacter) - 'a');
 	}
 
 }
