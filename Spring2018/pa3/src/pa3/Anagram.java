@@ -79,16 +79,12 @@ public class Anagram {
 	
 	/**
 	 * Method that returns the backing {@link BigInteger} "code" for this {@link Anagram}.
+	 * <p>
+	 * Per verbal communication with Prof. Bailey, protected code getters are fine as the end user cannot access them.
 	 * 
 	 * @return - The backing "code".
 	 */
 	protected BigInteger getCode() {
-		/*
-		 *  TODO: Determine whether this is permissible by assignment requirements.
-		 *  
-		 *  Clearly, the user can't access it, but this may be too close for comfort. If this is not permissible,
-		 *  simply move AnagramDictionary class to this one and remove this method.
-		 */
 		return this.CODE;
 	}
 	
