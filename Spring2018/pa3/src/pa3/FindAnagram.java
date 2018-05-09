@@ -4,6 +4,11 @@ import java.io.File;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Anagram finding program for PA3.
+ * 
+ * @author Malcolm Riley 2018
+ */
 public class FindAnagram {
 
 	public static void main(String[] passedArguments) {
