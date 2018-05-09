@@ -98,6 +98,11 @@ public class Anagram {
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		return this.WORD.toUpperCase();
+	}
+	
 	/* Internal Methods */
 	
 	/**
