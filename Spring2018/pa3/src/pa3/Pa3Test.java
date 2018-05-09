@@ -1,5 +1,10 @@
 package pa3;
 
+/**
+ * {@link Anagram} type testing program for PA3.
+ * 
+ * @author Malcolm Riley 2018
+ */
 public class Pa3Test {
 
 	public static void main(String[] passedArguments) {
