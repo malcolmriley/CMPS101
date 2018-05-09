@@ -126,7 +126,7 @@ public class Anagram {
 	 * @return The prime number corresponding to the passed character.
 	 */
 	private static final int toPrime(char passedCharacter) {
-		return PRIMES[toIndex(passedCharacter)];
+		return (Character.isLetter(passedCharacter)) ? PRIMES[toIndex(passedCharacter)] : 0;
 	}
 	
 	/**
