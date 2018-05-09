@@ -1,5 +1,0 @@
-Chosen approach:
-Express a single word as a multiple of primes. Assign each letter in the alphabet a prime number, the hash code for each word is the product of these primes. Two words that have the same "product" will be anagrams.
-
-Optimizations:
-The internal list of primes is not in ascending order, but in order according to statistical letter occurrence in the English language. E corresponds to 2, for instance. This should lead to an average reduction in the size of the "code" for each letter.
