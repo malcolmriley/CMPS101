@@ -7,7 +7,7 @@ import java.util.Scanner;
  * 
  * @author Malcolm Riley 2018
  */
-public class FindAnagram {
+public class FindAnagram_Old {
 
 	public static void main(String[] passedArguments) {
 		if (passedArguments.length > 0) {
