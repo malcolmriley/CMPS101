@@ -78,8 +78,16 @@ public class FindAnagram {
 	}
 	
 	private static List<Anagram> getAnagrams(String passedWord, List<Anagram> passedDictionary) {
-		// TODO
-		return null;
+		List<Anagram> anagramList = new ArrayList<Anagram>();
+		Anagram word = new Anagram(passedWord);
+		for (Anagram iteratedAnagram : passedDictionary) {
+			if (iteratedAnagram.areAnagrams(word)) {
+				if (!iteratedAnagram.getWord().equals(passedWord)) {
+					anagramList.add(iteratedAnagram);
+				}
+			}
+		}
+		return anagramList;
 	}
 	
 	private static void printAnagrams(String passedWord, List<Anagram> passedAnagramList) {
