@@ -30,8 +30,9 @@ public class Vector implements IPa4Vector {
 	 * @return A suitably-instantiated vector
 	 */
 	public static Vector polarVector(float angle, float magnitude) {
-		// TODO
-		return null;
+		float xValue = (float) (magnitude * Math.cos(angle));
+		float yValue = (float) (magnitude * Math.sin(angle));
+		return new Vector(xValue, yValue);
 	}
 
 	@Override
