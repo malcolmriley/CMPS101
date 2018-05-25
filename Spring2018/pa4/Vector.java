@@ -47,8 +47,7 @@ public class Vector implements IPa4Vector {
 
 	@Override
 	public float getAngle() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (float) Math.atan(this.Y / this.X);
 	}
 
 	@Override
