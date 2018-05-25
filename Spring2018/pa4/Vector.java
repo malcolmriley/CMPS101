@@ -101,8 +101,10 @@ public class Vector implements IPa4Vector {
 	 * @return The cross product of {@code this} and {@code passedVector}.
 	 */
 	public Vector crossProduct(Vector passedVector) {
-		// TODO:
-		return null;
+//		a × b = |a| |b| sin(θ) n
+		float angle = this.angleBetween(passedVector);
+		float scalar = (float) (this.getMagnitude() * passedVector.getMagnitude() * Math.sin(angle));
+		return this.normalize().scalarMultiply(scalar);
 	}
 	
 	/**
@@ -112,8 +114,10 @@ public class Vector implements IPa4Vector {
 	 * @return The angle, in radians, between {@code this} and {@code passedVector}
 	 */
 	public float angleBetween(Vector passedVector) {
-		// TODO:
-		return 0;
+		float dotProduct = this.dotProduct(passedVector);
+		float thisMagnitude = this.getMagnitude();
+		float otherMagnitude = passedVector.getMagnitude();
+		return (float) (Math.acos(dotProduct / (thisMagnitude * otherMagnitude)));
 	}
 
 }
