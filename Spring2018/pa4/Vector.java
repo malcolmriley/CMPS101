@@ -86,8 +86,10 @@ public class Vector implements IPa4Vector {
 
 	@Override
 	public Vector normalize() {
-		// TODO Auto-generated method stub
-		return null;
+		float magnitude = this.getMagnitude();
+		float normalizedX = (this.getX() / magnitude);
+		float nomralizedY = (this.getY() / magnitude);
+		return new Vector(normalizedX, nomralizedY);
 	}
 	
 	/* New Methods */
