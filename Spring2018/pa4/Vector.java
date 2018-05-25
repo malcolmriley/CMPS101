@@ -21,6 +21,8 @@ public class Vector implements IPa4Vector {
 		this.X = passedX;
 		this.Y = passedY;
 	}
+	
+	/* Required Methods */
 
 	/**
 	 * This "constructor" takes an angle and a magnitude for the Vector.
@@ -74,17 +76,6 @@ public class Vector implements IPa4Vector {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
-	/**
-	 * Returns the cross product of this instance and {@code passedVector}.
-	 * 
-	 * @param passedVector - The {@link Vector} to perform the cross product with
-	 * @return The cross product of {@code this} and {@code passedVector}.
-	 */
-	public Vector crossProduct(Vector passedVector) {
-		// TODO
-		return null;
-	}
 
 	@Override
 	public Vector scalarMultiply(float scalar) {
@@ -97,6 +88,30 @@ public class Vector implements IPa4Vector {
 	public Vector normalize() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	/* New Methods */
+
+	/**
+	 * Returns the cross product of this instance and {@code passedVector}.
+	 * 
+	 * @param passedVector - The {@link Vector} to perform the cross product with
+	 * @return The cross product of {@code this} and {@code passedVector}.
+	 */
+	public Vector crossProduct(Vector passedVector) {
+		// TODO:
+		return null;
+	}
+	
+	/**
+	 * Returns the angle between this instance and the passed instance.
+	 * 
+	 * @param passedVector - The vector to compare against.
+	 * @return The angle, in radians, between {@code this} and {@code passedVector}
+	 */
+	public float angleBetween(Vector passedVector) {
+		// TODO:
+		return 0;
 	}
 
 }
