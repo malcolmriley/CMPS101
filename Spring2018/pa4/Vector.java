@@ -36,14 +36,12 @@ public class Vector implements IPa4Vector {
 
 	@Override
 	public float getX() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.X;
 	}
 
 	@Override
 	public float getY() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.Y;
 	}
 
 	@Override
