@@ -73,8 +73,8 @@ public class Vector implements IPa4Vector {
 
 	@Override
 	public float dotProduct(Vector other) {
-		// TODO Auto-generated method stub
-		return 0;
+		float angle = this.angleBetween(other);
+		return (float) (this.getMagnitude() * other.getMagnitude() * Math.cos(angle));
 	}
 
 	@Override
