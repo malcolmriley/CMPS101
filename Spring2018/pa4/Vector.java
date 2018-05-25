@@ -52,20 +52,21 @@ public class Vector implements IPa4Vector {
 
 	@Override
 	public float getMagnitude() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (float) Math.sqrt(this.X * this.X + this.Y  * this.Y);
 	}
 
 	@Override
 	public Vector add(Vector other) {
-		// TODO Auto-generated method stub
-		return null;
+		float sumX = (this.getX() + other.getX());
+		float sumY = (this.getY() + other.getY());
+		return new Vector(sumX, sumY);
 	}
 
 	@Override
 	public Vector subtract(Vector other) {
-		// TODO Auto-generated method stub
-		return null;
+		float diffX = (this.getX() - other.getX());
+		float diffY = (this.getY() - other.getY());
+		return new Vector(diffX, diffY);
 	}
 
 	@Override
@@ -73,11 +74,23 @@ public class Vector implements IPa4Vector {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	/**
+	 * Returns the cross product of this instance and {@code passedVector}.
+	 * 
+	 * @param passedVector - The {@link Vector} to perform the cross product with
+	 * @return The cross product of {@code this} and {@code passedVector}.
+	 */
+	public float crossProduct(Vector passedVector) {
+		// TODO
+		return 0;
+	}
 
 	@Override
 	public Vector scalarMultiply(float scalar) {
-		// TODO Auto-generated method stub
-		return null;
+		float productX = (this.getX() * scalar);
+		float productY = (this.getY() * scalar);
+		return new Vector(productX, productY);
 	}
 
 	@Override
