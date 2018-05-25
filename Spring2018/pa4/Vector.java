@@ -81,9 +81,9 @@ public class Vector implements IPa4Vector {
 	 * @param passedVector - The {@link Vector} to perform the cross product with
 	 * @return The cross product of {@code this} and {@code passedVector}.
 	 */
-	public float crossProduct(Vector passedVector) {
+	public Vector crossProduct(Vector passedVector) {
 		// TODO
-		return 0;
+		return null;
 	}
 
 	@Override
