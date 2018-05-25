@@ -1,12 +1,14 @@
 public class Vector implements IPa4Vector {
-
-	// Constructors
+	
+	// Local Fields
+	private final float X;
+	private final float Y;
 
 	/**
 	 * The default constructor should create a new Vector with no magnitude.
 	 */
 	public Vector() {
-
+		this(0F, 0F);
 	}
 
 	/**
@@ -16,7 +18,8 @@ public class Vector implements IPa4Vector {
 	 * @param passedY - The Y coordinate
 	 */
 	public Vector(float passedX, float passedY) {
-
+		this.X = passedX;
+		this.Y = passedY;
 	}
 
 	/**
