@@ -93,6 +93,17 @@ public class Vector implements IPa4Vector {
 	}
 	
 	/* New Methods */
+	
+	/**
+	 * Returns the "slope" of this {@link Vector}, as if it were a line segment originating at (0,0).
+	 * <p>
+	 * If {@link #getX()} would return 0, returns {@link Float#POSITIVE_INFINITY}.
+	 * 
+	 * @return
+	 */
+	public float slope() {
+		return (this.getX() == 0)? Float.POSITIVE_INFINITY : (this.getY() / this.getX());
+	}
 
 	/**
 	 * Returns the cross product of this instance and {@code passedVector}.
