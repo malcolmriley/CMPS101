@@ -101,7 +101,6 @@ public class Vector implements IPa4Vector {
 	 * @return The cross product of {@code this} and {@code passedVector}.
 	 */
 	public Vector crossProduct(Vector passedVector) {
-//		a × b = |a| |b| sin(θ) n
 		float angle = this.angleBetween(passedVector);
 		float scalar = (float) (this.getMagnitude() * passedVector.getMagnitude() * Math.sin(angle));
 		return this.normalize().scalarMultiply(scalar);
