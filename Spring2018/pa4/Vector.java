@@ -135,6 +135,14 @@ public class Vector {
 	/* New Methods */
 	
 	/**
+	 * Converts this {@link Vector} into a readable {@link String} in the format "(X, Y)".
+	 */
+	@Override
+	public String toString() {
+		return String.format("(%d, %d)", this.getX(), this.getY());
+	}
+	
+	/**
 	 * Returns a new copy of this {@link Vector} instance, with the same X and Y values.
 	 * 
 	 * @return A copy of this {@link Vector} instance.
