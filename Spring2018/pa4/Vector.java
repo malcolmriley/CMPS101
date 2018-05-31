@@ -95,6 +95,15 @@ public class Vector implements IPa4Vector {
 	/* New Methods */
 	
 	/**
+	 * Returns a new copy of this {@link Vector} instance, with the same X and Y values.
+	 * 
+	 * @return A copy of this {@link Vector} instance.
+	 */
+	public Vector copy() {
+		return new Vector(this.getX(), this.getY());
+	}
+	
+	/**
 	 * Returns the "slope" of this {@link Vector}, as if it were a line segment originating at (0,0).
 	 * <p>
 	 * If {@link #getX()} would return 0, returns {@link Float#POSITIVE_INFINITY}.
@@ -106,7 +115,7 @@ public class Vector implements IPa4Vector {
 	}
 
 	/**
-	 * Returns the cross product of this instance and {@code passedVector}.
+	 * Performs the cross product of this instance and {@code passedVector}, returning the result as a new {@link Vector}.
 	 * 
 	 * @param passedVector - The {@link Vector} to perform the cross product with
 	 * @return The cross product of {@code this} and {@code passedVector}.
@@ -128,6 +137,31 @@ public class Vector implements IPa4Vector {
 		float thisMagnitude = this.getMagnitude();
 		float otherMagnitude = passedVector.getMagnitude();
 		return (float) (Math.acos(dotProduct / (thisMagnitude * otherMagnitude)));
+	}
+	
+	/**
+	 * Performs a rotation of this {@link Vector} about the origin, returning the result as a new {@link Vector}.
+	 * 
+	 * @param passedAngle - The angle to rotate by
+	 * @return A new {@link Vector} instance, the result of rotating {@code this} about the origin {@code (0, 0)}.
+	 */
+	public Vector rotate(float passedAngle) {
+		float sin = (float) Math.sin(passedAngle);
+		float cos = (float) Math.cos(passedAngle);
+		float xValue = (cos * this.getX()) - (sin * this.getY());
+		float yValue = (cos * this.getY()) + (sin * this.getX());
+		return new Vector(xValue, yValue);
+	}
+	
+	/**
+	 * Performs a rotation of this {@link Vector} about an arbitrary point, interpreted from the passed {@link Vector}, returning the result as a new {@link Vector}.
+	 * 
+	 * @param passedVector - The point to rotate around
+	 * @param passedAngle - The angle to rotate by
+	 * @return A new {@link Vector} instance, the result of rotating {@code this} about {@code passedVector} by the angle {@code passedAngle}.
+	 */
+	public Vector rotateAround(Vector passedVector, float passedAngle) {
+		return this.subtract(passedVector).rotate(passedAngle).add(passedVector);
 	}
 
 }
