@@ -1,4 +1,4 @@
-public class Vector implements IPa4Vector {
+public class Vector {
 	
 	// Local Fields
 	private final float X;
@@ -37,54 +37,94 @@ public class Vector implements IPa4Vector {
 		return new Vector(xValue, yValue);
 	}
 
-	@Override
+	/**
+	 * Returns the X component of this {@link Vector} instance.
+	 * 
+	 * @return This {@link Vector}'s X component.
+	 */
 	public float getX() {
 		return this.X;
 	}
 
-	@Override
+	/**
+	 * Returns the Y component of this {@link Vector} instance.
+	 * 
+	 * @return This {@link Vector}'s Y component.
+	 */
 	public float getY() {
 		return this.Y;
 	}
 
-	@Override
+	/**
+	 * Returns the angle of the {@link Vector}.
+	 * 
+	 * @return This {@link Vector}'s angle.
+	 */
 	public float getAngle() {
 		return (float) Math.atan(this.Y / this.X);
 	}
 
-	@Override
+	/**
+	 * Returns the magnitude of this {@link Vector}.
+	 * 
+	 * @return The magnitude of this {@link Vector}.
+	 */
 	public float getMagnitude() {
 		return (float) Math.sqrt(this.X * this.X + this.Y  * this.Y);
 	}
 
-	@Override
+	/**
+	 * Performs addition of this {@link Vector} and the passed {@link Vector}, returning the result as a new {@link Vector} instance.
+	 * 
+	 * @param other - The {@link Vector} to add to {@code this}
+	 * @return The result of adding {@code this} with {@code other}, returned as a new {@link Vector} instance.
+	 */
 	public Vector add(Vector other) {
 		float sumX = (this.getX() + other.getX());
 		float sumY = (this.getY() + other.getY());
 		return new Vector(sumX, sumY);
 	}
-
-	@Override
+	
+	/**
+	 * Performs subtraction of this {@link Vector} and the passed {@link Vector}, returning the result as a new {@link Vector} instance.
+	 * 
+	 * @param other - The {@link Vector} to subtract from {@code this}
+	 * @return The result of subtracting {@code other} from {@code this}, returned as a new {@link Vector} instance.
+	 */
 	public Vector subtract(Vector other) {
 		float diffX = (this.getX() - other.getX());
 		float diffY = (this.getY() - other.getY());
 		return new Vector(diffX, diffY);
 	}
 
-	@Override
+	/**
+	 * Performs the dot product operation on this {@link Vector} instance and the passed {@link Vector} instance, returning the result as a new {@link Vector} instance.
+	 * 
+	 * @param other - The {@link Vector} to perform the dot product operation with
+	 * @return The result of the dot product between {@code this} and {@code other}, returned as a new {@link Vector} instance.
+	 */
 	public float dotProduct(Vector other) {
 		float angle = this.angleBetween(other);
 		return (float) (this.getMagnitude() * other.getMagnitude() * Math.cos(angle));
 	}
 
-	@Override
+	/**
+	 * Performs scalar multiplication on this {@link Vector} instance, returning the result as a new {@link Vector} instance.
+	 * 
+	 * @param scalar - The scalar value to multiply by
+	 * @return The result of scalar multiplication of {@code this} and {@code scalar}, returned as a new {@link Vector} instance.
+	 */
 	public Vector scalarMultiply(float scalar) {
 		float productX = (this.getX() * scalar);
 		float productY = (this.getY() * scalar);
 		return new Vector(productX, productY);
 	}
 
-	@Override
+	/**
+	 * Returns the normalized unit-vector version of this {@link Vector}, as a new instance.
+	 * 
+	 * @return The unit vector of {@code this}, returned as a new {@link Vector} instance.
+	 */
 	public Vector normalize() {
 		float magnitude = this.getMagnitude();
 		float normalizedX = (this.getX() / magnitude);
