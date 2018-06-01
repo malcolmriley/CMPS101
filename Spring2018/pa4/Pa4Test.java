@@ -94,10 +94,9 @@ public class Pa4Test {
 		doTests("Constructor", EnumConstructorTests.values());
 		doTests("Unary", EnumUnaryTests.values());
 		doTests("Binary", EnumBinaryTests.values());
+		
 		// Misc Tests
-		// scalarMultiply(float)
-		// rotate()
-		// rotateAround(Vector, float)
+		doMiscTests();
 	}
 	
 	private static void announce(String passedString) {
@@ -110,6 +109,17 @@ public class Pa4Test {
 			iteratedTest.run();
 		}
 		System.out.println();
+	}
+	
+	private static void doMiscTests() {
+		announce("Misc");
+		Vector vec = new Vector(3.5F, -2.17F);
+		Vector vec2 = new Vector(1.0F, 0.5F);
+		float value = 1.129F;
+		String template = "Performing \"%s\" on %s using %f";
+		printResult(String.format(template, "scalarMultiply()", vec, value), "(3.9515, -2.44993)", vec.scalarMultiply(value).toString());
+		printResult(String.format(template, "rotate()", vec, value), "(3.45812, 2.23613)", vec.rotate(value).toString());
+		printResult(String.format(template + " and %s", "rotateAround()", vec, value, vec2), "(4.48255, 1.61837)", vec.rotateAround(vec2, value).toString());
 	}
 	
 	private static void printResult(String passedComment, String passedExpectedResult, String passedActualResult) {
