@@ -1,0 +1,13 @@
+I added functionality for most ordinary operations with Vectors - at least those that I was familiar with.
+Added functionality:
+	Complex -
+	Rotation around origin - via rotate(float)
+	Rotation around arbitrary point - via rotateAround(Vector, float)
+	Finding angle between two vectors - via angleBetween(Vector)
+	Finding the cross product of two vectors - via crossProduct(Vector)
+	Simple -
+	Finding the "slope" of a line from the origin to the vector (as a coordinate) - via slope()
+	Cloning a Vector - via copy()
+	Printing a Vector - via toString()
+
+In testing, I discovered a few discrepancies between the values returned and the values I manually calculated. I believe these can be attributed to floating-point or rounding errors.
