@@ -90,12 +90,17 @@ public class Pa4Test {
 	}
 
 	public static void main(String[] passedArguments) {
+		// Enumerable tests
 		doTests("Constructor", EnumConstructorTests.values());
 		doTests("Unary", EnumUnaryTests.values());
 		doTests("Binary", EnumBinaryTests.values());
+		// Misc Tests
+		// scalarMultiply(float)
+		// rotate()
+		// rotateAround(Vector, float)
 	}
 	
-	public static void doTests(String passedCategory, Runnable[] passedTests) {
+	private static void doTests(String passedCategory, Runnable[] passedTests) {
 		System.out.format("******************** %s TESTS ********************\n", passedCategory.toUpperCase());
 		for (Runnable iteratedTest : passedTests) {
 			iteratedTest.run();
@@ -103,7 +108,7 @@ public class Pa4Test {
 		System.out.println();
 	}
 	
-	public static void printResult(String passedComment, String passedExpectedResult, String passedActualResult) {
+	private static void printResult(String passedComment, String passedExpectedResult, String passedActualResult) {
 		final String template = "\t%s\t %s\n";
 		System.out.println(passedComment);
 		System.out.format(template, "EXPECTED: ~", passedExpectedResult);
