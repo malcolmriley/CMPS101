@@ -5,6 +5,9 @@ import java.util.function.Supplier;
 public class Pa4Test {
 	
 	private enum EnumConstructorTests implements Runnable {
+		DEFAULT("default", "(0.0, 0.0)", Vector::new),
+		XY("xy", "(3.0, -1.5)", () -> { return new Vector(3.0F, -1.5F); }),
+		ANGULAR("angular", "(4.844562, 1.2370198)", () -> { return Vector.polarVector(0.25F, 5.0F); }),
 		;
 		
 		private final String COMMENT;
@@ -88,10 +91,10 @@ public class Pa4Test {
 	}
 	
 	public static void printResult(String passedComment, String passedExpectedResult, String passedActualResult) {
-		final String template = "\t%s:\t\t %s\n";
+		final String template = "\t%s\t %s\n";
 		System.out.println(passedComment);
-		System.out.format(template, "EXPECTED", passedExpectedResult);
-		System.out.format(template, "ACTUAL", passedActualResult);
+		System.out.format(template, "EXPECTED: ~", passedExpectedResult);
+		System.out.format(template, "ACTUAL:    ", passedActualResult);
 		System.out.println();
 	}
 }
