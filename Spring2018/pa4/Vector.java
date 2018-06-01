@@ -139,7 +139,7 @@ public class Vector {
 	 */
 	@Override
 	public String toString() {
-		return String.format("(%d, %d)", this.getX(), this.getY());
+		return String.format("(%s, %s)", String.valueOf(this.getX()), String.valueOf(this.getY()));
 	}
 	
 	/**
