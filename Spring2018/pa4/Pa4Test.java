@@ -29,6 +29,14 @@ public class Pa4Test {
 	}
 	
 	private enum EnumUnaryTests implements Runnable {
+		COPY("copy()", "(0.125, 1.0)", new Vector(0.125F, 1.0F), Vector::copy),
+		GET_X("getX()", "0.5", new Vector(0.5F, 325F), Vector::getX),
+		GET_Y("getY()", "325.0", new Vector(0.5F, 325F), Vector::getY),
+		ANGLE("getAngle()", "0.785398", new Vector(1F, 1F), Vector::getAngle),
+		ANGLE_2("getAngle() from Angle Constructor", "0.45", Vector.polarVector(0.45F, 2), Vector::getAngle),
+		MAGNITUDE("getMagnitude()", "2.915475947", new Vector(2.5F, 1.5F), Vector::getMagnitude),
+		SLOPE("slope()", "0.4", new Vector(5.0F, 2.0F), Vector::slope),
+		NORMALIZE("normalize()", "(0.990187, 0.139747)", new Vector(1.325F, 0.187F), Vector::normalize),
 		;
 		
 		private final String COMMENT;
@@ -52,6 +60,11 @@ public class Pa4Test {
 	}
 	
 	private enum EnumBinaryTests implements Runnable {
+		ADD("add()", "(0.5, 0.6)", new Vector(0.3F, 0.3F), new Vector(0.2F, 0.3F), Vector::add),
+		SUBTRACT("subtract()", "(-0.2, 1.4)", new Vector(0.0F, 1.8F), new Vector(0.2F, 0.4F), Vector::subtract),
+		DOT("dotProduct()", "-28.0", new Vector(0.0F, 4.0F), new Vector(3.2F, -7.0F), Vector::dotProduct),
+		CROSS("crossProduct()", "(0.0, 12.8)", new Vector(0.0F, 4.0F), new Vector(3.2F, -7.0F), Vector::crossProduct),
+		ANGLE("angleBetween()", "0.785398", new Vector(3.0F, 3.0F), new Vector(1.0F, 0.0F), Vector::angleBetween),
 		;
 		
 		private final String COMMENT;
