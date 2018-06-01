@@ -1,0 +1,5 @@
+FILE					DESCRIPTION
+Vector.java				Vector type implementation class.
+Pa4Test.java			Testing class for the Vector type.
+NoteToGrader			File describing approach, as per assignment requirements.
+README					This file.
