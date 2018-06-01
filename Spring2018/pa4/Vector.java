@@ -104,7 +104,7 @@ public class Vector {
 	 * @return The result of the dot product between {@code this} and {@code other}, returned as a new {@link Vector} instance.
 	 */
 	public float dotProduct(Vector other) {
-		return (this.getX() * this.getY()) + (other.getX() + other.getY());
+		return (this.getX() * this.getY()) + (other.getX() * other.getY());
 	}
 
 	/**
