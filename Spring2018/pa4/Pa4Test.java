@@ -100,8 +100,12 @@ public class Pa4Test {
 		// rotateAround(Vector, float)
 	}
 	
+	private static void announce(String passedString) {
+		System.out.format("******************** %s TESTS ********************\n", passedString.toUpperCase());
+	}
+	
 	private static void doTests(String passedCategory, Runnable[] passedTests) {
-		System.out.format("******************** %s TESTS ********************\n", passedCategory.toUpperCase());
+		announce(passedCategory);
 		for (Runnable iteratedTest : passedTests) {
 			iteratedTest.run();
 		}
